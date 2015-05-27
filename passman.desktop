@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=PassMan
+GenericName=Password Manager
+Comment=Easily manage all your passwords
+Version=0.0.0.1
+Exec=passman
+Icon=dialog-password
+Type=Application
+Categories=Utility

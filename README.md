@@ -1,0 +1,2 @@
+# passman
+Gnome password manager
