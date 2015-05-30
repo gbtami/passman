@@ -31,3 +31,4 @@ class HeaderBar(Gtk.HeaderBar):
 
         button = Gtk.MenuButton()
         self.pack_end(button)
+

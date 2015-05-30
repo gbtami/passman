@@ -8,4 +8,5 @@ title = app_name
 width = 320
 height = 640
 app_id = 'com.idlecore.passman'
-dir_name = app_name.lower()
+app_dir = app_name.lower()
+spacing = 8

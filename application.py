@@ -29,7 +29,7 @@ class Application(Gtk.Application):
         # the default values are ['/usr/local/share', '/usr/share'],
         # and I don't want to install this app locally only.
         temp = Path(GLib.get_system_data_dirs()[-1])
-        self.system_data_dir = temp / cfg.dir_name
+        self.system_data_dir = temp / cfg.app_dir
         self.window = Gtk.ApplicationWindow(application=app)
         self.window.set_title(cfg.title)
         self.window.set_default_size(cfg.width, cfg.height)
