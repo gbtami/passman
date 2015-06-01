@@ -3,7 +3,6 @@ Module for the HeaderBar class
 '''
 
 from gi.repository import Gtk, Gio
-import config as cfg
 
 
 class HeaderBar(Gtk.HeaderBar):
@@ -12,9 +11,9 @@ class HeaderBar(Gtk.HeaderBar):
     HeaderBar
     '''
 
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
-        self.set_title(cfg.title)
+        self.set_title(app.title)
         self.set_show_close_button(True)
 
         button = Gtk.Button()
