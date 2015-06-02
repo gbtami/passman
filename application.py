@@ -16,8 +16,8 @@ class Application(Gtk.Application):
 
     name = 'PassMan'
     title = name
-    width = 512
-    height = 512 + 256
+    width = 256 + 128
+    height = 512
     spacing = 8
     app_id = 'com.idlecore.passman'
     app_dir = name.lower()
@@ -42,8 +42,9 @@ class Application(Gtk.Application):
         self.window.set_default_size(self.width, self.height)
         self.window.set_position(Gtk.WindowPosition.MOUSE)
         self.window.set_titlebar(HeaderBar(self))
-        self.add_actions()
         
+        self.add_actions()
+        self.icon_theme = Gtk.IconTheme.get_default()
         builder_path = str(self.data_dir / 'app_menu.ui')
         builder = Gtk.Builder.new_from_file(builder_path)
         app_menu = builder.get_object('app_menu')
