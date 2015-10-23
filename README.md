@@ -1,2 +1,2 @@
 # passman
-Gnome password manager
+Easy to use password manager
