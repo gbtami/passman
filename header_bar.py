@@ -16,12 +16,14 @@ class HeaderBar(Gtk.HeaderBar):
         self.set_show_close_button(True)
         
         button = Gtk.Button()
+        button.connect('clicked', app.on_add)
         icon = Gio.ThemedIcon(name="list-add-symbolic")
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
         self.pack_start(button)
         
         button = Gtk.Button()
+        button.connect('clicked', app.on_menu)
         icon = Gio.ThemedIcon(name="open-menu-symbolic")
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)

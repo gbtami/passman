@@ -8,16 +8,12 @@ from gi.repository import Gtk, Gio, GLib, Secret
 from pathlib import Path
 from header_bar import HeaderBar
 from main_view import MainView
+import dialogs
 
 
 class Application(Gtk.Application):
     '''
-    Item
-        logo
-        service
-        login
-        password
-        notes
+    Main Application
     '''
     
     name = 'PassMan'
@@ -26,13 +22,21 @@ class Application(Gtk.Application):
     height = 512
     spacing = 8
     app_id = 'com.idlecore.passman'
-    app_subdir = name.lower()
-    data_dir = Path(GLib.get_user_data_dir()) / app_subdir
+    app_dir = name.lower()
+    data_dir = Path(GLib.get_user_data_dir()) / app_dir
     img_dir = data_dir / 'images'
-    config_dir = Path(GLib.get_user_config_dir()) / app_subdir
+    config_dir = Path(GLib.get_user_config_dir()) / app_dir
     log_dir = config_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     collection_name = name.lower()
+    args = [app_id + '.schema']
+    args += [Secret.SchemaFlags.NONE]
+    args += [{'logo': Secret.SchemaAttributeType.STRING,
+              #'service': Secret.SchemaAttributeType.STRING,
+              #'username': Secret.SchemaAttributeType.STRING,
+              #'password': Secret.SchemaAttributeType.STRING,
+              'notes': Secret.SchemaAttributeType.STRING}]
+    schema = Secret.Schema.new(*args)
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the
@@ -68,7 +72,8 @@ class Application(Gtk.Application):
             args = (service, self.collection_name, None, flags, None)
             self.collection = Secret.Collection.create_sync(*args)
         
-        self.window.add(MainView(self))
+        self.main_view = MainView(self)
+        self.window.add(self.main_view)
     
     def add_actions(self):
         action_list = {'preferences': self.on_preferences,
@@ -78,6 +83,29 @@ class Application(Gtk.Application):
             action = Gio.SimpleAction(name=name)
             self.add_action(action)
             action.connect('activate', method)
+
+    def on_add(self, button):
+        dialog = dialogs.Add(self)
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            service = dialog.service.get_text()
+            username = dialog.username.get_text()
+            password = dialog.password.get_text()
+            buffer = dialog.notes.get_buffer()
+            bounds = buffer.get_bounds()
+            notes = buffer.get_text(bounds[0], bounds[1], False)
+            attributes = {'logo': '', 'notes': notes}
+            value = Secret.Value(password, len(password), 'text/plain')
+            args = (self.collection, self.schema, attributes,
+                    service + ':' + username, value,
+                    Secret.ItemCreateFlags.NONE, None)
+            item = Secret.Item.create_sync(*args)
+            self.main_view.load_item(item)
+            self.main_view.show_all()
+        dialog.destroy()
+    
+    def on_menu(self, button):
+        pass
     
     def on_activate(self, app):
         self.window.show_all()
