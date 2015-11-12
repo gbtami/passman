@@ -1,0 +1,52 @@
+<interface>
+
+  <menu id="app_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Preferences</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">About</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Quit</attribute>
+        <attribute name="action">app.quit</attribute>
+      </item>
+    </section>
+  </menu>
+  
+  <menu id="context_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">app.delete</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Properties</attribute>
+        <attribute name="action">app.properties</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <menu id="bar_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Settings</attribute>
+        <attribute name="action">app.settings</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Test</attribute>
+        <attribute name="action">app.test</attribute>
+      </item>
+    </section>
+  </menu>
+
+</interface>

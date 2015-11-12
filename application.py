@@ -4,11 +4,12 @@ Module for the Application class
 
 import logging
 
-from gi.repository import Gtk, Gio, GLib, Secret
+from gi import require_version
+require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gio, GLib
 from pathlib import Path
 from header_bar import HeaderBar
 from main_view import MainView
-import dialogs
 
 
 class Application(Gtk.Application):
@@ -28,15 +29,7 @@ class Application(Gtk.Application):
     config_dir = Path(GLib.get_user_config_dir()) / app_dir
     log_dir = config_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
-    collection_name = name.lower()
-    args = [app_id + '.schema']
-    args += [Secret.SchemaFlags.NONE]
-    args += [{'logo': Secret.SchemaAttributeType.STRING,
-              #'service': Secret.SchemaAttributeType.STRING,
-              #'username': Secret.SchemaAttributeType.STRING,
-              #'password': Secret.SchemaAttributeType.STRING,
-              'notes': Secret.SchemaAttributeType.STRING}]
-    schema = Secret.Schema.new(*args)
+    menus_file = str(data_dir / 'menus.ui')
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the
@@ -56,56 +49,26 @@ class Application(Gtk.Application):
         self.window.set_titlebar(HeaderBar(self))
         
         self.add_actions()
-        builder_path = str(self.data_dir / 'app_menu.ui')
-        builder = Gtk.Builder.new_from_file(builder_path)
+        builder = Gtk.Builder.new_from_file(self.menus_file)
         app_menu = builder.get_object('app_menu')
+        self.context_menu = builder.get_object('context_menu')
         self.set_app_menu(app_menu)
-        
-        flags = Secret.ServiceFlags.LOAD_COLLECTIONS
-        service = Secret.Service.get_sync(flags, None)
-        for c in service.get_collections():
-            if c.get_label() == self.collection_name:
-                self.collection = c
-                break
-        else:
-            flags = Secret.CollectionCreateFlags.COLLECTION_CREATE_NONE
-            args = (service, self.collection_name, None, flags, None)
-            self.collection = Secret.Collection.create_sync(*args)
         
         self.main_view = MainView(self)
         self.window.add(self.main_view)
     
     def add_actions(self):
-        action_list = {'preferences': self.on_preferences,
+        action_list = {'delete': MainView.on_delete,
+                       'properties': MainView.on_properties,
+                       'settings': HeaderBar.on_settings,
+                       'test': HeaderBar.on_test,
+                       'preferences': self.on_preferences,
                        'about': self.on_about,
                        'quit': self.on_quit}
         for name, method in action_list.items():
             action = Gio.SimpleAction(name=name)
             self.add_action(action)
             action.connect('activate', method)
-
-    def on_add(self, button):
-        dialog = dialogs.Add(self)
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            service = dialog.service.get_text()
-            username = dialog.username.get_text()
-            password = dialog.password.get_text()
-            buffer = dialog.notes.get_buffer()
-            bounds = buffer.get_bounds()
-            notes = buffer.get_text(bounds[0], bounds[1], False)
-            attributes = {'logo': '', 'notes': notes}
-            value = Secret.Value(password, len(password), 'text/plain')
-            args = (self.collection, self.schema, attributes,
-                    service + ':' + username, value,
-                    Secret.ItemCreateFlags.NONE, None)
-            item = Secret.Item.create_sync(*args)
-            self.main_view.load_item(item)
-            self.main_view.show_all()
-        dialog.destroy()
-    
-    def on_menu(self, button):
-        pass
     
     def on_activate(self, app):
         self.window.show_all()
