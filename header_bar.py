@@ -32,10 +32,10 @@ class HeaderBar(Gtk.HeaderBar):
         button.set_menu_model(bar_menu)
         self.pack_end(button)
     
-    def on_settings(self, obj):
+    def on_settings(self, obj, param):
         print('on_settings')
     
-    def on_test(self, obj):
+    def on_test(self, obj, param):
         print('on_test')
     
     def on_add(self, button):

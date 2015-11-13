@@ -47,21 +47,19 @@ class Application(Gtk.Application):
         self.window.set_default_size(self.width, self.height)
         self.window.set_position(Gtk.WindowPosition.MOUSE)
         self.window.set_titlebar(HeaderBar(self))
+        self.main_view = MainView(self)
         
         self.add_actions()
         builder = Gtk.Builder.new_from_file(self.menus_file)
         app_menu = builder.get_object('app_menu')
-        self.context_menu = builder.get_object('context_menu')
         self.set_app_menu(app_menu)
-        
-        self.main_view = MainView(self)
+
         self.window.add(self.main_view)
     
     def add_actions(self):
-        action_list = {'delete': MainView.on_delete,
-                       'properties': MainView.on_properties,
-                       'settings': HeaderBar.on_settings,
-                       'test': HeaderBar.on_test,
+        titlebar = self.window.get_titlebar()
+        action_list = {'settings': titlebar.on_settings,
+                       'test': titlebar.on_test,
                        'preferences': self.on_preferences,
                        'about': self.on_about,
                        'quit': self.on_quit}
