@@ -18,7 +18,10 @@ class Add(Gtk.Dialog):
         buttons = ('_Cancel', Gtk.ResponseType.CANCEL,
                    '_OK', Gtk.ResponseType.OK)
         properties = {'use_header_bar': True}
-        super().__init__(self.title, app.window, 0, buttons, **properties)
+        super().__init__(None, app.window, 0, buttons, **properties)
+        # I set the title on the next line instead of the constructor because
+        # this way the window width is recalculated to show the entire title.
+        self.get_header_bar().set_custom_title(Gtk.Label(self.title))
         
         grid = Gtk.Grid()
         grid.set_column_spacing(app.spacing)

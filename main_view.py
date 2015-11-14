@@ -18,9 +18,15 @@ class MainView(Gtk.ScrolledWindow):
         super().__init__()
         self.app = app
         self.collection_name = app.name.lower()
+        self.make_context_menu()
         self.make_schema(app.app_id)
         self.get_collection()
         self.load_widgets()
+    
+    def make_context_menu(self):
+        builder = Gtk.Builder.new_from_file(self.app.menus_file)
+        context_menu_model = builder.get_object('context_menu')
+        self.context_menu = Gtk.Menu.new_from_model(context_menu_model)
     
     def make_schema(self, name):
         args = [name + '.schema']
@@ -60,11 +66,12 @@ class MainView(Gtk.ScrolledWindow):
         self.button_list.set_spacing(self.app.spacing)
         self.button_list.set_border_width(self.app.spacing)
         for i in reversed(self.collection.get_items()):
-            self.show_item(i)
+            self.add_item(i)
         self.add(self.button_list)
     
-    def show_item(self, item):
+    def add_item(self, item):
         button = Gtk.Button()
+        button.item = item
         button.connect('button-press-event', self.on_button_press)
         button.connect('clicked', self.on_button_click)
         button.connect('popup-menu', self.on_popup_menu)
@@ -78,7 +85,7 @@ class MainView(Gtk.ScrolledWindow):
         self.button_list.pack_start(button, False, False, 0)
         self.show_all()
     
-    def add_item(self, service, username, password, notes):
+    def create_item(self, service, username, password, notes):
         attributes = {'logo': '', 'service': service,
                       'username': username, 'notes': notes}
         value = Secret.Value(password, len(password), 'text/plain')
@@ -86,27 +93,24 @@ class MainView(Gtk.ScrolledWindow):
                 service + ':' + username, value,
                 Secret.ItemCreateFlags.NONE, None)
         item = Secret.Item.create_sync(*args)
-        self.show_item(item)
-    
-    def delelte_item(self, item):
-        print('delete_item')
+        return item
     
     def popup_menu(self, widget, event):
-        action = Gio.SimpleAction(name='delete')
-        self.app.add_action(action)
-        action.connect('activate', self.on_delete, widget)
-        action = Gio.SimpleAction(name='properties')
-        self.app.add_action(action)
-        action.connect('activate', self.on_properties, widget)
-        builder = Gtk.Builder.new_from_file(self.app.menus_file)
-        context_menu = builder.get_object('context_menu')
-        menu = Gtk.Menu.new_from_model(context_menu)
-        menu.attach_to_widget(widget)
+        action_list = [('delete', self.on_delete),
+                       ('properties', self.on_properties)]
+        for a, m in action_list:
+            action = self.app.lookup_action(a)
+            action.disconnect_by_func(m)
+            action.connect('activate', m, widget)
+        if self.context_menu.get_for_attach_widget(widget):
+            self.context_menu.detach()
+        self.context_menu.attach_to_widget(widget)
         if event != None:
-            menu.popup(None, None, None, None, event.button, event.time)
+            self.context_menu.popup(None, None, None, None,
+                                    event.button, event.time)
         else:
             event_time = Gtk.get_current_event_time()
-            menu.popup(None, None, None, None, 0, event_time)
+            self.context_menu.popup(None, None, None, None, 0, event_time)
     
     def on_popup_menu(self, widget):
         self.popup_menu(widget, None)
@@ -124,8 +128,19 @@ class MainView(Gtk.ScrolledWindow):
         return False
     
     def on_delete(self, obj, param, arg1):
-        print('on_delete')
-        print(self, obj, arg1)
+        item = arg1.item.get_label()
+        message = 'Are you sure you want to delete password {}?'.format(item)
+        dialog = Gtk.MessageDialog(self.app.window, 0,
+                                   Gtk.MessageType.QUESTION,
+                                   Gtk.ButtonsType.YES_NO, message)
+        message2 = 'This operation will be permanent and irreversible.'
+        dialog.format_secondary_text(message2)
+        response = dialog.run()
+        if response == Gtk.ResponseType.YES:
+            arg1.item.delete_sync()
+            arg1.destroy()
+        dialog.destroy()
+        
     
     def on_properties(self, obj, param, arg1):
         print('on_properties')

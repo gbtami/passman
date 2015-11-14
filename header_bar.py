@@ -48,7 +48,9 @@ class HeaderBar(Gtk.HeaderBar):
             buffer = dialog.notes.get_buffer()
             bounds = buffer.get_bounds()
             notes = buffer.get_text(bounds[0], bounds[1], False)
-            self.app.main_view.add_item(service, username, password, notes)
+            item = self.app.main_view.create_item(service, username,
+                                                  password, notes)
+            self.app.main_view.add_item(item)
         dialog.destroy()
     
     def on_menu(self, button):
