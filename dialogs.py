@@ -40,6 +40,7 @@ class Add(Gtk.Dialog):
         self.service.set_hexpand(True)
         grid.attach(label, 0, 1, 1, 1)
         grid.attach(self.service, 1, 1, 1, 1)
+        self.service.grab_focus()
         
         label = Gtk.Label('Username')
         self.username = Gtk.Entry()
