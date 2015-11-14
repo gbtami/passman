@@ -2,6 +2,8 @@
 Module for the MainView class
 '''
 
+import bisect
+
 from gi import require_version
 require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
@@ -65,11 +67,16 @@ class MainView(Gtk.ScrolledWindow):
         self.button_list = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.button_list.set_spacing(self.app.spacing)
         self.button_list.set_border_width(self.app.spacing)
-        for i in reversed(self.collection.get_items()):
-            self.add_item(i)
+        items = self.collection.get_items()
+        sorted_items = sorted(items, key=lambda x:x.get_label())
+        self.sorted_labels = [i.get_label() for i in sorted_items]
+        for item in sorted_items:
+            button = self.create_button(item)
+            self.button_list.pack_start(button, False, False, 0)
         self.add(self.button_list)
+        self.show_all()
     
-    def add_item(self, item):
+    def create_button(self, item):
         button = Gtk.Button()
         button.item = item
         button.connect('button-press-event', self.on_button_press)
@@ -82,13 +89,23 @@ class MainView(Gtk.ScrolledWindow):
         button.add(box)
         box.pack_start(image, False, False, 0)
         box.pack_start(label, True, False, 0)
+        return button
+    
+    def insert_item(self, item):
+        button = self.create_button(item)
+        index = bisect.bisect(self.sorted_labels, item.get_label())
+        self.sorted_labels.insert(index, item.get_label())
         self.button_list.pack_start(button, False, False, 0)
+        self.button_list.reorder_child(button, index)
         self.show_all()
     
     def create_item(self, service, username, password, notes):
+        if service + ':' + username in self.sorted_labels:
+            return None
         attributes = {'logo': '', 'service': service,
                       'username': username, 'notes': notes}
         value = Secret.Value(password, len(password), 'text/plain')
+        
         args = (self.collection, self.schema, attributes,
                 service + ':' + username, value,
                 Secret.ItemCreateFlags.NONE, None)
@@ -102,7 +119,7 @@ class MainView(Gtk.ScrolledWindow):
             action = self.app.lookup_action(a)
             action.disconnect_by_func(m)
             action.connect('activate', m, widget)
-        if self.context_menu.get_for_attach_widget(widget):
+        if self.context_menu.get_attach_widget():
             self.context_menu.detach()
         self.context_menu.attach_to_widget(widget)
         if event != None:
@@ -137,6 +154,7 @@ class MainView(Gtk.ScrolledWindow):
         dialog.format_secondary_text(message2)
         response = dialog.run()
         if response == Gtk.ResponseType.YES:
+            self.sorted_labels.remove(arg1.item.get_label())
             arg1.item.delete_sync()
             arg1.destroy()
         dialog.destroy()
