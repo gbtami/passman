@@ -9,7 +9,7 @@ require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
 require_version('Secret', '1')
 from gi.repository import Gtk, Gdk, Gio, Secret
-
+import dialogs
 
 class MainView(Gtk.ScrolledWindow):
     '''
@@ -84,6 +84,7 @@ class MainView(Gtk.ScrolledWindow):
         button.connect('popup-menu', self.on_popup_menu)
         box = Gtk.Box(Gtk.Orientation.HORIZONTAL)
         label = Gtk.Label(item.get_label())
+        button.label = label
         image_dir = str(self.app.img_dir / 'test')
         image = Gtk.Image.new_from_file(image_dir)
         button.add(box)
@@ -100,21 +101,29 @@ class MainView(Gtk.ScrolledWindow):
         self.show_all()
     
     def create_item(self, service, username, password, notes):
-        if service + ':' + username in self.sorted_labels:
-            return None
         attributes = {'logo': '', 'service': service,
                       'username': username, 'notes': notes}
         value = Secret.Value(password, len(password), 'text/plain')
         
         args = (self.collection, self.schema, attributes,
-                service + ':' + username, value,
+                service + ': ' + username, value,
                 Secret.ItemCreateFlags.NONE, None)
         item = Secret.Item.create_sync(*args)
         return item
     
+    def edit_item(self, item, service, username, password, notes):
+        value = Secret.Value(password, len(password), 'text/plain')
+        item.set_secret_sync(value)
+        attributes = {'logo': '',
+                      'service': service,
+                      'username': username,
+                      'notes': notes}
+        item.set_attributes_sync(self.schema, attributes)
+        item.set_label_sync(service + ': ' + username)
+    
     def popup_menu(self, widget, event):
         action_list = [('delete', self.on_delete),
-                       ('properties', self.on_properties)]
+                       ('edit', self.on_edit)]
         for a, m in action_list:
             action = self.app.lookup_action(a)
             action.disconnect_by_func(m)
@@ -146,7 +155,7 @@ class MainView(Gtk.ScrolledWindow):
     
     def on_delete(self, obj, param, arg1):
         item = arg1.item.get_label()
-        message = 'Are you sure you want to delete password {}?'.format(item)
+        message = 'Are you sure you want to delete account {}?'.format(item)
         dialog = Gtk.MessageDialog(self.app.window, 0,
                                    Gtk.MessageType.QUESTION,
                                    Gtk.ButtonsType.YES_NO, message)
@@ -158,8 +167,18 @@ class MainView(Gtk.ScrolledWindow):
             arg1.item.delete_sync()
             arg1.destroy()
         dialog.destroy()
-        
     
-    def on_properties(self, obj, param, arg1):
-        print('on_properties')
+    def on_edit(self, obj, param, arg1):
+        dialog = dialogs.Edit(self.app, arg1.item)
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            service = dialog.service.get_text()
+            username = dialog.username.get_text()
+            password = dialog.password.get_text()
+            buffer = dialog.notes.get_buffer()
+            bounds = buffer.get_bounds()
+            notes = buffer.get_text(bounds[0], bounds[1], False)
+            self.edit_item(arg1.item, service, username, password, notes)
+            arg1.label.set_text(arg1.item.get_label())
+        dialog.destroy()
 
