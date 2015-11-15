@@ -40,10 +40,8 @@ class HeaderBar(Gtk.HeaderBar):
     
     def on_add(self, button):
         dialog = dialogs.Add(self.app)
-        while True:
-            response = dialog.run()
-            if response != Gtk.ResponseType.OK:
-                break
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
             service = dialog.service.get_text()
             username = dialog.username.get_text()
             password = dialog.password.get_text()
@@ -52,22 +50,6 @@ class HeaderBar(Gtk.HeaderBar):
             notes = buffer.get_text(bounds[0], bounds[1], False)
             item = self.app.main_view.create_item(service, username,
                                                   password, notes)
-            if item:
-                self.app.main_view.insert_item(item)
-                break
-            else:
-                message = ('There is already an entry for '
-                           'that Service and Username.')
-                error_dialog = Gtk.MessageDialog(dialog, 0,
-                                                 Gtk.MessageType.ERROR,
-                                                 Gtk.ButtonsType.OK, message)
-                message2 = ('Either change the Service or Username, '
-                            'or delete the current entry.')
-                error_dialog.format_secondary_text(message2)
-                response = error_dialog.run()
-                error_dialog.destroy()
+            self.app.main_view.insert_item(item)
         dialog.destroy()
-    
-    def on_menu(self, button):
-        pass
 
