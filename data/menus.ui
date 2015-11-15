@@ -28,8 +28,8 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Properties</attribute>
-        <attribute name="action">app.properties</attribute>
+        <attribute name="label" translatable="yes">Edit</attribute>
+        <attribute name="action">app.edit</attribute>
       </item>
     </section>
   </menu>
