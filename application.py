@@ -58,14 +58,12 @@ class Application(Gtk.Application):
     
     def add_actions(self):
         titlebar = self.window.get_titlebar()
-        action_list = {'delete': self.main_view.on_delete,
-                       'edit': self.main_view.on_edit,
-                       'settings': titlebar.on_settings,
-                       'test': titlebar.on_test,
-                       'preferences': self.on_preferences,
-                       'about': self.on_about,
-                       'quit': self.on_quit}
-        for name, method in action_list.items():
+        action_methods = {'settings': titlebar.on_settings,
+                          'test': titlebar.on_test,
+                          'preferences': self.on_preferences,
+                          'about': self.on_about,
+                          'quit': self.on_quit}
+        for name, method in action_methods.items():
             action = Gio.SimpleAction(name=name)
             self.add_action(action)
             action.connect('activate', method)

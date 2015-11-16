@@ -20,6 +20,8 @@ class MainView(Gtk.ScrolledWindow):
         super().__init__()
         self.app = app
         self.collection_name = app.name.lower()
+        self.action_methods = {'delete': self.on_delete,
+                               'edit': self.on_edit}
         self.make_context_menu()
         self.make_schema(app.app_id)
         self.get_collection()
@@ -114,20 +116,16 @@ class MainView(Gtk.ScrolledWindow):
     def edit_item(self, item, service, username, password, notes):
         value = Secret.Value(password, len(password), 'text/plain')
         item.set_secret_sync(value)
-        attributes = {'logo': '',
-                      'service': service,
-                      'username': username,
-                      'notes': notes}
+        attributes = {'logo': '', 'service': service,
+                      'username': username, 'notes': notes}
         item.set_attributes_sync(self.schema, attributes)
         item.set_label_sync(service + ': ' + username)
     
     def popup_menu(self, widget, event):
-        action_list = [('delete', self.on_delete),
-                       ('edit', self.on_edit)]
-        for a, m in action_list:
-            action = self.app.lookup_action(a)
-            action.disconnect_by_func(m)
-            action.connect('activate', m, widget)
+        for action_name, method in self.action_methods.items():
+            action = Gio.SimpleAction(name=action_name)
+            self.app.add_action(action)
+            action.connect('activate', method, widget)
         if self.context_menu.get_attach_widget():
             self.context_menu.detach()
         self.context_menu.attach_to_widget(widget)

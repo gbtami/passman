@@ -58,6 +58,10 @@ class Add(Gtk.Dialog):
         self.password.set_activates_default(True)
         grid.attach(label, 0, 3, 1, 1)
         grid.attach(self.password, 1, 3, 1, 1)
+
+        check_button = Gtk.CheckButton('Show password')
+        check_button.connect('toggled', self.show_password)
+        grid.attach(check_button, 1, 4, 1, 1)
         
         label = Gtk.Label('Notes')
         scrolled_window = Gtk.ScrolledWindow()
@@ -66,13 +70,22 @@ class Add(Gtk.Dialog):
         self.notes = Gtk.TextView()
         self.notes.set_accepts_tab(False)
         scrolled_window.add(self.notes)
-        grid.attach(label, 0, 4, 1, 1)
-        grid.attach(scrolled_window, 1, 4, 1, 1)
+        grid.attach(label, 0, 5, 1, 1)
+        grid.attach(scrolled_window, 1, 5, 1, 1)
         
         box = self.get_content_area()
         box.add(grid)
         
         self.show_all()
+    
+    def show_password(self, check_button):
+        if check_button.get_active():
+            self.password.set_visibility(True)
+        else:
+            self.password.set_visibility(False)
+    
+    def generate_random(self, obj, param):
+        print('generate_random')
 
 
 class Edit(Add):
