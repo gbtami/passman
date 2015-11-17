@@ -21,7 +21,7 @@ class HeaderBar(Gtk.HeaderBar):
         
         button = Gtk.Button()
         button.connect('clicked', self.on_add)
-        icon = Gio.ThemedIcon(name="list-add-symbolic")
+        icon = Gio.ThemedIcon(name='list-add')
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
         self.pack_start(button)
