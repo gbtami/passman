@@ -4,7 +4,7 @@ Module for the Dialog classes
 
 from gi import require_version
 require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 
 
 class Add(Gtk.Dialog):
@@ -34,44 +34,64 @@ class Add(Gtk.Dialog):
         image = Gtk.Image.new_from_icon_name(*args)
         button.set_image(image)
         button.set_halign(Gtk.Align.CENTER)
-        grid.attach(button, 0, 0, 2, 1)
+        grid.attach(button, 0, 0, 1, 1)
         
-        label = Gtk.Label('Service')
+        label = Gtk.Label('<b>Service</b>', **{'use-markup': True})
+        frame = Gtk.Frame(label_widget=label)
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.service = Gtk.Entry()
         self.service.set_activates_default(True)
         self.service.set_hexpand(True)
-        grid.attach(label, 0, 1, 1, 1)
-        grid.attach(self.service, 1, 1, 1, 1)
+        frame.add(self.service)
+        grid.attach(frame, 0, 1, 1, 1)
         self.service.grab_focus()
         
-        label = Gtk.Label('Username')
+        label = Gtk.Label('<b>Username</b>', **{'use-markup': True})
+        frame = Gtk.Frame(label_widget=label)
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.username = Gtk.Entry()
         self.username.set_activates_default(True)
-        grid.attach(label, 0, 2, 1, 1)
-        grid.attach(self.username, 1, 2, 1, 1)
+        frame.add(self.username)
+        grid.attach(frame, 0, 2, 1, 1)
         
-        label = Gtk.Label('Password')
+        label = Gtk.Label('<b>Password</b>', **{'use-markup': True})
+        frame = Gtk.Frame(label_widget=label)
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
+        password_grid = Gtk.Grid()
+        password_grid.set_column_spacing(app.spacing)
+        password_grid.set_row_spacing(app.spacing)
+        frame.add(password_grid)
         args = {'caps-lock-warning': True,
                 'input-purpose': Gtk.InputPurpose.PASSWORD,
                 'visibility': False}
         self.password = Gtk.Entry(**args)
+        self.password.set_hexpand(True)
         self.password.set_activates_default(True)
-        grid.attach(label, 0, 3, 1, 1)
-        grid.attach(self.password, 1, 3, 1, 1)
-
+        password_grid.attach(self.password, 0, 0, 2, 1)
         check_button = Gtk.CheckButton('Show password')
         check_button.connect('toggled', self.show_password)
-        grid.attach(check_button, 1, 4, 1, 1)
-        
-        label = Gtk.Label('Notes')
+        check_button.set_halign(Gtk.Align.CENTER)
+        password_grid.attach(check_button, 0, 1, 1, 1)
+        button = Gtk.Button()
+        icon = Gio.ThemedIcon(name='preferences-system')
+        image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+        button.add(image)
+        button.set_halign(Gtk.Align.CENTER)
+        button.connect('clicked', self.generate_rangom)
+        password_grid.attach(button, 1, 1, 1, 1)
+        grid.attach(frame, 0, 3, 1, 1)
+
+        label = Gtk.Label('<b>Notes</b>', **{'use-markup': True})
+        frame = Gtk.Frame(label_widget=label)
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
         scrolled_window = Gtk.ScrolledWindow()
         scrolled_window.set_min_content_height(64)
         scrolled_window.set_vexpand(True)
         self.notes = Gtk.TextView()
         self.notes.set_accepts_tab(False)
         scrolled_window.add(self.notes)
-        grid.attach(label, 0, 5, 1, 1)
-        grid.attach(scrolled_window, 1, 5, 1, 1)
+        frame.add(scrolled_window)
+        grid.attach(frame, 0, 4, 1, 1)
         
         box = self.get_content_area()
         box.add(grid)

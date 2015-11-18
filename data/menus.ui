@@ -31,7 +31,7 @@
       </item>
     </section>
   </menu>
-
+  
   <menu id="bar_menu">
     <section>
       <item>
@@ -46,5 +46,5 @@
       </item>
     </section>
   </menu>
-
+  
 </interface>

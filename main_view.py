@@ -85,7 +85,9 @@ class MainView(Gtk.ScrolledWindow):
         button.connect('clicked', self.on_button_click)
         button.connect('popup-menu', self.on_popup_menu)
         box = Gtk.Box(Gtk.Orientation.HORIZONTAL)
-        label = Gtk.Label(item.get_label())
+        label_text = '<b>' + item.get_attributes()['service'] + ':' + '</b>'
+        label_text += ' ' + item.get_attributes()['username']
+        label = Gtk.Label(label_text, **{'use-markup': True})
         button.label = label
         image_dir = str(self.app.img_dir / 'test')
         image = Gtk.Image.new_from_file(image_dir)
