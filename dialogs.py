@@ -5,7 +5,7 @@ Module for the Dialog classes
 from gi import require_version
 require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
-
+import passgen
 
 class Add(Gtk.Dialog):
     '''
@@ -15,6 +15,7 @@ class Add(Gtk.Dialog):
     title = 'New Account'
     
     def __init__(self, app):
+        self.app = app
         buttons = ('_OK', Gtk.ResponseType.OK,
                    '_Cancel', Gtk.ResponseType.CANCEL)
         properties = {'use_header_bar': True}
@@ -77,7 +78,7 @@ class Add(Gtk.Dialog):
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
         button.set_halign(Gtk.Align.CENTER)
-        button.connect('clicked', self.generate_rangom)
+        button.connect('clicked', self.generate_random)
         password_grid.attach(button, 1, 1, 1, 1)
         grid.attach(frame, 0, 3, 1, 1)
 
@@ -104,8 +105,9 @@ class Add(Gtk.Dialog):
         else:
             self.password.set_visibility(False)
     
-    def generate_random(self, obj, param):
+    def generate_random(self, button):
         print('generate_random')
+        gen = passgen.PassGen(self.app)
 
 
 class Edit(Add):

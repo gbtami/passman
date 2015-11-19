@@ -30,6 +30,8 @@ class Application(Gtk.Application):
     log_dir = config_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     menus_file = str(data_dir / 'menus.ui')
+    schemas_dir = str(data_dir / 'schemas')
+    schema_id = app_id
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the

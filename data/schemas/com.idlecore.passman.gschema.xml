@@ -1,0 +1,12 @@
+<schemalist>
+  
+  <schema id="com.idlecore.passman">
+  
+    <key name="password-size" type="i">
+      <range min="8" max="256"/>
+      <default>20</default>
+    </key>
+    
+  </schema>
+  
+</schemalist>
