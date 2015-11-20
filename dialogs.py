@@ -5,7 +5,7 @@ Module for the Dialog classes
 from gi import require_version
 require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
-import passgen
+from passgen import PassGen
 
 class Add(Gtk.Dialog):
     '''
@@ -68,18 +68,27 @@ class Add(Gtk.Dialog):
         self.password = Gtk.Entry(**args)
         self.password.set_hexpand(True)
         self.password.set_activates_default(True)
-        password_grid.attach(self.password, 0, 0, 2, 1)
+        self.password.set_text(PassGen(self.app).password)
+        password_grid.attach(self.password, 0, 0, 4, 1)
         check_button = Gtk.CheckButton('Show password')
         check_button.connect('toggled', self.show_password)
         check_button.set_halign(Gtk.Align.CENTER)
-        password_grid.attach(check_button, 0, 1, 1, 1)
+        
+        password_grid.attach(check_button, 0, 1, 2, 1)
+        button = Gtk.Button()
+        icon = Gio.ThemedIcon(name='view-refresh')
+        image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+        button.add(image)
+        button.set_halign(Gtk.Align.CENTER)
+        button.connect('clicked', self.refresh_password, check_button)
+        password_grid.attach(button, 2, 1, 1, 1)
         button = Gtk.Button()
         icon = Gio.ThemedIcon(name='preferences-system')
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
         button.set_halign(Gtk.Align.CENTER)
-        button.connect('clicked', self.generate_random)
-        password_grid.attach(button, 1, 1, 1, 1)
+        button.connect('clicked', self.config_password)
+        password_grid.attach(button, 3, 1, 1, 1)
         grid.attach(frame, 0, 3, 1, 1)
 
         label = Gtk.Label('<b>Notes</b>', **{'use-markup': True})
@@ -105,9 +114,12 @@ class Add(Gtk.Dialog):
         else:
             self.password.set_visibility(False)
     
-    def generate_random(self, button):
-        print('generate_random')
-        gen = passgen.PassGen(self.app)
+    def refresh_password(self, button, check_button):
+        check_button.set_active(True)
+        self.password.set_text(PassGen(self.app).password)
+    
+    def config_password(self, button):
+        print('config_password')
 
 
 class Edit(Add):
