@@ -2,7 +2,9 @@
 Module for the Password Random Generator class
 '''
 
-from gi.repository import Gio
+
+from gi.repository import Gio, GLib
+import random
 
 
 class PassGen:
@@ -10,8 +12,11 @@ class PassGen:
     Password Random Generator
     '''
     
-    default_size = 20
-    
     def __init__(self, app):
-        pass
+        settings = Gio.Settings(app.schema_id + '.preferences.password')
+        self.size = settings['size']
+        self.alphabet = settings['alphabet']
+        r = random.SystemRandom()
+        self.password = [r.choice(self.alphabet) for i in range(self.size)]
+        self.password = ''.join(map(chr, self.password))
 
