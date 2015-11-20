@@ -136,7 +136,15 @@ class MainView(Gtk.ScrolledWindow):
                                     event.button, event.time)
         else:
             event_time = Gtk.get_current_event_time()
-            self.context_menu.popup(None, None, None, None, 0, event_time)
+            self.context_menu.popup(None, None, self.menu_func, widget, 0, event_time)
+    
+    def menu_func(self, menu, x, y, widget):
+        window = widget.get_window()
+        _, wx, wy = window.get_origin()
+        brect = widget.get_clip()
+        x = wx + brect.x + (brect.width / 2)
+        y = wy + brect.y + (brect.height / 2)
+        return x, y, False
     
     def on_popup_menu(self, widget):
         self.popup_menu(widget, None)
@@ -168,8 +176,8 @@ class MainView(Gtk.ScrolledWindow):
             arg1.destroy()
         dialog.destroy()
     
-    def on_edit(self, obj, param, arg1):
-        dialog = dialogs.Edit(self.app, arg1.item)
+    def on_edit(self, obj, param, button):
+        dialog = dialogs.Edit(self.app, button.item)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             service = dialog.service.get_text()
@@ -178,7 +186,9 @@ class MainView(Gtk.ScrolledWindow):
             buffer = dialog.notes.get_buffer()
             bounds = buffer.get_bounds()
             notes = buffer.get_text(bounds[0], bounds[1], False)
-            self.edit_item(arg1.item, service, username, password, notes)
-            arg1.label.set_text(arg1.item.get_label())
+            self.edit_item(button.item, service, username, password, notes)
+            label_text = ('<b>' + button.item.get_attributes()['service'] +
+                          ':</b> ' + button.item.get_attributes()['username'])
+            button.label.set_markup(label_text)
         dialog.destroy()
 
