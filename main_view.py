@@ -161,8 +161,8 @@ class MainView(Gtk.ScrolledWindow):
         # be handled elsewhere. So we return False.
         return False
     
-    def on_delete(self, obj, param, arg1):
-        item = arg1.item.get_label()
+    def on_delete(self, obj, param, button):
+        item = button.item.get_label()
         message = 'Are you sure you want to delete account {}?'.format(item)
         dialog = Gtk.MessageDialog(self.app.window, 0,
                                    Gtk.MessageType.QUESTION,
@@ -171,9 +171,9 @@ class MainView(Gtk.ScrolledWindow):
         dialog.format_secondary_text(message2)
         response = dialog.run()
         if response == Gtk.ResponseType.YES:
-            self.sorted_labels.remove(arg1.item.get_label())
-            arg1.item.delete_sync()
-            arg1.destroy()
+            button.item.delete_sync()
+            self.sorted_labels.remove(button.label.get_text())
+            button.destroy()
         dialog.destroy()
     
     def on_edit(self, obj, param, button):
@@ -187,6 +187,10 @@ class MainView(Gtk.ScrolledWindow):
             bounds = buffer.get_bounds()
             notes = buffer.get_text(bounds[0], bounds[1], False)
             self.edit_item(button.item, service, username, password, notes)
+            self.sorted_labels.remove(button.label.get_text())
+            index = bisect.bisect(self.sorted_labels, button.item.get_label())
+            self.sorted_labels.insert(index, button.item.get_label())
+            self.button_list.reorder_child(button, index)
             label_text = ('<b>' + button.item.get_attributes()['service'] +
                           ':</b> ' + button.item.get_attributes()['username'])
             button.label.set_markup(label_text)
