@@ -151,7 +151,10 @@ class MainView(Gtk.ScrolledWindow):
         return True
     
     def on_button_click(self, button):
-        print(button)
+        button.item.load_secret_sync()
+        text = button.item.get_secret().get_text()
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.set_text(text, len(text))
     
     def on_button_press(self, widget, event):
         # Right mouse button click
