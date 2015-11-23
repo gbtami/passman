@@ -90,7 +90,7 @@ class Add(Gtk.Dialog):
         button.connect('clicked', self.config_password)
         password_grid.attach(button, 3, 1, 1, 1)
         grid.attach(frame, 0, 3, 1, 1)
-
+        
         label = Gtk.Label('<b>Notes</b>', **{'use-markup': True})
         frame = Gtk.Frame(label_widget=label)
         frame.set_shadow_type(Gtk.ShadowType.NONE)

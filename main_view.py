@@ -70,7 +70,7 @@ class MainView(Gtk.ScrolledWindow):
         self.button_list.set_spacing(self.app.spacing)
         self.button_list.set_border_width(self.app.spacing)
         items = self.collection.get_items()
-        sorted_items = sorted(items, key=lambda x:x.get_label())
+        sorted_items = sorted(items, key=lambda x: x.get_label())
         self.sorted_labels = [i.get_label() for i in sorted_items]
         for item in sorted_items:
             button = self.create_button(item)
