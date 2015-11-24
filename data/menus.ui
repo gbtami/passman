@@ -22,12 +22,12 @@
   <menu id="context_menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">app.delete</attribute>
-      </item>
-      <item>
         <attribute name="label" translatable="yes">Edit</attribute>
         <attribute name="action">app.edit</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Delete</attribute>
+        <attribute name="action">app.delete</attribute>
       </item>
     </section>
   </menu>
