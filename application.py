@@ -19,6 +19,8 @@ class Application(Gtk.Application):
     
     name = 'PassMan'
     title = name
+    version = '0.1.0'
+    website = 'http://www.idlecore.com/passman'
     width = 256 + 128
     height = 512
     spacing = 8
@@ -77,7 +79,24 @@ class Application(Gtk.Application):
         print('preferences')
     
     def on_about(self, obj, param):
-        print('about')
+        dialog = Gtk.AboutDialog(None, self.window)
+        #dialog.props.artists = ['artists']
+        dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
+        dialog.props.comments = 'Easy to use password manager.'
+        dialog.props.copyright = 'Copyright © 2015 - ' + self.name + ' authors'
+        #dialog.props.documenters = ['documenters']
+        #dialog.props.license = 'license'
+        dialog.props.license_type = Gtk.License.GPL_3_0
+        #dialog.props.logo = None
+        dialog.props.logo_icon_name = 'dialog-password'
+        dialog.props.program_name = self.name
+        #dialog.props.translator_credits = 'translator_credits'
+        dialog.props.version = self.version
+        dialog.props.website = self.website
+        dialog.props.website_label = 'Website'
+        #dialog.props.wrap_license = False
+        response = dialog.run()
+        dialog.destroy()
     
     def on_quit(self, obj, param):
         self.quit()
