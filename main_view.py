@@ -10,21 +10,20 @@ require_version('Gdk', '3.0')
 require_version('Secret', '1')
 from gi.repository import Gtk, Gdk, Gio, Secret
 import dialogs
+import libsecret
 
 class MainView(Gtk.ScrolledWindow):
     '''
-    MainView
+    MainView class
     '''
     
     def __init__(self, app):
         super().__init__()
         self.app = app
-        self.collection_name = app.name.lower()
         self.action_methods = {'delete': self.on_delete,
                                'edit': self.on_edit}
+        self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
         self.make_context_menu()
-        self.make_schema(app.app_id)
-        self.get_collection()
         self.load_widgets()
     
     def make_context_menu(self):
@@ -32,44 +31,11 @@ class MainView(Gtk.ScrolledWindow):
         context_menu_model = builder.get_object('context_menu')
         self.context_menu = Gtk.Menu.new_from_model(context_menu_model)
     
-    def make_schema(self, name):
-        args = [name + '.schema']
-        args += [Secret.SchemaFlags.NONE]
-        args += [{'logo': Secret.SchemaAttributeType.STRING,
-                  'service': Secret.SchemaAttributeType.STRING,
-                  'username': Secret.SchemaAttributeType.STRING,
-                  'notes': Secret.SchemaAttributeType.STRING}]
-        self.schema = Secret.Schema.new(*args)
-    
-    def get_collection(self):
-        flags = Secret.ServiceFlags.LOAD_COLLECTIONS
-        service = Secret.Service.get_sync(flags, None)
-        for c in service.get_collections():
-            if c.get_label() == self.collection_name:
-                self.collection = c
-                break
-        else:
-            flags = Secret.CollectionCreateFlags.COLLECTION_CREATE_NONE
-            args = (service, self.collection_name, None, flags, None)
-            self.collection = Secret.Collection.create_sync(*args)
-        if self.collection.get_locked():
-            service.unlock_sync([self.collection])
-            # This is a bug in libsecret, unlock doesn't trigger an item
-            # update and so it keeps using a cached version. We need to
-            # either notify dbus manually, or reconnect the service and
-            # get_collections() again. Reconnecting is easier and cleaner.
-            service.disconnect()
-            service = Secret.Service.get_sync(flags, None)
-            for c in service.get_collections():
-                if c.get_label() == self.collection_name:
-                    self.collection = c
-                    break
-    
     def load_widgets(self):
         self.button_list = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.button_list.set_spacing(self.app.spacing)
         self.button_list.set_border_width(self.app.spacing)
-        items = self.collection.get_items()
+        items = self.secret.collection.get_items()
         sorted_items = sorted(items, key=lambda x: x.get_label())
         self.sorted_labels = [i.get_label() for i in sorted_items]
         for item in sorted_items:
@@ -96,32 +62,26 @@ class MainView(Gtk.ScrolledWindow):
         box.pack_start(label, True, False, 0)
         return button
     
-    def insert_item(self, item):
-        button = self.create_button(item)
-        index = bisect.bisect(self.sorted_labels, item.get_label())
-        self.sorted_labels.insert(index, item.get_label())
+    def insert_button(self, button):
         self.button_list.pack_start(button, False, False, 0)
+        self.order_button(button)
+        button.show_all()
+    
+    def order_button(self, button):
+        index = bisect.bisect(self.sorted_labels, button.item.get_label())
+        self.sorted_labels.insert(index, button.item.get_label())
         self.button_list.reorder_child(button, index)
-        self.show_all()
     
-    def create_item(self, service, username, password, notes):
-        attributes = {'logo': '', 'service': service,
-                      'username': username, 'notes': notes}
-        value = Secret.Value(password, len(password), 'text/plain')
-        
-        args = (self.collection, self.schema, attributes,
-                service + ': ' + username, value,
-                Secret.ItemCreateFlags.NONE, None)
-        item = Secret.Item.create_sync(*args)
-        return item
+    def edit_button(self, button):
+        self.sorted_labels.remove(button.label.get_text())
+        self.order_button(button)
+        label_text = ('<b>' + button.item.get_attributes()['service'] +
+                      ':</b> ' + button.item.get_attributes()['username'])
+        button.label.set_markup(label_text)
     
-    def edit_item(self, item, service, username, password, notes):
-        value = Secret.Value(password, len(password), 'text/plain')
-        item.set_secret_sync(value)
-        attributes = {'logo': '', 'service': service,
-                      'username': username, 'notes': notes}
-        item.set_attributes_sync(self.schema, attributes)
-        item.set_label_sync(service + ': ' + username)
+    def delete_button(self, button):
+        self.sorted_labels.remove(button.label.get_text())
+        button.destroy()
     
     def popup_menu(self, widget, event):
         for action_name, method in self.action_methods.items():
@@ -174,28 +134,16 @@ class MainView(Gtk.ScrolledWindow):
         dialog.format_secondary_text(message2)
         response = dialog.run()
         if response == Gtk.ResponseType.YES:
-            button.item.delete_sync()
-            self.sorted_labels.remove(button.label.get_text())
-            button.destroy()
+            self.secret.delete_item(button.item)
+            self.delete_button(button)
         dialog.destroy()
     
     def on_edit(self, obj, param, button):
         dialog = dialogs.Edit(self.app, button.item)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            service = dialog.service.get_text()
-            username = dialog.username.get_text()
-            password = dialog.password.get_text()
-            buffer = dialog.notes.get_buffer()
-            bounds = buffer.get_bounds()
-            notes = buffer.get_text(bounds[0], bounds[1], False)
-            self.edit_item(button.item, service, username, password, notes)
-            self.sorted_labels.remove(button.label.get_text())
-            index = bisect.bisect(self.sorted_labels, button.item.get_label())
-            self.sorted_labels.insert(index, button.item.get_label())
-            self.button_list.reorder_child(button, index)
-            label_text = ('<b>' + button.item.get_attributes()['service'] +
-                          ':</b> ' + button.item.get_attributes()['username'])
-            button.label.set_markup(label_text)
+            data = dialog.get_data()
+            self.secret.edit_item(button.item, *data)
+            self.edit_button(button)
         dialog.destroy()
 
