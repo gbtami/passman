@@ -42,14 +42,9 @@ class HeaderBar(Gtk.HeaderBar):
         dialog = dialogs.Add(self.app)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            service = dialog.service.get_text()
-            username = dialog.username.get_text()
-            password = dialog.password.get_text()
-            buffer = dialog.notes.get_buffer()
-            bounds = buffer.get_bounds()
-            notes = buffer.get_text(bounds[0], bounds[1], False)
-            item = self.app.main_view.create_item(service, username,
-                                                  password, notes)
-            self.app.main_view.insert_item(item)
+            data = dialog.get_data()
+            item = self.app.main_view.secret.create_item(*data)
+            button = self.app.main_view.create_button(item)
+            self.app.main_view.insert_button(button)
         dialog.destroy()
 
