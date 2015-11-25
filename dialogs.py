@@ -120,6 +120,15 @@ class Add(Gtk.Dialog):
     
     def config_password(self, button):
         print('config_password')
+    
+    def get_data(self):
+        service = self.service.get_text()
+        username = self.username.get_text()
+        password = self.password.get_text()
+        buffer = self.notes.get_buffer()
+        bounds = buffer.get_bounds()
+        notes = buffer.get_text(bounds[0], bounds[1], False)
+        return (service, username, password, notes)
 
 
 class Edit(Add):
