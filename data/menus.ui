@@ -6,6 +6,12 @@
         <attribute name="label" translatable="yes">Preferences</attribute>
         <attribute name="action">app.preferences</attribute>
       </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Help</attribute>
+        <attribute name="action">app.help</attribute>
+      </item>
       <item>
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">app.about</attribute>
@@ -19,32 +25,52 @@
     </section>
   </menu>
   
-  <menu id="context_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Edit</attribute>
-        <attribute name="action">app.edit</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Delete</attribute>
-        <attribute name="action">app.delete</attribute>
-      </item>
-    </section>
-  </menu>
+  <object class="GtkPopoverMenu" id="context_menu">
+    <property name="position">bottom</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="action-name">app.edit</property>
+            <property name="text" translatable="yes">Edit</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="action-name">app.delete</property>
+            <property name="text" translatable="yes">Delete</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
   
-  <menu id="bar_menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Settings</attribute>
-        <attribute name="action">app.settings</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Test</attribute>
-        <attribute name="action">app.test</attribute>
-      </item>
-    </section>
-  </menu>
+  <object class="GtkPopoverMenu" id="bar_menu">
+    <child>
+      <object class="GtkScale">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="draw_value">False</property>
+        <property name="adjustment">zoom_adjustment</property>
+        <marks>
+          <mark value="0" position="bottom"/>
+          <mark value="1" position="bottom"/>
+          <mark value="2" position="bottom"/>
+        </marks>
+      </object>
+    </child>
+  </object>
   
+  <object class="GtkAdjustment" id="zoom_adjustment">
+    <property name="lower">0</property>
+    <property name="upper">2</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+    <property name="value">1</property>
+  </object>
+
 </interface>
