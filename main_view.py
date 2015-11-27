@@ -11,6 +11,7 @@ require_version('Secret', '1')
 from gi.repository import Gtk, Gdk, Gio, Secret
 import dialogs
 import libsecret
+import logogen
 
 class MainView(Gtk.ScrolledWindow):
     '''
@@ -20,29 +21,35 @@ class MainView(Gtk.ScrolledWindow):
     def __init__(self, app):
         super().__init__()
         self.app = app
-        self.action_methods = {'delete': self.on_delete,
-                               'edit': self.on_edit}
         self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
-        self.make_context_menu()
         self.load_widgets()
     
-    def make_context_menu(self):
-        builder = Gtk.Builder.new_from_file(self.app.menus_file)
-        context_menu_model = builder.get_object('context_menu')
-        self.context_menu = Gtk.Menu.new_from_model(context_menu_model)
-    
     def load_widgets(self):
-        self.button_list = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.button_list.set_spacing(self.app.spacing)
-        self.button_list.set_border_width(self.app.spacing)
-        items = self.secret.collection.get_items()
-        sorted_items = sorted(items, key=lambda x: x.get_label())
-        self.sorted_labels = [i.get_label() for i in sorted_items]
-        for item in sorted_items:
+        self.flowbox = Gtk.FlowBox()
+        self.flowbox.set_valign(Gtk.Align.START)
+        self.flowbox.set_max_children_per_line(1)
+        self.flowbox.set_sort_func(self.sort_function)
+        self.flowbox.set_border_width(self.app.spacing)
+        self.flowbox.set_column_spacing(self.app.spacing)
+        self.flowbox.set_row_spacing(self.app.spacing)
+        for item in self.secret.collection.get_items():
             button = self.create_button(item)
-            self.button_list.pack_start(button, False, False, 0)
-        self.add(self.button_list)
+            self.insert_button(button)
+        self.add(self.flowbox)
         self.show_all()
+    
+    def sort_function(self, child1, child2):
+        
+        label1 = child1.get_child().get_child().get_children()[1]
+        label1 = label1.get_text().lower()
+        label2 = child2.get_child().get_child().get_children()[1]
+        label2 = label2.get_text().lower()
+        if label1 > label2:
+            return 1
+        elif label1 < label2:
+            return -1
+        else:
+            return 0
     
     def create_button(self, item):
         button = Gtk.Button()
@@ -50,64 +57,52 @@ class MainView(Gtk.ScrolledWindow):
         button.connect('button-press-event', self.on_button_press)
         button.connect('clicked', self.on_button_click)
         button.connect('popup-menu', self.on_popup_menu)
-        box = Gtk.Box(Gtk.Orientation.HORIZONTAL)
-        label_text = ('<b>' + item.get_attributes()['service'] +
-                      ':</b> ' + item.get_attributes()['username'])
-        label = Gtk.Label(label_text, **{'use-markup': True})
-        button.label = label
-        image_dir = str(self.app.img_dir / 'test')
-        image = Gtk.Image.new_from_file(image_dir)
-        button.add(box)
-        box.pack_start(image, False, False, 0)
-        box.pack_start(label, True, False, 0)
+        service = item.get_attributes()['service']
+        username = item.get_attributes()['username']
+        button.add(logogen.LogoGen(self.app, service, username).box)
         return button
     
     def insert_button(self, button):
-        self.button_list.pack_start(button, False, False, 0)
-        self.order_button(button)
+        self.flowbox.add(button)
+        # The next code is required because the flowbox children, that contain
+        # the actual widgets, can get focus by default. So when the widgets
+        # can get focus themselves, navigating with the keyboard becomes very
+        # cumbersome, forcing us to tab twice to move between them.
+        # Also the spacing added by the 'grid-child' style is inconsistent.
+        # The space between the items is twice that of the border, so it was
+        # removed and is instead configured manually through the flowbox.
+        child = button.get_parent()
+        child.set_can_focus(False)
+        style = child.get_style_context()
+        style.remove_class('grid-child')
         button.show_all()
     
-    def order_button(self, button):
-        index = bisect.bisect(self.sorted_labels, button.item.get_label())
-        self.sorted_labels.insert(index, button.item.get_label())
-        self.button_list.reorder_child(button, index)
-    
     def edit_button(self, button):
-        self.sorted_labels.remove(button.label.get_text())
-        self.order_button(button)
-        label_text = ('<b>' + button.item.get_attributes()['service'] +
-                      ':</b> ' + button.item.get_attributes()['username'])
-        button.label.set_markup(label_text)
+        service = button.item.get_attributes()['service']
+        username = button.item.get_attributes()['username']
+        button.remove(button.get_child())
+        button.add(logogen.LogoGen(app, service, username).box)
+        self.flowbox.invalidate_sort()
     
     def delete_button(self, button):
-        self.sorted_labels.remove(button.label.get_text())
+        self.flowbox.remove(button.get_parent())
         button.destroy()
     
-    def popup_menu(self, widget, event):
-        for action_name, method in self.action_methods.items():
+    def show_context_menu(self, widget):
+        action_methods = {'delete': self.on_delete,
+                          'edit': self.on_edit}
+        for action_name, method in action_methods.items():
             action = Gio.SimpleAction(name=action_name)
+            self.app.remove_action(action_name)
             self.app.add_action(action)
             action.connect('activate', method, widget)
-        if self.context_menu.get_attach_widget():
-            self.context_menu.detach()
-        self.context_menu.attach_to_widget(widget)
-        if event != None:
-            self.context_menu.popup(None, None, None, None,
-                                    event.button, event.time)
-        else:
-            event_time = Gtk.get_current_event_time()
-            self.context_menu.popup(None, None, self.menu_func, widget, 0, event_time)
-    
-    def menu_func(self, menu, x, y, widget):
-        window = widget.get_window()
-        _, wx, wy = window.get_origin()
-        brect = widget.get_clip()
-        x = wx + brect.x + (brect.width / 2)
-        y = wy + brect.y + (brect.height / 2)
-        return x, y, False
+        builder = Gtk.Builder.new_from_file(self.app.menus_file)
+        self.context_menu = builder.get_object('context_menu')
+        self.context_menu.set_relative_to(widget)
+        self.context_menu.show()
     
     def on_popup_menu(self, widget):
-        self.popup_menu(widget, None)
+        self.show_context_menu(widget)
         return True
     
     def on_button_click(self, button):
@@ -119,7 +114,7 @@ class MainView(Gtk.ScrolledWindow):
     def on_button_press(self, widget, event):
         # Right mouse button click
         if event.button == Gdk.BUTTON_SECONDARY:
-            self.popup_menu(widget, event)
+            self.show_context_menu(widget)
         # We just want right clicks here, left clicks will
         # be handled elsewhere. So we return False.
         return False
