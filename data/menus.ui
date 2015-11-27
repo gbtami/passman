@@ -51,26 +51,76 @@
   
   <object class="GtkPopoverMenu" id="bar_menu">
     <child>
-      <object class="GtkScale">
+      <object class="GtkBox">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="draw_value">False</property>
-        <property name="adjustment">zoom_adjustment</property>
-        <marks>
-          <mark value="0" position="bottom"/>
-          <mark value="1" position="bottom"/>
-          <mark value="2" position="bottom"/>
-        </marks>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="border_width">8</property>
+        <property name="spacing">8</property>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
+            <style><class name="linked"/></style>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="iconic">True</property>
+                <property name="icon">icon_grid</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="iconic">True</property>
+                <property name="icon">icon_list</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScale" id="scale">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="draw_value">False</property>
+            <property name="adjustment">zoom_adjustment</property>
+            <property name="round_digits">0</property>
+            <marks>
+              <mark value="1" position="bottom"/>
+              <mark value="2" position="bottom"/>
+              <mark value="3" position="bottom"/>
+            </marks>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>
   
+  <object class="GThemedIcon" id="icon_grid">
+    <property name="name">view-grid-symbolic</property>
+  </object>
+  <object class="GThemedIcon" id="icon_list">
+    <property name="name">view-list-symbolic</property>
+  </object>
+  
   <object class="GtkAdjustment" id="zoom_adjustment">
-    <property name="lower">0</property>
-    <property name="upper">2</property>
+    <property name="lower">1</property>
+    <property name="upper">3</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
-    <property name="value">1</property>
+    <property name="value">2</property>
   </object>
 
 </interface>
