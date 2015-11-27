@@ -4,8 +4,9 @@ Module for the HeaderBar class
 
 from gi import require_version
 require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, GLib, Gio
 import dialogs
+import logogen
 
 
 class HeaderBar(Gtk.HeaderBar):
@@ -21,7 +22,7 @@ class HeaderBar(Gtk.HeaderBar):
         
         button = Gtk.Button()
         button.connect('clicked', self.on_add)
-        icon = Gio.ThemedIcon(name='list-add')
+        icon = Gio.ThemedIcon(name='list-add-symbolic')
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
         self.pack_start(button)
@@ -29,8 +30,25 @@ class HeaderBar(Gtk.HeaderBar):
         button = Gtk.MenuButton()
         builder = Gtk.Builder.new_from_file(self.app.menus_file)
         bar_menu = builder.get_object('bar_menu')
-        button.set_menu_model(bar_menu)
+        button.set_popover(bar_menu)
+        icon = Gio.ThemedIcon(name='open-menu-symbolic')
+        image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+        button.add(image)
         self.pack_end(button)
+        
+        scale = builder.get_object('scale')
+        scale.connect('value-changed', self.on_value_changed)
+    
+    def on_value_changed(self, scale):
+        settings = Gio.Settings(self.app.schema_id + '.preferences.logo')
+        settings.set_value('size', GLib.Variant('i', int(scale.get_value())))
+        for c in self.app.main_view.flowbox.get_children():
+            button = c.get_child()
+            service = button.item.get_attributes()['service']
+            username = button.item.get_attributes()['username']
+            button.remove(button.get_child())
+            button.add(logogen.LogoGen(self.app, service, username).box)
+            button.show_all()
     
     def on_settings(self, obj, param):
         print('on_settings')
