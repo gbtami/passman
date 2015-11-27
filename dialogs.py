@@ -31,8 +31,9 @@ class Add(Gtk.Dialog):
         grid.set_border_width(app.spacing)
         
         button = Gtk.Button()
-        args = ('image-missing', Gtk.IconSize.DIALOG)
-        image = Gtk.Image.new_from_icon_name(*args)
+        icon_theme = Gtk.IconTheme.get_default()
+        pixbuf = icon_theme.load_icon('image-missing', 128, 0)
+        image = Gtk.Image.new_from_pixbuf(pixbuf)
         button.set_image(image)
         button.set_halign(Gtk.Align.CENTER)
         grid.attach(button, 0, 0, 1, 1)
@@ -55,71 +56,48 @@ class Add(Gtk.Dialog):
         frame.add(self.username)
         grid.attach(frame, 0, 2, 1, 1)
         
-        label = Gtk.Label('<b>Password</b>', **{'use-markup': True})
-        frame = Gtk.Frame(label_widget=label)
-        frame.set_shadow_type(Gtk.ShadowType.NONE)
-        password_grid = Gtk.Grid()
-        password_grid.set_column_spacing(app.spacing)
-        password_grid.set_row_spacing(app.spacing)
-        frame.add(password_grid)
+        expander = Gtk.Expander()
+        expander.set_use_markup(True)
+        expander.set_label('<b>Password</b>')
+        expander.set_resize_toplevel(True)
+        box = Gtk.HBox()
+        style = box.get_style_context()
+        style.add_class('linked')
         args = {'caps-lock-warning': True,
-                'input-purpose': Gtk.InputPurpose.PASSWORD,
-                'visibility': False}
+                'input-purpose': Gtk.InputPurpose.PASSWORD}
         self.password = Gtk.Entry(**args)
-        self.password.set_hexpand(True)
         self.password.set_activates_default(True)
         self.password.set_text(PassGen(self.app).password)
-        password_grid.attach(self.password, 0, 0, 4, 1)
-        check_button = Gtk.CheckButton('Show password')
-        check_button.connect('toggled', self.show_password)
-        check_button.set_halign(Gtk.Align.CENTER)
-        
-        password_grid.attach(check_button, 0, 1, 2, 1)
+        box.pack_start(self.password, True, True, 0)
         button = Gtk.Button()
-        icon = Gio.ThemedIcon(name='view-refresh')
+        icon = Gio.ThemedIcon(name='view-refresh-symbolic')
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         button.add(image)
-        button.set_halign(Gtk.Align.CENTER)
-        button.connect('clicked', self.refresh_password, check_button)
-        password_grid.attach(button, 2, 1, 1, 1)
-        button = Gtk.Button()
-        icon = Gio.ThemedIcon(name='preferences-system')
-        image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
-        button.add(image)
-        button.set_halign(Gtk.Align.CENTER)
-        button.connect('clicked', self.config_password)
-        password_grid.attach(button, 3, 1, 1, 1)
-        grid.attach(frame, 0, 3, 1, 1)
+        button.connect('clicked', self.refresh_password)
+        box.pack_end(button, False, False, 0)
+        expander.add(box)
+        grid.attach(expander, 0, 3, 1, 1)
         
-        label = Gtk.Label('<b>Notes</b>', **{'use-markup': True})
-        frame = Gtk.Frame(label_widget=label)
-        frame.set_shadow_type(Gtk.ShadowType.NONE)
+        expander = Gtk.Expander()
+        expander.set_use_markup(True)
+        expander.set_label('<b>Notes</b>')
+        expander.set_resize_toplevel(True)
         scrolled_window = Gtk.ScrolledWindow()
+        expander.add(scrolled_window)
         scrolled_window.set_min_content_height(64)
         scrolled_window.set_vexpand(True)
         self.notes = Gtk.TextView()
         self.notes.set_accepts_tab(False)
         scrolled_window.add(self.notes)
-        frame.add(scrolled_window)
-        grid.attach(frame, 0, 4, 1, 1)
+        grid.attach(expander, 0, 4, 1, 1)
         
         box = self.get_content_area()
         box.add(grid)
         
         self.show_all()
     
-    def show_password(self, check_button):
-        if check_button.get_active():
-            self.password.set_visibility(True)
-        else:
-            self.password.set_visibility(False)
-    
-    def refresh_password(self, button, check_button):
-        check_button.set_active(True)
+    def refresh_password(self, button):
         self.password.set_text(PassGen(self.app).password)
-    
-    def config_password(self, button):
-        print('config_password')
     
     def get_data(self):
         service = self.service.get_text()
