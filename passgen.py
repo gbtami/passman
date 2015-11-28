@@ -13,7 +13,7 @@ class PassGen:
     '''
     
     def __init__(self, app):
-        settings = Gio.Settings(app.schema_id + '.preferences.password')
+        settings = app.settings.get_child('password')
         self.size = settings['size']
         self.alphabet = settings['alphabet']
         r = random.SystemRandom()

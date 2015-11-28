@@ -37,10 +37,12 @@ class HeaderBar(Gtk.HeaderBar):
         self.pack_end(button)
         
         scale = builder.get_object('scale')
+        settings = app.settings.get_child('logo')
+        scale.set_value(settings['size'])
         scale.connect('value-changed', self.on_value_changed)
     
     def on_value_changed(self, scale):
-        settings = Gio.Settings(self.app.schema_id + '.preferences.logo')
+        settings = self.app.settings.get_child('logo')
         settings.set_value('size', GLib.Variant('i', int(scale.get_value())))
         for c in self.app.main_view.flowbox.get_children():
             button = c.get_child()

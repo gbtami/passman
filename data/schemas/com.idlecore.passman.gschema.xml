@@ -1,5 +1,15 @@
 <schemalist>
   
+  <schema id="com.idlecore.passman" path="/com/idlecore/passman/">
+    <child name="preferences" schema="com.idlecore.passman.preferences"/>
+  </schema>
+  
+  <schema id="com.idlecore.passman.preferences"
+          path="/com/idlecore/passman/preferences/">
+    <child name="password" schema="com.idlecore.passman.preferences.password"/>
+    <child name="logo" schema="com.idlecore.passman.preferences.logo"/>
+  </schema>
+  
   <schema id="com.idlecore.passman.preferences.password"
           path="/com/idlecore/passman/preferences/password/">
   

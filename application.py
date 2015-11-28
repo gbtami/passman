@@ -42,6 +42,7 @@ class Application(Gtk.Application):
         super().__init__(application_id=self.app_id)
         self.connect('activate', self.on_activate)
         self.connect('startup', self.on_startup)
+        self.settings = Gio.Settings(self.schema_id + '.preferences')
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s: %(message)s')
     
@@ -65,6 +66,7 @@ class Application(Gtk.Application):
         action_methods = {'settings': titlebar.on_settings,
                           'test': titlebar.on_test,
                           'preferences': self.on_preferences,
+                          'help': self.on_help,
                           'about': self.on_about,
                           'quit': self.on_quit}
         for name, method in action_methods.items():
@@ -77,6 +79,9 @@ class Application(Gtk.Application):
     
     def on_preferences(self, obj, param):
         print('preferences')
+    
+    def on_help(self, obj, param):
+        print('help')
     
     def on_about(self, obj, param):
         dialog = Gtk.AboutDialog(None, self.window)

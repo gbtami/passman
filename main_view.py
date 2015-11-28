@@ -81,7 +81,8 @@ class MainView(Gtk.ScrolledWindow):
         service = button.item.get_attributes()['service']
         username = button.item.get_attributes()['username']
         button.remove(button.get_child())
-        button.add(logogen.LogoGen(app, service, username).box)
+        button.add(logogen.LogoGen(self.app, service, username).box)
+        button.show_all()
         self.flowbox.invalidate_sort()
     
     def delete_button(self, button):

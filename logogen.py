@@ -14,7 +14,7 @@ class LogoGen:
     '''
     
     def __init__(self, app, service, username):
-        settings = Gio.Settings(app.schema_id + '.preferences.logo')
+        settings = app.settings.get_child('logo')
         size = settings['size']
         icon_theme = Gtk.IconTheme.get_default()
         pixbuf = icon_theme.load_icon('image-missing', size * 32, 0)
