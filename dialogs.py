@@ -60,7 +60,7 @@ class Add(Gtk.Dialog):
         expander.set_use_markup(True)
         expander.set_label('<b>Password</b>')
         expander.set_resize_toplevel(True)
-        box = Gtk.HBox()
+        box = Gtk.Box()
         style = box.get_style_context()
         style.add_class('linked')
         args = {'caps-lock-warning': True,
