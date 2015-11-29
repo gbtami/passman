@@ -62,10 +62,7 @@ class Application(Gtk.Application):
         self.window.add(self.main_view)
     
     def add_actions(self):
-        titlebar = self.window.get_titlebar()
-        action_methods = {'settings': titlebar.on_settings,
-                          'test': titlebar.on_test,
-                          'preferences': self.on_preferences,
+        action_methods = {'preferences': self.on_preferences,
                           'help': self.on_help,
                           'about': self.on_about,
                           'quit': self.on_quit}
