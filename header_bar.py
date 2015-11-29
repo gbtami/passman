@@ -27,6 +27,13 @@ class HeaderBar(Gtk.HeaderBar):
         button.add(image)
         self.pack_start(button)
         
+        settings = app.settings.get_child('view')
+        action = Gio.SimpleAction(name='view_mode',
+                                  parameter_type=GLib.VariantType('s'),
+                                  state=GLib.Variant('s', settings['mode']))
+        app.add_action(action)
+        action.connect('activate', self.view_mode)
+        
         button = Gtk.MenuButton()
         builder = Gtk.Builder.new_from_file(self.app.menus_file)
         bar_menu = builder.get_object('bar_menu')
@@ -40,6 +47,19 @@ class HeaderBar(Gtk.HeaderBar):
         settings = app.settings.get_child('logo')
         scale.set_value(settings['size'])
         scale.connect('value-changed', self.on_value_changed)
+    
+    def view_mode(self, action, target):
+        print(target)
+        setting = self.app.settings.get_child('view')
+        setting.set_value('mode', target)
+        action.change_state(target)
+        flowbox = self.app.main_view.flowbox
+        if target == GLib.Variant('s', 'list'):
+            print(1)
+            flowbox.set_max_children_per_line(1)
+        else:
+            print(2)
+            flowbox.set_max_children_per_line(256)
     
     def on_value_changed(self, scale):
         settings = self.app.settings.get_child('logo')
