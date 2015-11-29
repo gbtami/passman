@@ -8,6 +8,7 @@
           path="/com/idlecore/passman/preferences/">
     <child name="password" schema="com.idlecore.passman.preferences.password"/>
     <child name="logo" schema="com.idlecore.passman.preferences.logo"/>
+    <child name="view" schema="com.idlecore.passman.preferences.view"/>
   </schema>
   
   <schema id="com.idlecore.passman.preferences.password"
@@ -37,6 +38,19 @@
     <key name="size" type="i">
       <range min="1" max="3"/>
       <default>2</default>
+    </key>
+  
+  </schema>
+  
+  <schema id="com.idlecore.passman.preferences.view"
+          path="/com/idlecore/passman/preferences/view/">
+  
+    <key name="mode" type="s">
+      <choices>
+        <choice value="grid"/>
+        <choice value="list"/>
+      </choices>
+      <default>"list"</default>
     </key>
   
   </schema>
