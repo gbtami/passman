@@ -67,6 +67,8 @@
                 <property name="visible">True</property>
                 <property name="iconic">True</property>
                 <property name="icon">icon_grid</property>
+                <property name="action-name">app.view_mode</property>
+                <property name="action-target">"grid"</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -78,6 +80,8 @@
                 <property name="visible">True</property>
                 <property name="iconic">True</property>
                 <property name="icon">icon_list</property>
+                <property name="action-name">app.view_mode</property>
+                <property name="action-target">"list"</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -89,7 +93,6 @@
         <child>
           <object class="GtkScale" id="scale">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <property name="draw_value">False</property>
             <property name="adjustment">zoom_adjustment</property>
             <property name="round_digits">0</property>
