@@ -25,7 +25,7 @@ class LogoGen:
         elif size == 3:
             label_text = '<big>{}</big>'.format(label_text)
         label = Gtk.Label(label_text, **{'use-markup': True})
-        self.box = Gtk.Box(Gtk.Orientation.HORIZONTAL)
+        self.box = Gtk.Box()
         self.box.pack_start(image, False, False, 0)
         self.box.pack_start(label, True, False, 0)
 
