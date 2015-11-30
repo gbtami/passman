@@ -28,7 +28,7 @@
   <object class="GtkPopoverMenu" id="context_menu">
     <property name="position">bottom</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
@@ -51,14 +51,15 @@
   
   <object class="GtkPopoverMenu" id="bar_menu">
     <child>
-      <object class="GtkBox">
+      <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="border_width">8</property>
-        <property name="spacing">8</property>
+        <property name="column_spacing">8</property>
+        <property name="row_spacing">8</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="orientation">horizontal</property>
             <style><class name="linked"/></style>
@@ -70,10 +71,6 @@
                 <property name="action-name">app.view_mode</property>
                 <property name="action-target">"grid"</property>
               </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-              </packing>
             </child>
             <child>
               <object class="GtkModelButton">
@@ -83,11 +80,7 @@
                 <property name="action-name">app.view_mode</property>
                 <property name="action-target">"list"</property>
               </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-              </packing>
-            </child>
+                </child>
           </object>
         </child>
         <child>
@@ -102,10 +95,6 @@
               <mark value="3" position="bottom"/>
             </marks>
           </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-          </packing>
         </child>
       </object>
     </child>
