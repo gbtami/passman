@@ -27,10 +27,10 @@ class HeaderBar(Gtk.HeaderBar):
         button.add(image)
         self.pack_start(button)
         
-        settings = app.settings.get_child('view')
+        state = app.view_mode
         action = Gio.SimpleAction(name='view_mode',
                                   parameter_type=GLib.VariantType('s'),
-                                  state=GLib.Variant('s', settings['mode']))
+                                  state=GLib.Variant('s', state))
         app.add_action(action)
         action.connect('activate', self.view_mode)
         
@@ -44,32 +44,30 @@ class HeaderBar(Gtk.HeaderBar):
         self.pack_end(button)
         
         scale = builder.get_object('scale')
-        settings = app.settings.get_child('logo')
-        scale.set_value(settings['size'])
+        scale.set_value(app.logo_size)
         scale.connect('value-changed', self.on_value_changed)
     
     def view_mode(self, action, target):
-        print(target)
-        setting = self.app.settings.get_child('view')
-        setting.set_value('mode', target)
+        self.app.view_mode = target.get_string()
         action.change_state(target)
         flowbox = self.app.main_view.flowbox
         if target == GLib.Variant('s', 'list'):
-            print(1)
             flowbox.set_max_children_per_line(1)
+            mode = 'list'
         else:
-            print(2)
             flowbox.set_max_children_per_line(256)
-    
-    def on_value_changed(self, scale):
-        settings = self.app.settings.get_child('logo')
-        settings.set_value('size', GLib.Variant('i', int(scale.get_value())))
+            mode = 'grid'
         for c in self.app.main_view.flowbox.get_children():
             button = c.get_child()
-            service = button.item.get_attributes()['service']
-            username = button.item.get_attributes()['username']
-            button.remove(button.get_child())
-            button.add(logogen.LogoGen(self.app, service, username).box)
+            button.logo.set_view(mode)
+            button.show_all()
+    
+    def on_value_changed(self, scale):
+        size = int(scale.get_value())
+        self.app.logo_size = size
+        for c in self.app.main_view.flowbox.get_children():
+            button = c.get_child()
+            button.logo.set_size(size)
             button.show_all()
     
     def on_settings(self, obj, param):
