@@ -21,8 +21,6 @@ class Application(Gtk.Application):
     title = name
     version = '0.1.0'
     website = 'http://www.idlecore.com/passman'
-    width = 256 + 128
-    height = 512
     spacing = 8
     app_id = 'com.idlecore.passman'
     app_dir = name.lower()
@@ -42,12 +40,19 @@ class Application(Gtk.Application):
         super().__init__(application_id=self.app_id)
         self.connect('activate', self.on_activate)
         self.connect('startup', self.on_startup)
+        self.connect('shutdown', self.on_shutdown)
         self.settings = Gio.Settings(self.schema_id + '.preferences')
+        self.view_mode = self.settings.get_child('view')['mode']
+        self.logo_size = self.settings.get_child('logo')['size']
+        self.window_settings = Gio.Settings(self.schema_id + '.window')
+        self.width = self.window_settings['width']
+        self.height = self.window_settings['height']
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s: %(message)s')
     
     def on_startup(self, app):
         self.window = Gtk.ApplicationWindow(application=app)
+        self.window.connect('size-allocate', self.on_size_allocate)
         self.window.set_title(self.title)
         self.window.set_default_size(self.width, self.height)
         self.window.set_position(Gtk.WindowPosition.MOUSE)
@@ -65,7 +70,7 @@ class Application(Gtk.Application):
         action_methods = {'preferences': self.on_preferences,
                           'help': self.on_help,
                           'about': self.on_about,
-                          'quit': self.on_quit}
+                          'quit': self.quit}
         for name, method in action_methods.items():
             action = Gio.SimpleAction(name=name)
             self.add_action(action)
@@ -73,6 +78,19 @@ class Application(Gtk.Application):
     
     def on_activate(self, app):
         self.window.show_all()
+    
+    def on_size_allocate(self, widget, allocation):
+        self.width = allocation.width
+        self.height = allocation.height
+    
+    def on_shutdown(self, app):
+        logo = self.settings.get_child('logo')
+        view = self.settings.get_child('view')
+        window = Gio.Settings(self.schema_id + '.window')
+        logo.set_int('size', self.logo_size)
+        view.set_string('mode', self.view_mode)
+        self.window_settings.set_int('width', self.width)
+        self.window_settings.set_int('height', self.height)
     
     def on_preferences(self, obj, param):
         print('preferences')
@@ -99,7 +117,4 @@ class Application(Gtk.Application):
         #dialog.props.wrap_license = False
         response = dialog.run()
         dialog.destroy()
-    
-    def on_quit(self, obj, param):
-        self.quit()
 
