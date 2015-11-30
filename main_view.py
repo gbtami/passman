@@ -27,11 +27,15 @@ class MainView(Gtk.ScrolledWindow):
     def load_widgets(self):
         self.flowbox = Gtk.FlowBox()
         self.flowbox.set_valign(Gtk.Align.START)
-        self.flowbox.set_max_children_per_line(1)
         self.flowbox.set_sort_func(self.sort_function)
         self.flowbox.set_border_width(self.app.spacing)
         self.flowbox.set_column_spacing(self.app.spacing)
         self.flowbox.set_row_spacing(self.app.spacing)
+        self.flowbox.set_homogeneous(True)
+        if self.app.view_mode == 'list':
+            self.flowbox.set_max_children_per_line(1)
+        else:
+            self.flowbox.set_max_children_per_line(256)
         for item in self.secret.collection.get_items():
             button = self.create_button(item)
             self.insert_button(button)
@@ -39,10 +43,9 @@ class MainView(Gtk.ScrolledWindow):
         self.show_all()
     
     def sort_function(self, child1, child2):
-        
-        label1 = child1.get_child().get_child().get_children()[1]
+        label1 = child1.get_child().logo.label
         label1 = label1.get_text().lower()
-        label2 = child2.get_child().get_child().get_children()[1]
+        label2 = child2.get_child().logo.label
         label2 = label2.get_text().lower()
         if label1 > label2:
             return 1
@@ -59,7 +62,8 @@ class MainView(Gtk.ScrolledWindow):
         button.connect('popup-menu', self.on_popup_menu)
         service = item.get_attributes()['service']
         username = item.get_attributes()['username']
-        button.add(logogen.LogoGen(self.app, service, username).box)
+        button.logo = logogen.LogoGen(self.app, service, username)
+        button.add(button.logo.grid)
         return button
     
     def insert_button(self, button):
@@ -81,7 +85,8 @@ class MainView(Gtk.ScrolledWindow):
         service = button.item.get_attributes()['service']
         username = button.item.get_attributes()['username']
         button.remove(button.get_child())
-        button.add(logogen.LogoGen(self.app, service, username).box)
+        button.logo = logogen.LogoGen(self.app, service, username)
+        button.add(button.logo.grid)
         button.show_all()
         self.flowbox.invalidate_sort()
     
