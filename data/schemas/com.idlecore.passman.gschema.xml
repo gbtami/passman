@@ -2,6 +2,7 @@
   
   <schema id="com.idlecore.passman" path="/com/idlecore/passman/">
     <child name="preferences" schema="com.idlecore.passman.preferences"/>
+    <child name="window" schema="com.idlecore.passman.window"/>
   </schema>
   
   <schema id="com.idlecore.passman.preferences"
@@ -51,6 +52,19 @@
         <choice value="list"/>
       </choices>
       <default>"list"</default>
+    </key>
+  
+  </schema>
+  
+  <schema id="com.idlecore.passman.window"
+          path="/com/idlecore/passman/window/">
+    
+    <key name="width" type="i">
+      <default>448</default>
+    </key>
+    
+    <key name="height" type="i">
+      <default>640</default>
     </key>
   
   </schema>
