@@ -30,6 +30,7 @@ class Application(Gtk.Application):
     log_dir = config_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     menus_file = str(data_dir / 'menus.ui')
+    preferences_file = str(data_dir / 'preferences.glade')
     schemas_dir = str(data_dir / 'schemas')
     schema_id = app_id
     
@@ -47,6 +48,8 @@ class Application(Gtk.Application):
         self.window_settings = Gio.Settings(self.schema_id + '.window')
         self.width = self.window_settings['width']
         self.height = self.window_settings['height']
+        self.about_dialog = None
+        self.preferences_dialog = None
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s: %(message)s')
     
@@ -93,12 +96,25 @@ class Application(Gtk.Application):
         self.window_settings.set_int('height', self.height)
     
     def on_preferences(self, obj, param):
-        print('preferences')
+        if self.preferences_dialog != None:
+            self.preferences_dialog.present()
+            return
+        builder = Gtk.Builder.new_from_file(self.preferences_file)
+        #dialog = builder.get_object('preferences_dialog')
+        dialog = builder.get_object('dialog1')
+        dialog.set_transient_for(self.window)
+        self.preferences_dialog = dialog
+        dialog.run()
+        dialog.destroy()
+        self.preferences_dialog = None
     
     def on_help(self, obj, param):
         print('help')
     
     def on_about(self, obj, param):
+        if self.about_dialog != None:
+            self.about_dialog.present()
+            return
         dialog = Gtk.AboutDialog(None, self.window)
         #dialog.props.artists = ['artists']
         dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
@@ -115,6 +131,8 @@ class Application(Gtk.Application):
         dialog.props.website = self.website
         dialog.props.website_label = 'Website'
         #dialog.props.wrap_license = False
+        self.about_dialog = dialog
         response = dialog.run()
         dialog.destroy()
+        self.about_dialog = None
 
