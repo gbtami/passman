@@ -1,2 +1,2 @@
 # passman
-Easy to use password manager
+Easy to use password manager.

@@ -101,7 +101,6 @@ class Application(Gtk.Application):
             return
         builder = Gtk.Builder.new_from_file(self.preferences_file)
         dialog = builder.get_object('preferences_dialog')
-        #dialog = builder.get_object('dialog1')
         dialog.set_transient_for(self.window)
         self.preferences_dialog = dialog
         dialog.run()
