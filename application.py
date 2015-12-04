@@ -5,10 +5,13 @@ Module for the Application class
 '''
 
 import logging
+import locale
+import gettext
 
 from gi import require_version
 require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio, GLib
+
 from pathlib import Path
 from header_bar import HeaderBar
 from main_view import MainView
@@ -35,6 +38,7 @@ class Application(Gtk.Application):
     preferences_file = str(data_dir / 'preferences.glade')
     schemas_dir = str(data_dir / 'schemas')
     schema_id = app_id
+    locale_dir = '/home/xor/workspace/passman/locale'
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the
@@ -44,6 +48,18 @@ class Application(Gtk.Application):
         self.connect('activate', self.on_activate)
         self.connect('startup', self.on_startup)
         self.connect('shutdown', self.on_shutdown)
+    
+    def on_startup(self, app):
+        # https://docs.python.org
+        # /dev/library/locale.html#access-to-message-catalogs
+        # Python applications should normally find no need to invoke these
+        # functions, and should use gettext instead. A known exception to this
+        # rule are applications that link with additional C libraries which
+        # internally invoke gettext() or dcgettext(). For these applications,
+        # it may be necessary to bind the text domain, so that the libraries
+        # can properly locate their message catalogs.
+        locale.bindtextdomain(self.name.lower(), self.locale_dir)
+        gettext.install(self.name.lower(), self.locale_dir)
         self.settings = Gio.Settings(self.schema_id + '.preferences')
         self.view_mode = self.settings.get_child('view')['mode']
         self.logo_size = self.settings.get_child('logo')['size']
@@ -54,8 +70,7 @@ class Application(Gtk.Application):
         self.preferences_dialog = None
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s: %(message)s')
-    
-    def on_startup(self, app):
+        
         self.window = Gtk.ApplicationWindow(application=app)
         self.window.connect('size-allocate', self.on_size_allocate)
         self.window.set_title(self.title)
@@ -120,7 +135,8 @@ class Application(Gtk.Application):
         #dialog.props.artists = ['artists']
         dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
         dialog.props.comments = _('Easy to use password manager.')
-        dialog.props.copyright = 'Copyright © 2015 - ' + self.name + ' authors'
+        dialog.props.copyright = ('Copyright © 2015 - ' + self.name +
+                                 _(' authors'))
         #dialog.props.documenters = ['documenters']
         #dialog.props.license = 'license'
         dialog.props.license_type = Gtk.License.GPL_3_0
