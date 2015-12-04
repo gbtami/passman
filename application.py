@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '''
 Module for the Application class
 '''
@@ -117,7 +119,7 @@ class Application(Gtk.Application):
         dialog = Gtk.AboutDialog(None, self.window)
         #dialog.props.artists = ['artists']
         dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
-        dialog.props.comments = 'Easy to use password manager.'
+        dialog.props.comments = _('Easy to use password manager.')
         dialog.props.copyright = 'Copyright © 2015 - ' + self.name + ' authors'
         #dialog.props.documenters = ['documenters']
         #dialog.props.license = 'license'

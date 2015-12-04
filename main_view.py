@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '''
 Module for the MainView class
 '''
@@ -130,7 +132,13 @@ class MainView(Gtk.ScrolledWindow):
         message = 'Are you sure you want to delete account {}?'.format(item)
         dialog = Gtk.MessageDialog(self.app.window, 0,
                                    Gtk.MessageType.QUESTION,
-                                   Gtk.ButtonsType.YES_NO, message)
+                                   Gtk.ButtonsType.NONE, message)
+        dialog.add_button('Cancel', Gtk.ResponseType.CANCEL)
+        delete_button = Gtk.Button('Delete')
+        style = delete_button.get_style_context()
+        style.add_class('destructive-action')
+        dialog.add_action_widget(delete_button, Gtk.ResponseType.YES)
+        delete_button.show_all()
         message2 = 'This operation will be permanent and irreversible.'
         dialog.format_secondary_text(message2)
         response = dialog.run()
