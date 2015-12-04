@@ -32,19 +32,23 @@
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="one">
             <property name="visible">True</property>
             <property name="action-name">app.edit</property>
             <property name="text" translatable="yes">Edit</property>
           </object>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="two">
             <property name="visible">True</property>
             <property name="action-name">app.delete</property>
             <property name="text" translatable="yes">Delete</property>
           </object>
         </child>
+        <focus-chain>
+          <widget name="one"/>
+          <widget name="two"/>
+        </focus-chain>
       </object>
     </child>
   </object>
