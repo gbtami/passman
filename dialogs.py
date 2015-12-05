@@ -14,7 +14,7 @@ class Add(Gtk.Dialog):
     Add Dialog
     '''
     
-    title = 'New Account'
+    title = _('New Account')
     
     def __init__(self, app):
         self.app = app
@@ -40,7 +40,7 @@ class Add(Gtk.Dialog):
         button.set_halign(Gtk.Align.CENTER)
         grid.attach(button, 0, 0, 1, 1)
         
-        label = Gtk.Label('<b>Service</b>', **{'use-markup': True})
+        label = Gtk.Label(_('<b>Service</b>'), **{'use-markup': True})
         frame = Gtk.Frame(label_widget=label)
         frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.service = Gtk.Entry()
@@ -50,7 +50,7 @@ class Add(Gtk.Dialog):
         grid.attach(frame, 0, 1, 1, 1)
         self.service.grab_focus()
         
-        label = Gtk.Label('<b>Username</b>', **{'use-markup': True})
+        label = Gtk.Label(_('<b>Username</b>'), **{'use-markup': True})
         frame = Gtk.Frame(label_widget=label)
         frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.username = Gtk.Entry()
@@ -60,7 +60,7 @@ class Add(Gtk.Dialog):
         
         expander = Gtk.Expander()
         expander.set_use_markup(True)
-        expander.set_label('<b>Password</b>')
+        expander.set_label(_('<b>Password</b>'))
         expander.set_resize_toplevel(True)
         password_grid = Gtk.Grid()
         style = password_grid.get_style_context()
@@ -83,7 +83,7 @@ class Add(Gtk.Dialog):
         
         expander = Gtk.Expander()
         expander.set_use_markup(True)
-        expander.set_label('<b>Notes</b>')
+        expander.set_label(_('<b>Notes</b>'))
         expander.set_resize_toplevel(True)
         scrolled_window = Gtk.ScrolledWindow()
         expander.add(scrolled_window)
@@ -117,7 +117,7 @@ class Edit(Add):
     Edit Dialog
     '''
     
-    title = 'Edit Account'
+    title = _('Edit Account')
     
     def __init__(self, app, item):
         super().__init__(app)
