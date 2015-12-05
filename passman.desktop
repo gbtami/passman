@@ -1,7 +1,9 @@
 [Desktop Entry]
 Name=PassMan
+Name[pt]=Passman
 GenericName=Password Manager
 Comment=Easily manage all your passwords.
+Comment[pt]=Faça facilmente a gestão de todas as suas senhas.
 Version=0.0.0.1
 Exec=passman
 Icon=dialog-password
