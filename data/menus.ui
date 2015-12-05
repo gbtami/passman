@@ -1,4 +1,4 @@
-<interface>
+<interface domain="passman">
 
   <menu id="app_menu">
     <section>
