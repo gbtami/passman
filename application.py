@@ -5,8 +5,6 @@ Module for the Application class
 '''
 
 import logging
-import locale
-import gettext
 
 from gi import require_version
 require_version('Gtk', '3.0')
@@ -38,7 +36,6 @@ class Application(Gtk.Application):
     preferences_file = str(data_dir / 'preferences.glade')
     schemas_dir = str(data_dir / 'schemas')
     schema_id = app_id
-    locale_dir = '/home/xor/workspace/passman/locale'
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the
@@ -50,16 +47,6 @@ class Application(Gtk.Application):
         self.connect('shutdown', self.on_shutdown)
     
     def on_startup(self, app):
-        # https://docs.python.org
-        # /dev/library/locale.html#access-to-message-catalogs
-        # Python applications should normally find no need to invoke these
-        # functions, and should use gettext instead. A known exception to this
-        # rule are applications that link with additional C libraries which
-        # internally invoke gettext() or dcgettext(). For these applications,
-        # it may be necessary to bind the text domain, so that the libraries
-        # can properly locate their message catalogs.
-        locale.bindtextdomain(self.name.lower(), self.locale_dir)
-        gettext.install(self.name.lower(), self.locale_dir)
         self.settings = Gio.Settings(self.schema_id + '.preferences')
         self.view_mode = self.settings.get_child('view')['mode']
         self.logo_size = self.settings.get_child('logo')['size']
@@ -90,7 +77,7 @@ class Application(Gtk.Application):
         action_methods = {'preferences': self.on_preferences,
                           'help': self.on_help,
                           'about': self.on_about,
-                          'quit': self.quit}
+                          'quit': self.on_quit}
         for name, method in action_methods.items():
             action = Gio.SimpleAction(name=name)
             self.add_action(action)
@@ -135,8 +122,8 @@ class Application(Gtk.Application):
         #dialog.props.artists = ['artists']
         dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
         dialog.props.comments = _('Easy to use password manager.')
-        dialog.props.copyright = ('Copyright © 2015 - ' + self.name +
-                                 _(' authors'))
+        copyright = _('Copyright © 2015 - {} authors')
+        dialog.props.copyright = copyright.format(self.name)
         #dialog.props.documenters = ['documenters']
         #dialog.props.license = 'license'
         dialog.props.license_type = Gtk.License.GPL_3_0
@@ -152,4 +139,7 @@ class Application(Gtk.Application):
         response = dialog.run()
         dialog.destroy()
         self.about_dialog = None
+    
+    def on_quit(self, obj, param):
+        self.quit()
 
