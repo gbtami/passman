@@ -15,7 +15,7 @@ class PassGen:
     '''
     
     def __init__(self, app):
-        settings = app.settings.get_child('password')
+        settings = app.settings.get_child('passwords')
         self.size = settings['size']
         self.alphabet = settings['alphabet']
         r = random.SystemRandom()

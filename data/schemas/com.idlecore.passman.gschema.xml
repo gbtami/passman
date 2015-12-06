@@ -7,19 +7,56 @@
   
   <schema id="com.idlecore.passman.preferences"
           path="/com/idlecore/passman/preferences/">
-    <child name="password" schema="com.idlecore.passman.preferences.password"/>
-    <child name="logo" schema="com.idlecore.passman.preferences.logo"/>
-    <child name="view" schema="com.idlecore.passman.preferences.view"/>
+    <child name="general"
+      schema="com.idlecore.passman.preferences.general"/>
+    <child name="collection"
+      schema="com.idlecore.passman.preferences.collection"/>
+    <child name="passwords"
+      schema="com.idlecore.passman.preferences.passwords"/>
+    <child name="shortcuts"
+      schema="com.idlecore.passman.preferences.shortcuts"/>
+    <child name="logo"
+      schema="com.idlecore.passman.preferences.logo"/>
+    <child name="view"
+      schema="com.idlecore.passman.preferences.view"/>
   </schema>
   
-  <schema id="com.idlecore.passman.preferences.password"
-          path="/com/idlecore/passman/preferences/password/">
+  <schema id="com.idlecore.passman.preferences.general"
+          path="/com/idlecore/passman/preferences/general/">
+    <key name="autorun" type="b">
+      <default>true</default>
+    </key>
+    <key name="autohide" type="b">
+      <default>true</default>
+    </key>
+  </schema>
   
-    <key name="size" type="i">
+  <schema id="com.idlecore.passman.preferences.collection"
+          path="/com/idlecore/passman/preferences/collection/">
+    <key name="default" type="b">
+      <default>false</default>
+    </key>
+    <key name="autounlock" type="b">
+      <default>true</default>
+    </key>
+    <key name="autolock" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+  
+  <schema id="com.idlecore.passman.preferences.passwords"
+          path="/com/idlecore/passman/preferences/passwords/">
+    <key name="size" type="q">
       <range min="8" max="256"/>
       <default>20</default>
     </key>
-    
+    <key name="timeout" type="b">
+      <default>true</default>
+    </key>
+    <key name="timeout-interval" type="q">
+      <range min="1" max="65535"/>
+      <default>30</default>
+    </key>
     <key name="alphabet" type="aq">
       <default>
         [97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
@@ -30,22 +67,38 @@
          59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 95, 96, 123, 124, 125, 126]
       </default>
     </key>
+  </schema>
   
+  <schema id="com.idlecore.passman.preferences.shortcuts"
+          path="/com/idlecore/passman/preferences/shortcuts/"
+          gettext-domain="passman">
+    <key name="new" type="s">
+      <default l10n="messages">"Ctrl + N"</default>
+    </key>
+    <key name="edit" type="s">
+      <default l10n="messages">"Ctrl + E"</default>
+    </key>
+    <key name="delete" type="s">
+      <default l10n="messages">"Delete"</default>
+    </key>
+    <key name="start" type="s">
+      <default l10n="messages">"Ctrl + Space"</default>
+    </key>
+    <key name="quit" type="s">
+      <default l10n="messages">"Ctrl + Q"</default>
+    </key>
   </schema>
   
   <schema id="com.idlecore.passman.preferences.logo"
           path="/com/idlecore/passman/preferences/logo/">
-  
-    <key name="size" type="i">
+    <key name="size" type="q">
       <range min="1" max="3"/>
       <default>2</default>
     </key>
-  
   </schema>
   
   <schema id="com.idlecore.passman.preferences.view"
           path="/com/idlecore/passman/preferences/view/">
-  
     <key name="mode" type="s">
       <choices>
         <choice value="grid"/>
@@ -53,20 +106,16 @@
       </choices>
       <default>"list"</default>
     </key>
-  
   </schema>
   
   <schema id="com.idlecore.passman.window"
           path="/com/idlecore/passman/window/">
-    
-    <key name="width" type="i">
+    <key name="width" type="q">
       <default>448</default>
     </key>
-    
-    <key name="height" type="i">
+    <key name="height" type="q">
       <default>640</default>
     </key>
-  
   </schema>
 
 </schemalist>
