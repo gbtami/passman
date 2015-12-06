@@ -5,14 +5,15 @@ Module for the Application class
 '''
 
 import logging
+from pathlib import Path
 
 from gi import require_version
 require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio, GLib
 
-from pathlib import Path
 from header_bar import HeaderBar
 from main_view import MainView
+import dialogs
 
 
 class Application(Gtk.Application):
@@ -94,21 +95,21 @@ class Application(Gtk.Application):
         logo = self.settings.get_child('logo')
         view = self.settings.get_child('view')
         window = Gio.Settings(self.schema_id + '.window')
-        logo.set_int('size', self.logo_size)
+        logo.set_value('size',
+                       GLib.Variant('q', self.logo_size))
         view.set_string('mode', self.view_mode)
-        self.window_settings.set_int('width', self.width)
-        self.window_settings.set_int('height', self.height)
+        self.window_settings.set_value('width',
+                                       GLib.Variant('q', self.width))
+        self.window_settings.set_value('height',
+                                       GLib.Variant('q', self.height))
     
     def on_preferences(self, obj, param):
         if self.preferences_dialog != None:
             self.preferences_dialog.present()
             return
-        builder = Gtk.Builder.new_from_file(self.preferences_file)
-        dialog = builder.get_object('preferences_dialog')
-        dialog.set_transient_for(self.window)
-        self.preferences_dialog = dialog
-        dialog.run()
-        dialog.destroy()
+        self.preferences_dialog = dialogs.Preferences(self)
+        self.preferences_dialog.run()
+        self.preferences_dialog.destroy()
         self.preferences_dialog = None
     
     def on_help(self, obj, param):
