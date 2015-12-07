@@ -72,12 +72,6 @@ class HeaderBar(Gtk.HeaderBar):
             button.logo.set_size(size)
             button.show_all()
     
-    def on_settings(self, obj, param):
-        print('on_settings')
-    
-    def on_test(self, obj, param):
-        print('on_test')
-    
     def on_add(self, button):
         dialog = dialogs.Add(self.app)
         response = dialog.run()
