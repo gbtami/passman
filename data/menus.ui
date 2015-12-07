@@ -63,12 +63,12 @@
         <property name="column_spacing">8</property>
         <property name="row_spacing">8</property>
         <child>
-          <object class="GtkGrid">
+          <object class="GtkGrid" id="view">
             <property name="visible">True</property>
             <property name="orientation">horizontal</property>
             <style><class name="linked"/></style>
             <child>
-              <object class="GtkModelButton">
+              <object class="GtkModelButton" id="grid">
                 <property name="visible">True</property>
                 <property name="iconic">True</property>
                 <property name="icon">icon_grid</property>
@@ -77,14 +77,18 @@
               </object>
             </child>
             <child>
-              <object class="GtkModelButton">
+              <object class="GtkModelButton" id="list">
                 <property name="visible">True</property>
                 <property name="iconic">True</property>
                 <property name="icon">icon_list</property>
                 <property name="action-name">app.view_mode</property>
                 <property name="action-target">"list"</property>
               </object>
-                </child>
+            </child>
+            <focus-chain>
+              <widget name="grid"/>
+              <widget name="list"/>
+            </focus-chain>
           </object>
         </child>
         <child>
@@ -100,6 +104,10 @@
             </marks>
           </object>
         </child>
+        <focus-chain>
+          <widget name="view"/>
+          <widget name="scale"/>
+        </focus-chain>
       </object>
     </child>
   </object>
