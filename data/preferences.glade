@@ -23,6 +23,17 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
   <requires lib="gtk+" version="3.16"/>
   <!-- interface-license-type gplv3 -->
   <!-- interface-name Passman -->
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">256</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">8</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">65535</property>
+    <property name="value">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkDialog" id="alphabet_dialog">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
@@ -1041,11 +1052,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSpinButton" id="spinbutton1">
+                  <object class="GtkSpinButton" id="size">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
                     <property name="input_purpose">number</property>
+                    <property name="adjustment">adjustment1</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -1207,7 +1219,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkCheckButton" id="checkbutton7">
+                  <object class="GtkCheckButton" id="timeout">
                     <property name="label" translatable="yes">Set password timeout:</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -1215,6 +1227,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                     <property name="xalign">0</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_timeout_toggled" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -1222,11 +1235,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSpinButton" id="spinbutton2">
+                  <object class="GtkSpinButton" id="interval">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
                     <property name="input_purpose">number</property>
+                    <property name="adjustment">adjustment2</property>
                     <property name="value">30</property>
                   </object>
                   <packing>
