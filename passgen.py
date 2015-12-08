@@ -7,6 +7,7 @@ Module for the Password Random Generator class
 
 from gi.repository import Gio
 import random
+import string
 
 
 class PassGen:
@@ -17,8 +18,16 @@ class PassGen:
     def __init__(self, app):
         settings = app.settings.get_child('passwords')
         self.size = settings['size']
-        self.alphabet = settings['alphabet']
+        self.alphabet = ''
+        if settings['lowercase']:
+            self.alphabet += string.ascii_lowercase
+        if settings['uppercase']:
+            self.alphabet += string.ascii_uppercase
+        if settings['digits']:
+            self.alphabet += string.digits
+        for i in settings['punctuation']:
+            self.alphabet += chr(i)
         r = random.SystemRandom()
         self.password = [r.choice(self.alphabet) for i in range(self.size)]
-        self.password = ''.join([chr(p) for p in self.password])
+        self.password = ''.join(self.password)
 
