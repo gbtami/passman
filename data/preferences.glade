@@ -504,7 +504,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     <columns>
       <!-- column-name Action -->
       <column type="gchararray"/>
-      <!-- column-name Shotcut -->
+      <!-- column-name Shortcut -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -519,6 +519,14 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
       <row>
         <col id="0" translatable="yes">Delete</col>
         <col id="1" translatable="yes">Delete</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Tile/List</col>
+        <col id="1" translatable="yes"/>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Size</col>
+        <col id="1" translatable="yes"/>
       </row>
       <row>
         <col id="0" translatable="yes">Start</col>
