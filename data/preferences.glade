@@ -522,11 +522,11 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
       </row>
       <row>
         <col id="0" translatable="yes">Tile/List</col>
-        <col id="1" translatable="yes"/>
+        <col id="1" translatable="yes"> </col>
       </row>
       <row>
         <col id="0" translatable="yes">Size</col>
-        <col id="1" translatable="yes"/>
+        <col id="1" translatable="yes"> </col>
       </row>
       <row>
         <col id="0" translatable="yes">Start</col>
