@@ -33,8 +33,8 @@ class Application(Gtk.Application):
     config_dir = Path(GLib.get_user_config_dir()) / app_dir
     log_dir = config_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
-    menus_file = str(data_dir / 'menus.ui')
-    preferences_file = str(data_dir / 'preferences.glade')
+    gui_glade = str(data_dir / 'gui.glade')
+    gui_ui = str(data_dir / 'gui.ui')
     schemas_dir = str(data_dir / 'schemas')
     schema_id = app_id
     
@@ -68,7 +68,7 @@ class Application(Gtk.Application):
         self.main_view = MainView(self)
         
         self.add_actions()
-        builder = Gtk.Builder.new_from_file(self.menus_file)
+        builder = Gtk.Builder.new_from_file(self.gui_ui)
         app_menu = builder.get_object('app_menu')
         self.set_app_menu(app_menu)
 

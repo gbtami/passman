@@ -37,7 +37,7 @@ class HeaderBar(Gtk.HeaderBar):
         action.connect('activate', self.view_mode)
         
         button = Gtk.MenuButton()
-        builder = Gtk.Builder.new_from_file(self.app.menus_file)
+        builder = Gtk.Builder.new_from_file(self.app.gui_ui)
         bar_menu = builder.get_object('bar_menu')
         button.set_popover(bar_menu)
         icon = Gio.ThemedIcon(name='open-menu-symbolic')
