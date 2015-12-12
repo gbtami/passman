@@ -126,44 +126,5 @@
     <property name="page_increment">1</property>
     <property name="value">2</property>
   </object>
-  
-  <object class="GtkListStore" id="shortcuts_liststore">
-    <columns>
-      <!-- column-name Action -->
-      <column type="gchararray"/>
-      <!-- column-name Shortcut -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">New</col>
-        <col id="1" translatable="yes">Ctrl + N</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Edit</col>
-        <col id="1" translatable="yes">Ctrl + E</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Delete</col>
-        <col id="1" translatable="yes">Delete</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Tile/List</col>
-        <col id="1" translatable="yes"> </col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Size</col>
-        <col id="1" translatable="yes"> </col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Start</col>
-        <col id="1" translatable="yes">Ctrl + Space</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Quit</col>
-        <col id="1" translatable="yes">Ctrl + Q</col>
-      </row>
-    </data>
-  </object>
 
 </interface>
