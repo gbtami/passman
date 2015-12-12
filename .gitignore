@@ -63,6 +63,5 @@ files
 ve0
 stack
 windows
-data/#preferences.glade#
-data/preferences.glade~
-
+data/#gui.glade#
+data/gio.glade~
