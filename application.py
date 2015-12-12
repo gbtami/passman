@@ -49,8 +49,9 @@ class Application(Gtk.Application):
     
     def on_startup(self, app):
         self.settings = Gio.Settings(self.schema_id + '.preferences')
-        self.view_mode = self.settings.get_child('view')['mode']
-        self.logo_size = self.settings.get_child('logo')['size']
+        view_settings = self.settings.get_child('view')
+        self.view_mode = view_settings['mode']
+        self.logo_size = view_settings['size']
         self.window_settings = Gio.Settings(self.schema_id + '.window')
         self.width = self.window_settings['width']
         self.height = self.window_settings['height']
@@ -92,10 +93,9 @@ class Application(Gtk.Application):
         self.height = allocation.height
     
     def on_shutdown(self, app):
-        logo = self.settings.get_child('logo')
         view = self.settings.get_child('view')
         window = Gio.Settings(self.schema_id + '.window')
-        logo.set_value('size',
+        view.set_value('size',
                        GLib.Variant('q', self.logo_size))
         view.set_string('mode', self.view_mode)
         self.window_settings.set_value('width',

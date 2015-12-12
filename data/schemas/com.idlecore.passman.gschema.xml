@@ -15,8 +15,6 @@
       schema="com.idlecore.passman.preferences.passwords"/>
     <child name="shortcuts"
       schema="com.idlecore.passman.preferences.shortcuts"/>
-    <child name="logo"
-      schema="com.idlecore.passman.preferences.logo"/>
     <child name="view"
       schema="com.idlecore.passman.preferences.view"/>
   </schema>
@@ -77,33 +75,35 @@
   <schema id="com.idlecore.passman.preferences.shortcuts"
           path="/com/idlecore/passman/preferences/shortcuts/"
           gettext-domain="passman">
-    <key name="new" type="s">
+    <key name="account-new" type="s">
       <default l10n="messages">"Ctrl + N"</default>
     </key>
-    <key name="edit" type="s">
+    <key name="account-edit" type="s">
       <default l10n="messages">"Ctrl + E"</default>
     </key>
-    <key name="delete" type="s">
+    <key name="account-delete" type="s">
       <default l10n="messages">"Delete"</default>
     </key>
-    <key name="start" type="s">
+    <key name="view-tile-list" type="s">
+      <default l10n="messages">""</default>
+    </key>
+    <key name="view-size" type="s">
+      <default l10n="messages">""</default>
+    </key>
+    <key name="app-start" type="s">
       <default l10n="messages">"Ctrl + Space"</default>
     </key>
-    <key name="quit" type="s">
+    <key name="app-quit" type="s">
       <default l10n="messages">"Ctrl + Q"</default>
-    </key>
-  </schema>
-  
-  <schema id="com.idlecore.passman.preferences.logo"
-          path="/com/idlecore/passman/preferences/logo/">
-    <key name="size" type="q">
-      <range min="1" max="3"/>
-      <default>2</default>
     </key>
   </schema>
   
   <schema id="com.idlecore.passman.preferences.view"
           path="/com/idlecore/passman/preferences/view/">
+    <key name="size" type="q">
+      <range min="1" max="3"/>
+      <default>2</default>
+    </key>
     <key name="mode" type="s">
       <choices>
         <choice value="grid"/>
