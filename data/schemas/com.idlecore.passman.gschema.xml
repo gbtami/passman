@@ -76,10 +76,10 @@
           path="/com/idlecore/passman/preferences/shortcuts/"
           gettext-domain="passman">
     <key name="account-new" type="s">
-      <default l10n="messages">"Ctrl + N"</default>
+      <default l10n="messages">"Ctrl+N"</default>
     </key>
     <key name="account-edit" type="s">
-      <default l10n="messages">"Ctrl + E"</default>
+      <default l10n="messages">"Ctrl+E"</default>
     </key>
     <key name="account-delete" type="s">
       <default l10n="messages">"Delete"</default>
@@ -91,10 +91,10 @@
       <default l10n="messages">""</default>
     </key>
     <key name="app-start" type="s">
-      <default l10n="messages">"Ctrl + Space"</default>
+      <default l10n="messages">"Ctrl+Space"</default>
     </key>
     <key name="app-quit" type="s">
-      <default l10n="messages">"Ctrl + Q"</default>
+      <default l10n="messages">"Ctrl+Q"</default>
     </key>
   </schema>
   

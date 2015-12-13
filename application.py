@@ -48,11 +48,11 @@ class Application(Gtk.Application):
         self.connect('shutdown', self.on_shutdown)
     
     def on_startup(self, app):
-        self.settings = Gio.Settings(self.schema_id + '.preferences')
+        self.settings = Gio.Settings(schema=self.schema_id + '.preferences')
         view_settings = self.settings.get_child('view')
         self.view_mode = view_settings['mode']
         self.logo_size = view_settings['size']
-        self.window_settings = Gio.Settings(self.schema_id + '.window')
+        self.window_settings = Gio.Settings(schema=self.schema_id + '.window')
         self.width = self.window_settings['width']
         self.height = self.window_settings['height']
         self.about_dialog = None
@@ -94,7 +94,7 @@ class Application(Gtk.Application):
     
     def on_shutdown(self, app):
         view = self.settings.get_child('view')
-        window = Gio.Settings(self.schema_id + '.window')
+        window = Gio.Settings(schema=self.schema_id + '.window')
         view.set_value('size',
                        GLib.Variant('q', self.logo_size))
         view.set_string('mode', self.view_mode)
@@ -119,7 +119,7 @@ class Application(Gtk.Application):
         if self.about_dialog != None:
             self.about_dialog.present()
             return
-        dialog = Gtk.AboutDialog(None, self.window)
+        dialog = Gtk.AboutDialog(transient_for=self.window)
         #dialog.props.artists = ['artists']
         dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
         dialog.props.comments = _('Easy to use password manager.')
