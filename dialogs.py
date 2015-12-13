@@ -21,13 +21,13 @@ class Add(Gtk.Dialog):
     
     def __init__(self, app):
         self.app = app
-        buttons = ('_OK', Gtk.ResponseType.OK,
-                   '_Cancel', Gtk.ResponseType.CANCEL)
         properties = {'use_header_bar': True}
-        super().__init__(None, app.window, 0, buttons, **properties)
+        super().__init__(transient_for=app.window, **properties)
+        self.add_buttons('_OK', Gtk.ResponseType.OK,
+                         '_Cancel', Gtk.ResponseType.CANCEL)
         # I set the title on the next line instead of the constructor because
         # this way the window width is recalculated to show the entire title.
-        self.get_header_bar().set_custom_title(Gtk.Label(self.title))
+        self.get_header_bar().set_custom_title(Gtk.Label(label=self.title))
         self.set_default_response(Gtk.ResponseType.OK)
         
         grid = Gtk.Grid()
@@ -43,7 +43,7 @@ class Add(Gtk.Dialog):
         button.set_halign(Gtk.Align.CENTER)
         grid.attach(button, 0, 0, 1, 1)
         
-        label = Gtk.Label(_('<b>Service</b>'), **{'use-markup': True})
+        label = Gtk.Label(label=_('<b>Service</b>'), **{'use-markup': True})
         frame = Gtk.Frame(label_widget=label)
         frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.service = Gtk.Entry()
@@ -53,7 +53,7 @@ class Add(Gtk.Dialog):
         grid.attach(frame, 0, 1, 1, 1)
         self.service.grab_focus()
         
-        label = Gtk.Label(_('<b>Username</b>'), **{'use-markup': True})
+        label = Gtk.Label(label=_('<b>Username</b>'), **{'use-markup': True})
         frame = Gtk.Frame(label_widget=label)
         frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.username = Gtk.Entry()
@@ -142,10 +142,10 @@ class Preferences(Gtk.Dialog):
     def __init__(self, app):
         self.app = app
         properties = {'use_header_bar': True}
-        super().__init__(None, app.window, 0, None, **properties)
+        super().__init__(transient_for=app.window, **properties)
         # I set the title on the next line instead of the constructor because
         # this way the window width is recalculated to show the entire title.
-        self.get_header_bar().set_custom_title(Gtk.Label(self.title))
+        self.get_header_bar().set_custom_title(Gtk.Label(label=self.title))
         
         self.builder = Gtk.Builder.new_from_file(app.gui_glade)
         self.builder.connect_signals(self)
@@ -197,26 +197,46 @@ class Preferences(Gtk.Dialog):
         punctuation.handler_unblock(self.handle)
         
         self.shortcuts = app.settings.get_child('shortcuts')
-        store = Gtk.TreeStore(str, str)
-        account = store.append(None, ['Account', ''])
-        store.append(account, ['New', self.shortcuts['account-new']])
-        store.append(account, ['Edit', self.shortcuts['account-edit']])
-        store.append(account, ['Delete', self.shortcuts['account-delete']])
-        view = store.append(None, ['View', ''])
-        store.append(view, ['Tile/List', self.shortcuts['view-time-list']])
-        store.append(view, ['Size', self.shortcuts['view-size']])
-        application = store.append(None, ['Application', ''])
-        store.append(application, ['Start', self.shortcuts['app-start']])
-        store.append(application, ['Quit', self.shortcuts['app-quit']])
-        tree = Gtk.TreeView(store)
+        self.store = Gtk.TreeStore(str, str, str, bool)
+        values = ['Account', '', '', False]
+        account = self.store.append(None, values)
+        values = ['New', self.shortcuts['account-new'],
+                  'account-new', True]
+        self.store.append(account, values)
+        values = ['Edit', self.shortcuts['account-edit'],
+                  'account-edit', True]
+        self.store.append(account, values)
+        values = ['Delete', self.shortcuts['account-delete'],
+                  'account-delete', True]
+        self.store.append(account, values)
+        values = ['View', '', '', False]
+        view = self.store.append(None, values)
+        values = ['Tile/List', self.shortcuts['view-tile-list'],
+                  'view-tile-list', True]
+        self.store.append(view, values)
+        values = ['Size', self.shortcuts['view-size'],
+                  'view-size', True]
+        self.store.append(view, values)
+        values = ['Application', '', '', False]
+        application = self.store.append(None, values)
+        values = ['Start', self.shortcuts['app-start'],
+                  'app-start', True]
+        self.store.append(application, values)
+        values = ['Quit', self.shortcuts['app-quit'],
+                  'app-quit',  True]
+        self.store.append(application, values)
+        tree = Gtk.TreeView(model=self.store)
         renderer = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn('Action', renderer, text=0)
         column.set_expand(True)
         column.set_alignment(0.5)
         tree.append_column(column)
         renderer = Gtk.CellRendererAccel()
+        renderer.set_property('editable', True)
         renderer.set_alignment(0.5, 0.5)
-        column = Gtk.TreeViewColumn('Shortcut key', renderer, text=1)
+        renderer.connect('accel-edited', self.on_accel_edited)
+        column = Gtk.TreeViewColumn('Shortcut key', renderer,
+                                    text=1, editable=3)
         column.set_expand(True)
         column.set_alignment(0.5)
         tree.append_column(column)
@@ -269,13 +289,14 @@ class Preferences(Gtk.Dialog):
         self.passwords.set_boolean('digits', toggle_button.get_active())
     
     def on_punctuation_toggled(self, toggle_button):
-        buttons = ('_OK', Gtk.ResponseType.OK,
-                   '_Cancel', Gtk.ResponseType.CANCEL)
         properties = {'use_header_bar': True}
-        dialog = Gtk.Dialog(None, self, 0, buttons, **properties)
+        dialog = Gtk.Dialog(transient_for=self, **properties)
+        dialog.add_buttons('_OK', Gtk.ResponseType.OK,
+                           '_Cancel', Gtk.ResponseType.CANCEL)
         # I set the title on the next line instead of the constructor because
         # this way the window width is recalculated to show the entire title.
-        dialog.get_header_bar().set_custom_title(Gtk.Label(_('Punctuation')))
+        label = Gtk.Label(label=_('Punctuation'))
+        dialog.get_header_bar().set_custom_title(label)
         dialog.set_default_response(Gtk.ResponseType.OK)
         box = dialog.get_content_area()
         box.set_border_width(0)
@@ -319,4 +340,12 @@ class Preferences(Gtk.Dialog):
         for c in ' ' + string.punctuation:
             key = self.builder.get_object(str(ord(c)))
             key.set_active(False)
+    
+    def on_accel_edited(self, cell_renderer_accel, path_string,
+                        accel_key, accel_mods, hardware_keycode):
+        cell_iter = self.store.get_iter_from_string(path_string)
+        label = Gtk.accelerator_get_label(accel_key, accel_mods)
+        self.store[cell_iter][1] = label
+        value = self.store[cell_iter][2]
+        self.shortcuts.set_value(value, GLib.Variant('s', label))
 
