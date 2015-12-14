@@ -31,6 +31,8 @@ class Application(Gtk.Application):
     data_dir = Path(GLib.get_user_data_dir()) / app_dir
     img_dir = data_dir / 'images'
     config_dir = Path(GLib.get_user_config_dir()) / app_dir
+    autostart_dir = Path(GLib.get_user_config_dir()) / 'autostart'
+    autostart_file = 'passman-autostart.desktop'
     log_dir = config_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     gui_glade = str(data_dir / 'gui.glade')
@@ -43,9 +45,15 @@ class Application(Gtk.Application):
         # argument flags=Gio.ApplicationFlags.FLAGS_NONE, this is the
         # default behaviour already, so it's not required.
         super().__init__(application_id=self.app_id)
+        description = ('Start the application hidden. '
+                       'Useful when you start the application at login.')
+        self.add_main_option('hide', 0, GLib.OptionFlags.NONE,
+                             GLib.OptionArg.NONE, description, None)
+        self.hide = False
         self.connect('activate', self.on_activate)
         self.connect('startup', self.on_startup)
         self.connect('shutdown', self.on_shutdown)
+        self.connect('handle-local-options', self.on_handle_local_options)
     
     def on_startup(self, app):
         self.settings = Gio.Settings(schema=self.schema_id + '.preferences')
@@ -75,6 +83,12 @@ class Application(Gtk.Application):
 
         self.window.add(self.main_view)
     
+    def on_handle_local_options(self, application, options):
+        if options.contains('hide'):
+            self.hide = True
+        # All ok, process the rest of the command line
+        return -1
+    
     def add_actions(self):
         action_methods = {'preferences': self.on_preferences,
                           'help': self.on_help,
@@ -86,7 +100,12 @@ class Application(Gtk.Application):
             action.connect('activate', method)
     
     def on_activate(self, app):
-        self.window.show_all()
+        if self.hide:
+            self.window.hide()
+            self.hide = False
+        else:
+            self.window.show()
+            self.window.present()
     
     def on_size_allocate(self, widget, allocation):
         self.width = allocation.width
