@@ -24,7 +24,12 @@ class MainView(Gtk.ScrolledWindow):
         super().__init__()
         self.app = app
         self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
+        self.load_settings()
         self.load_widgets()
+    
+    def load_settings(self):
+        general_settings = self.app.settings.get_child('general')
+        self.autohide = general_settings['autohide']
     
     def load_widgets(self):
         self.flowbox = Gtk.FlowBox()
@@ -118,6 +123,8 @@ class MainView(Gtk.ScrolledWindow):
         text = button.item.get_secret().get_text()
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, len(text))
+        if self.autohide:
+            self.app.window.hide()
     
     def on_button_press(self, widget, event):
         # Right mouse button click
