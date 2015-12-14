@@ -48,6 +48,7 @@ class HeaderBar(Gtk.HeaderBar):
         scale = builder.get_object('scale')
         scale.set_value(app.logo_size)
         scale.connect('value-changed', self.on_value_changed)
+        self.show_all()
     
     def view_mode(self, action, target):
         self.app.view_mode = target.get_string()
