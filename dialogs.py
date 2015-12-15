@@ -4,7 +4,10 @@
 Module for the Dialog classes
 '''
 
+import os
+import os.path
 import string
+import shutil
 
 from gi import require_version
 require_version('Gtk', '3.0')
@@ -159,7 +162,9 @@ class Preferences(Gtk.Dialog):
         
         self.collection = app.settings.get_child('collection')
         default = self.builder.get_object('default')
-        default.set_active(self.collection['default'])
+        is_default = self.app.main_view.secret.is_default()
+        default.set_active(is_default)
+        default.set_sensitive(not is_default)
         autolock = self.builder.get_object('autolock')
         autolock.set_active(self.collection['autolock'])
         autounlock = self.builder.get_object('autounlock')
@@ -172,11 +177,13 @@ class Preferences(Gtk.Dialog):
         # the check button construction there is a toggled signal that gets
         # processed, and I need to use self.interval on that signal's handler.
         self.interval = self.builder.get_object('interval')
+        self.seconds_label = self.builder.get_object('seconds_label')
         self.interval.set_value(self.passwords['interval'])
         timeout = self.builder.get_object('timeout')
         timeout.set_active(self.passwords['timeout'])
         if not timeout.get_active():
             self.interval.set_sensitive(False)
+            self.seconds_label.set_sensitive(False)
         lowercase = self.builder.get_object('lowercase')
         lowercase.set_active(self.passwords['lowercase'])
         uppercase = self.builder.get_object('uppercase')
@@ -250,13 +257,43 @@ class Preferences(Gtk.Dialog):
         self.show_all()
     
     def on_autorun_toggled(self, toggle_button):
-        self.general.set_boolean('autorun', toggle_button.get_active())
+        status = toggle_button.get_active()
+        self.general.set_boolean('autorun', status)
+        if status:
+            source = str(self.app.data_dir / self.app.autostart_file)
+            destination = str(self.app.autostart_dir)
+            shutil.copy(source, destination)
+        else:
+            file_path = str(self.app.autostart_dir / self.app.autostart_file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
     
     def on_autohide_toggled(self, toggle_button):
         self.general.set_boolean('autohide', toggle_button.get_active())
+        self.app.main_view.autohide = True
+    
+    def on_reset_general_clicked(self, button):
+        default = self.general.get_default_value('autorun')
+        autorun = self.builder.get_object('autorun')
+        autorun.set_active(default)
+        default = self.general.get_default_value('autohide')
+        autohide = self.builder.get_object('autohide')
+        autohide.set_active(default)
+    
+    def on_reset_all_clicked(self, button):
+        reset_general = self.builder.get_object('reset_general')
+        reset_collections = self.builder.get_object('reset_collections')
+        reset_passwords = self.builder.get_object('reset_passwords')
+        reset_shortcuts = self.builder.get_object('reset_shortcuts')
+        reset_general.clicked()
+        reset_collections.clicked()
+        reset_passwords.clicked()
+        reset_shortcuts.clicked()
     
     def on_default_toggled(self, toggle_button):
-        self.collection.set_boolean('default', toggle_button.get_active())
+        # This toggle button only ever gets activated by the app.
+        toggle_button.set_sensitive(False)
+        self.app.main_view.secret.set_default()
     
     def on_autolock_toggled(self, toggle_button):
         self.collection.set_boolean('autolock', toggle_button.get_active())
@@ -264,16 +301,26 @@ class Preferences(Gtk.Dialog):
     def on_autounlock_toggled(self, toggle_button):
         self.collection.set_boolean('autounlock', toggle_button.get_active())
     
-    def on_timeout_toggled(self, toggle_button):
-        if toggle_button.get_active():
-            self.interval.set_sensitive(True)
-        else:
-            self.interval.set_sensitive(False)
-        self.passwords.set_boolean('timeout', toggle_button.get_active())
+    def on_reset_collections_clicked(self, button):
+        default = self.collection.get_default_value('autolock')
+        autolock = self.builder.get_object('autolock')
+        autolock.set_active(default)
+        default = self.collection.get_default_value('autounlock')
+        autounlock = self.builder.get_object('autounlock')
+        autounlock.set_active(default)
     
     def on_password_size_value_changed(self, adjustment):
         value = GLib.Variant('q', adjustment.get_value())
         self.passwords.set_value('size', value)
+    
+    def on_timeout_toggled(self, toggle_button):
+        if toggle_button.get_active():
+            self.interval.set_sensitive(True)
+            self.seconds_label.set_sensitive(True)
+        else:
+            self.interval.set_sensitive(False)
+            self.seconds_label.set_sensitive(False)
+        self.passwords.set_boolean('timeout', toggle_button.get_active())
     
     def on_timeout_interval_value_changed(self, adjustment):
         value = GLib.Variant('q', adjustment.get_value())
@@ -341,6 +388,37 @@ class Preferences(Gtk.Dialog):
             key = self.builder.get_object(str(ord(c)))
             key.set_active(False)
     
+    def on_reset_passwords_clicked(self, button):
+        default = self.passwords.get_default_value('size')
+        size = self.builder.get_object('size')
+        size.set_value(default.get_uint16())
+        default = self.passwords.get_default_value('timeout')
+        timeout = self.builder.get_object('timeout')
+        timeout.set_active(default)
+        default = self.passwords.get_default_value('interval')
+        interval = self.builder.get_object('interval')
+        interval.set_value(default.get_uint16())
+        default = self.passwords.get_default_value('lowercase')
+        lowercase = self.builder.get_object('lowercase')
+        lowercase.set_active(default)
+        default = self.passwords.get_default_value('uppercase')
+        uppercase = self.builder.get_object('uppercase')
+        uppercase.set_active(default)
+        default = self.passwords.get_default_value('digits')
+        digits = self.builder.get_object('digits')
+        digits.set_active(default)
+        default = self.passwords.get_default_value('punctuation')
+        punctuation = self.builder.get_object('punctuation')
+        self.passwords.set_value('punctuation', default)
+        # I don't want to trigger the toggled signal, I just want
+        # the appearance to change, so I need to block the signal.
+        punctuation.handler_block(self.handle)
+        # The 'punctuation' setting is a list, It's boolean
+        # value is False if it's empty, True otherwise.
+        punctuation.set_active(self.passwords['punctuation'])
+        punctuation.handler_unblock(self.handle)
+        
+    
     def on_accel_edited(self, cell_renderer_accel, path_string,
                         accel_key, accel_mods, hardware_keycode):
         cell_iter = self.store.get_iter_from_string(path_string)
@@ -348,4 +426,11 @@ class Preferences(Gtk.Dialog):
         self.store[cell_iter][1] = label
         value = self.store[cell_iter][2]
         self.shortcuts.set_value(value, GLib.Variant('s', label))
+    
+    def on_reset_shortcuts_clicked(self, button):
+        for i in self.store:
+            for j in i.iterchildren():
+                default = self.shortcuts.get_default_value(j[2])
+                self.shortcuts.set_value(j[2], default)
+                j[1] = default.get_string()
 
