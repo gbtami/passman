@@ -161,10 +161,15 @@ class Preferences(Gtk.Dialog):
         autohide.set_active(self.general['autohide'])
         
         self.collection = app.settings.get_child('collection')
-        default = self.builder.get_object('default')
+        default_button = self.builder.get_object('default_button')
+        default_label = self.builder.get_object('default_label')
         is_default = self.app.main_view.secret.is_default()
-        default.set_active(is_default)
-        default.set_sensitive(not is_default)
+        default_button.set_sensitive(not is_default)
+        text = ''
+        if not is_default:
+            text = '<b>not</b> '
+        label = 'This collection is {}the system\'s default.'.format(text)
+        default_label.set_markup(label)
         autolock = self.builder.get_object('autolock')
         autolock.set_active(self.collection['autolock'])
         autounlock = self.builder.get_object('autounlock')
@@ -290,10 +295,12 @@ class Preferences(Gtk.Dialog):
         reset_passwords.clicked()
         reset_shortcuts.clicked()
     
-    def on_default_toggled(self, toggle_button):
-        # This toggle button only ever gets activated by the app.
-        toggle_button.set_sensitive(False)
+    def on_default_button_clicked(self, button):
+        button.set_sensitive(False)
         self.app.main_view.secret.set_default()
+        label = 'This collection is the system\'s default.'
+        default_label = self.builder.get_object('default_label')
+        default_label.set_markup(label)
     
     def on_autolock_toggled(self, toggle_button):
         self.collection.set_boolean('autolock', toggle_button.get_active())
