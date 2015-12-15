@@ -539,11 +539,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkButton" id="button2">
+                  <object class="GtkButton" id="reset_all">
                     <property name="label" translatable="yes">Reset All</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_reset_all_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -551,11 +552,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button1">
+                  <object class="GtkButton" id="reset_general">
                     <property name="label" translatable="yes">Reset</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_reset_general_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -810,7 +812,6 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">&lt;small&gt;This option requires &lt;b&gt;password timeout&lt;/b&gt; to be enabled.&lt;/small&gt;</property>
@@ -860,11 +861,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkButton" id="button4">
+                  <object class="GtkButton" id="reset_collections">
                     <property name="label" translatable="yes">Reset</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_reset_collections_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -1077,7 +1079,6 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <child>
                   <object class="GtkLabel" id="label40">
                     <property name="visible">True</property>
-                    <property name="sensitive">False</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">&lt;small&gt;Choose the type of characters to use on your randomly generated passwords.&lt;/small&gt;</property>
@@ -1150,7 +1151,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label13">
+                  <object class="GtkLabel" id="seconds_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
@@ -1192,11 +1193,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkButton" id="button3">
+                  <object class="GtkButton" id="reset_passwords">
                     <property name="label" translatable="yes">Reset</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_reset_passwords_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -1303,11 +1305,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkButton" id="button8">
+                  <object class="GtkButton" id="reset_shortcuts">
                     <property name="label" translatable="yes">Reset</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_reset_shortcuts_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
