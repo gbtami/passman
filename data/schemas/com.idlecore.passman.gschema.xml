@@ -31,9 +31,6 @@
   
   <schema id="com.idlecore.passman.preferences.collection"
           path="/com/idlecore/passman/preferences/collection/">
-    <key name="autounlock" type="b">
-      <default>true</default>
-    </key>
     <key name="autolock" type="b">
       <default>false</default>
     </key>

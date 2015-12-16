@@ -172,8 +172,6 @@ class Preferences(Gtk.Dialog):
         default_label.set_markup(label)
         autolock = self.builder.get_object('autolock')
         autolock.set_active(self.collection['autolock'])
-        autounlock = self.builder.get_object('autounlock')
-        autounlock.set_active(self.collection['autounlock'])
         
         self.passwords = app.settings.get_child('passwords')
         size = self.builder.get_object('size')
@@ -305,16 +303,10 @@ class Preferences(Gtk.Dialog):
     def on_autolock_toggled(self, toggle_button):
         self.collection.set_boolean('autolock', toggle_button.get_active())
     
-    def on_autounlock_toggled(self, toggle_button):
-        self.collection.set_boolean('autounlock', toggle_button.get_active())
-    
     def on_reset_collections_clicked(self, button):
         default = self.collection.get_default_value('autolock')
         autolock = self.builder.get_object('autolock')
         autolock.set_active(default)
-        default = self.collection.get_default_value('autounlock')
-        autounlock = self.builder.get_object('autounlock')
-        autounlock.set_active(default)
     
     def on_password_size_value_changed(self, adjustment):
         value = GLib.Variant('q', adjustment.get_value())
