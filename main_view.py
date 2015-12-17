@@ -10,10 +10,12 @@ from gi import require_version
 require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
 require_version('Secret', '1')
-from gi.repository import Gtk, Gdk, Gio, Secret
+from gi.repository import Gtk, Gdk, Gio, GLib, Secret
+
 import dialogs
 import libsecret
 import logogen
+
 
 class MainView(Gtk.ScrolledWindow):
     '''
@@ -23,6 +25,7 @@ class MainView(Gtk.ScrolledWindow):
     def __init__(self, app):
         super().__init__()
         self.app = app
+        self.source = None
         self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
         self.load_settings()
         self.load_widgets()
@@ -30,6 +33,11 @@ class MainView(Gtk.ScrolledWindow):
     def load_settings(self):
         general_settings = self.app.settings.get_child('general')
         self.autohide = general_settings['autohide']
+        collection_settings = self.app.settings.get_child('collection')
+        self.autolock = collection_settings['autolock']
+        password_settings = self.app.settings.get_child('passwords')
+        self.timeout = password_settings['timeout']
+        self.interval = password_settings['interval']
     
     def load_widgets(self):
         self.flowbox = Gtk.FlowBox()
@@ -119,12 +127,27 @@ class MainView(Gtk.ScrolledWindow):
         return True
     
     def on_button_click(self, button):
-        button.item.load_secret_sync()
-        text = button.item.get_secret().get_text()
+        text = self.secret.get_secret(button.item)
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, len(text))
         if self.autohide:
             self.app.window.hide()
+        if self.timeout:
+            if self.source:
+                GLib.source_remove(self.source)
+            args = (self.interval * 1000, self.on_timeout_over)
+            self.source = GLib.timeout_add(*args)
+    
+    def on_timeout_over(self):
+        self.source = None
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.clear()
+        if self.autolock:
+            self.secret.lock()
+        # Gtk calls this function each time a specific interval of time
+        # passes, returning False tells Gtk to stop calling it, this way
+        # this function gets called a single time only, as intended.
+        return False
     
     def on_button_press(self, widget, event):
         # Right mouse button click
