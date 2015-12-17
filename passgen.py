@@ -4,10 +4,10 @@
 Module for the Password Random Generator class
 '''
 
-
-from gi.repository import Gio
 import random
 import string
+
+from gi.repository import Gio
 
 
 class PassGen:
