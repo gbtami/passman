@@ -29,24 +29,24 @@ class LibSecret:
     
     def get_collection(self):
         flags = Secret.ServiceFlags.LOAD_COLLECTIONS
-        service = Secret.Service.get_sync(flags, None)
-        for c in service.get_collections():
+        self.service = Secret.Service.get_sync(flags)
+        for c in self.service.get_collections():
             if c.get_label() == self.collection_name:
                 self.collection = c
                 break
         else:
             flags = Secret.CollectionCreateFlags.COLLECTION_CREATE_NONE
-            args = (service, self.collection_name, None, flags, None)
+            args = (self.service, self.collection_name, None, flags)
             self.collection = Secret.Collection.create_sync(*args)
         if self.collection.get_locked():
-            service.unlock_sync([self.collection])
+            self.service.unlock_sync([self.collection])
             # This is a bug in libsecret, unlock doesn't trigger an item
             # update and so it keeps using a cached version. We need to
             # either notify dbus manually, or reconnect the service and
             # get_collections() again. Reconnecting is easier and cleaner.
-            service.disconnect()
-            service = Secret.Service.get_sync(flags, None)
-            for c in service.get_collections():
+            self.service.disconnect()
+            self.service = Secret.Service.get_sync(flags)
+            for c in self.service.get_collections():
                 if c.get_label() == self.collection_name:
                     self.collection = c
                     break
@@ -72,4 +72,25 @@ class LibSecret:
     
     def delete_item(self, item):
         item.delete_sync()
+    
+    def lock(self):
+        self.service.lock_sync([self.collection])
+    
+    def unlock(self):
+        self.service.unlock_sync([self.collection])
+    
+    def get_secret(self, item):
+        if item.get_locked():
+            self.unlock()
+        item.load_secret_sync()
+        return item.get_secret().get_text()
+    
+    def set_default(self):
+        self.service.set_alias_sync('default', self.collection)
+    
+    def is_default(self):
+        flags = Secret.CollectionFlags.NONE
+        args = (self.service, 'default', flags)
+        default = self.collection.for_alias_sync(*args)
+        return default.get_label() == self.collection_name
 
