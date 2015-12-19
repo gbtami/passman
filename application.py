@@ -9,7 +9,8 @@ from pathlib import Path
 
 from gi import require_version
 require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gio, GLib
+require_version('Gdk', '3.0')
+from gi.repository import Gtk, Gdk, Gio, GLib
 
 from header_bar import HeaderBar
 from main_view import MainView
@@ -82,6 +83,10 @@ class Application(Gtk.Application):
         self.set_app_menu(app_menu)
 
         self.window.add(self.main_view)
+        if self.main_view.secret.is_locked():
+            self.quit()
+        if self.main_view.autolock:
+            self.main_view.secret.lock()
     
     def on_handle_local_options(self, application, options):
         if options.contains('hide'):
@@ -121,6 +126,14 @@ class Application(Gtk.Application):
                                        GLib.Variant('q', self.width))
         self.window_settings.set_value('height',
                                        GLib.Variant('q', self.height))
+        # If the user wants timeouts and autolocks while the
+        # app is running, it makes sense to enforce those on
+        # exit as well, even when the timeout isn't over yet.
+        if self.main_view.timeout:
+            clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+            clipboard.clear()
+            if self.main_view.autolock:
+                self.main_view.secret.lock()
     
     def on_preferences(self, obj, param):
         if self.preferences_dialog != None:
