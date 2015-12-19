@@ -103,7 +103,7 @@
         <choice value="grid"/>
         <choice value="list"/>
       </choices>
-      <default>"list"</default>
+      <default>"grid"</default>
     </key>
   </schema>
   
