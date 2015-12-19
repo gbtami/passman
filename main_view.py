@@ -26,8 +26,8 @@ class MainView(Gtk.ScrolledWindow):
         super().__init__()
         self.app = app
         self.source = None
-        self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
         self.load_settings()
+        self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
         self.load_widgets()
     
     def load_settings(self):
@@ -128,6 +128,8 @@ class MainView(Gtk.ScrolledWindow):
     
     def on_button_click(self, button):
         text = self.secret.get_secret(button.item)
+        if text == None:
+            return
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, len(text))
         if self.autohide:
