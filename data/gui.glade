@@ -798,22 +798,6 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkLabel" id="label16">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="label" translatable="yes">&lt;small&gt;This option requires &lt;b&gt;password timeout&lt;/b&gt; to be enabled.&lt;/small&gt;</property>
-                    <property name="use_markup">True</property>
-                    <property name="justify">fill</property>
-                    <property name="wrap">True</property>
-                    <property name="ellipsize">start</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
               </object>
             </child>
             <child type="label">
@@ -1144,20 +1128,6 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label7">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="label" translatable="yes">&lt;small&gt;This option is required for &lt;b&gt;collection auto-lock&lt;/b&gt;.&lt;/small&gt;</property>
-                    <property name="use_markup">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">3</property>
                   </packing>
                 </child>
               </object>
