@@ -132,8 +132,7 @@ class Edit(Add):
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
         self.notes.get_buffer().set_text(attributes['notes'])
-        item.load_secret_sync()
-        self.password.set_text(item.get_secret().get_text())
+        app.main_view.secret.get_secret(item)
 
 
 class Preferences(Gtk.Dialog):
@@ -304,9 +303,6 @@ class Preferences(Gtk.Dialog):
         status = toggle_button.get_active()
         self.collection.set_boolean('autolock', status)
         self.app.main_view.autolock = status
-        timeout = self.builder.get_object('timeout')
-        if status and not timeout.get_active():
-            timeout.set_active(True)
     
     def on_reset_collections_clicked(self, button):
         default = self.collection.get_default_value('autolock')
@@ -325,9 +321,6 @@ class Preferences(Gtk.Dialog):
         seconds_label.set_sensitive(is_active)
         self.app.main_view.timeout = is_active
         self.passwords.set_boolean('timeout', is_active)
-        if not is_active:
-            autolock = self.builder.get_object('autolock')
-            autolock.set_active(False)
     
     def on_timeout_interval_value_changed(self, adjustment):
         value = GLib.Variant('q', adjustment.get_value())
