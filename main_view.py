@@ -26,8 +26,8 @@ class MainView(Gtk.ScrolledWindow):
         super().__init__()
         self.app = app
         self.source = None
+        self.secret = libsecret.LibSecret(app)
         self.load_settings()
-        self.secret = libsecret.LibSecret(app.name.lower(), app.app_id)
         self.load_widgets()
     
     def load_settings(self):
@@ -51,9 +51,6 @@ class MainView(Gtk.ScrolledWindow):
             self.flowbox.set_max_children_per_line(1)
         else:
             self.flowbox.set_max_children_per_line(256)
-        for item in self.secret.collection.get_items():
-            button = self.create_button(item)
-            self.insert_button(button)
         self.add(self.flowbox)
         self.show_all()
     
@@ -87,11 +84,11 @@ class MainView(Gtk.ScrolledWindow):
         # the actual widgets, can get focus by default. So when the widgets
         # can get focus themselves, navigating with the keyboard becomes very
         # cumbersome, forcing us to tab twice to move between them.
+        child = button.get_parent()
+        child.set_can_focus(False)
         # Also the spacing added by the 'grid-child' style is inconsistent.
         # The space between the items is twice that of the border, so it was
         # removed and is instead configured manually through the flowbox.
-        child = button.get_parent()
-        child.set_can_focus(False)
         style = child.get_style_context()
         style.remove_class('grid-child')
         button.show_all()
@@ -108,6 +105,11 @@ class MainView(Gtk.ScrolledWindow):
     def delete_button(self, button):
         self.flowbox.remove(button.get_parent())
         button.destroy()
+    
+    def init_buttons(self):
+        for item in self.secret.collection.get_items():
+            button = self.create_button(item)
+            self.insert_button(button)
     
     def show_context_menu(self, widget):
         action_methods = {'delete': self.on_delete,
@@ -128,10 +130,10 @@ class MainView(Gtk.ScrolledWindow):
     
     def on_button_click(self, button):
         text = self.secret.get_secret(button.item)
-        if text == None:
-            return
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, len(text))
+        if self.autolock:
+            self.secret.lock()
         if self.autohide:
             self.app.window.hide()
         if self.timeout:
@@ -144,8 +146,6 @@ class MainView(Gtk.ScrolledWindow):
         self.source = None
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.clear()
-        if self.autolock:
-            self.secret.lock()
         # Gtk calls this function each time a specific interval of time
         # passes, returning False tells Gtk to stop calling it, this way
         # this function gets called a single time only, as intended.
