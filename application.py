@@ -50,7 +50,9 @@ class Application(Gtk.Application):
                        'Useful when you start the application at login.')
         self.add_main_option('hide', 0, GLib.OptionFlags.NONE,
                              GLib.OptionArg.NONE, description, None)
-        self.hide = False
+        self.hide_flag = False
+        self.started_hidden = False
+        self.first_run = True
         self.connect('activate', self.on_activate)
         self.connect('startup', self.on_startup)
         self.connect('shutdown', self.on_shutdown)
@@ -81,16 +83,13 @@ class Application(Gtk.Application):
         builder = Gtk.Builder.new_from_file(self.gui_ui)
         app_menu = builder.get_object('app_menu')
         self.set_app_menu(app_menu)
-
+        
         self.window.add(self.main_view)
-        if self.main_view.secret.is_locked():
-            self.quit()
-        if self.main_view.autolock:
-            self.main_view.secret.lock()
     
     def on_handle_local_options(self, application, options):
         if options.contains('hide'):
-            self.hide = True
+            self.hide_flag = True
+            self.started_hidden = True
         # All ok, process the rest of the command line
         return -1
     
@@ -105,12 +104,22 @@ class Application(Gtk.Application):
             action.connect('activate', method)
     
     def on_activate(self, app):
-        if self.hide:
-            self.window.hide()
-            self.hide = False
-        else:
+        if self.hide_flag:
+            self.hide_flag = False
+            return
+        if self.main_view.secret.unlock():
+            if self.first_run:
+                self.first_run = False
+                self.main_view.secret.load_collection()
+                self.main_view.init_buttons()
+            # This show is required because when the window is hidden Gtk
+            # doesn't grab focus when asked to present, which is silly.
             self.window.show()
             self.window.present()
+        else:
+            if not self.started_hidden:
+                self.quit()
+            
     
     def on_size_allocate(self, widget, allocation):
         self.width = allocation.width
@@ -119,21 +128,18 @@ class Application(Gtk.Application):
     def on_shutdown(self, app):
         view = self.settings.get_child('view')
         window = Gio.Settings(schema=self.schema_id + '.window')
-        view.set_value('size',
-                       GLib.Variant('q', self.logo_size))
+        view.set_value('size', GLib.Variant('q', self.logo_size))
         view.set_string('mode', self.view_mode)
         self.window_settings.set_value('width',
                                        GLib.Variant('q', self.width))
         self.window_settings.set_value('height',
                                        GLib.Variant('q', self.height))
-        # If the user wants timeouts and autolocks while the
-        # app is running, it makes sense to enforce those on
-        # exit as well, even when the timeout isn't over yet.
+        # If the user wants timeouts while the app is running, it makes sense
+        # to enforce those on exit as well, even when the timeout isn't over.
         if self.main_view.timeout:
             clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
             clipboard.clear()
-            if self.main_view.autolock:
-                self.main_view.secret.lock()
+        self.main_view.secret.lock()
     
     def on_preferences(self, obj, param):
         if self.preferences_dialog != None:
@@ -155,8 +161,8 @@ class Application(Gtk.Application):
         #dialog.props.artists = ['artists']
         dialog.props.authors = ['Pedro \'xor\' Azevedo <passman@idlecore.com>']
         dialog.props.comments = _('Easy to use password manager.')
-        copyright = _('Copyright © 2015 - {} authors')
-        dialog.props.copyright = copyright.format(self.name)
+        dialog_copyright = _('Copyright © 2015 - {} authors')
+        dialog.props.copyright = dialog_copyright.format(self.name)
         #dialog.props.documenters = ['documenters']
         #dialog.props.license = 'license'
         dialog.props.license_type = Gtk.License.GPL_3_0
