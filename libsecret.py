@@ -13,9 +13,9 @@ class LibSecret:
     LibSecret class
     '''
     
-    def __init__(self, collection_name, schema_name):
-        self.collection_name = collection_name
-        self.make_schema(schema_name)
+    def __init__(self, app):
+        self.collection_name = app.name.lower()
+        self.make_schema(app.app_id)
         self.get_collection()
     
     def make_schema(self, name):
@@ -38,18 +38,19 @@ class LibSecret:
             flags = Secret.CollectionCreateFlags.COLLECTION_CREATE_NONE
             args = (self.service, self.collection_name, None, flags)
             self.collection = Secret.Collection.create_sync(*args)
-        if self.collection.get_locked():
-            self.service.unlock_sync([self.collection])
-            # This is a bug in libsecret, unlock doesn't trigger an item
-            # update and so it keeps using a cached version. We need to
-            # either notify dbus manually, or reconnect the service and
-            # get_collections() again. Reconnecting is easier and cleaner.
-            self.service.disconnect()
-            self.service = Secret.Service.get_sync(flags)
-            for c in self.service.get_collections():
-                if c.get_label() == self.collection_name:
-                    self.collection = c
-                    break
+        
+    def load_collection(self):
+        # This is a bug in libsecret, unlock doesn't trigger an item
+        # update and so it keeps using a cached version. We need to
+        # either notify dbus manually, or reconnect the service and
+        # get_collections() again. Reconnecting is easier and cleaner.
+        self.service.disconnect()
+        flags = Secret.ServiceFlags.LOAD_COLLECTIONS
+        self.service = Secret.Service.get_sync(flags)
+        for c in self.service.get_collections():
+            if c.get_label() == self.collection_name:
+                self.collection = c
+                break
     
     def create_item(self, service, username, password, notes):
         attributes = {'logo': '', 'service': service,
@@ -73,17 +74,18 @@ class LibSecret:
     def delete_item(self, item):
         item.delete_sync()
     
-    def lock(self):
-        self.service.lock_sync([self.collection])
-    
-    def unlock(self):
-        self.service.unlock_sync([self.collection])
-    
     def get_secret(self, item):
-        if item.get_locked():
-            self.unlock()
         item.load_secret_sync()
         return item.get_secret().get_text()
+    
+    def lock(self):
+        return self.service.lock_sync([self.collection])[0] == 1
+    
+    def unlock(self):
+        return self.service.unlock_sync([self.collection])[0] == 1
+    
+    def is_locked(self):
+        return self.collection.get_locked()
     
     def set_default(self):
         self.service.set_alias_sync('default', self.collection)
