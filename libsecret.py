@@ -6,7 +6,10 @@ Module for the libsecret API
 
 from gi import require_version
 require_version('Secret', '1')
-from gi.repository import Secret
+# Yes, I know gnome-keyring is deprecated, I also know libsecret has
+# no way to change the password of a collection, so here we are.
+require_version('GnomeKeyring', '1.0')
+from gi.repository import Secret, GnomeKeyring
 
 class LibSecret:
     '''
@@ -86,6 +89,9 @@ class LibSecret:
     
     def is_locked(self):
         return self.collection.get_locked()
+    
+    def change_password(self):
+        GnomeKeyring.change_password_sync(self.collection_name, None, None)
     
     def set_default(self):
         self.service.set_alias_sync('default', self.collection)
