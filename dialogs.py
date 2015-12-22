@@ -299,6 +299,9 @@ class Preferences(Gtk.Dialog):
         default_label = self.builder.get_object('default_label')
         default_label.set_markup(label)
     
+    def on_change_password_clicked(self, button):
+        self.app.main_view.secret.change_password()
+    
     def on_autolock_toggled(self, toggle_button):
         status = toggle_button.get_active()
         self.collection.set_boolean('autolock', status)
