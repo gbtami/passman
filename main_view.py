@@ -47,7 +47,8 @@ class MainView(Gtk.ScrolledWindow):
         self.flowbox.set_column_spacing(self.app.spacing)
         self.flowbox.set_row_spacing(self.app.spacing)
         self.flowbox.set_homogeneous(True)
-        if self.app.view_mode == 'list':
+        view_mode = self.app.window.get_titlebar().view_mode
+        if view_mode == 'list':
             self.flowbox.set_max_children_per_line(1)
         else:
             self.flowbox.set_max_children_per_line(256)
