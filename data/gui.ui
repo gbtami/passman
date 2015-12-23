@@ -16,8 +16,6 @@
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">app.about</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Quit</attribute>
         <attribute name="action">app.quit</attribute>
@@ -72,7 +70,7 @@
                 <property name="visible">True</property>
                 <property name="iconic">True</property>
                 <property name="icon">icon_grid</property>
-                <property name="action-name">app.view_mode</property>
+                <property name="action-name">app.view_mode_switch</property>
                 <property name="action-target">"grid"</property>
               </object>
             </child>
@@ -81,7 +79,7 @@
                 <property name="visible">True</property>
                 <property name="iconic">True</property>
                 <property name="icon">icon_list</property>
-                <property name="action-name">app.view_mode</property>
+                <property name="action-name">app.view_mode_switch</property>
                 <property name="action-target">"list"</property>
               </object>
             </child>
