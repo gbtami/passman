@@ -19,9 +19,9 @@ class LogoGen:
     def __init__(self, app, service, username):
         self.service = service
         self.username = username
-        size = app.logo_size
+        size = app.window.get_titlebar().view_size
         self.size = size
-        view_mode = app.view_mode
+        view_mode = app.window.get_titlebar().view_mode
         self.mode = view_mode
         self.grid = Gtk.Grid()
         self.image = Gtk.Image()
