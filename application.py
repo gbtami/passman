@@ -60,12 +60,9 @@ class Application(Gtk.Application):
     
     def on_startup(self, app):
         self.settings = Gio.Settings(schema=self.schema_id + '.preferences')
-        view_settings = self.settings.get_child('view')
-        self.view_mode = view_settings['mode']
-        self.logo_size = view_settings['size']
-        self.window_settings = Gio.Settings(schema=self.schema_id + '.window')
-        self.width = self.window_settings['width']
-        self.height = self.window_settings['height']
+        self.win_settings = Gio.Settings(schema=self.schema_id + '.window')
+        self.width = self.win_settings['width']
+        self.height = self.win_settings['height']
         self.about_dialog = None
         self.preferences_dialog = None
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
@@ -94,14 +91,23 @@ class Application(Gtk.Application):
         return -1
     
     def add_actions(self):
-        action_methods = {'preferences': self.on_preferences,
-                          'help': self.on_help,
-                          'about': self.on_about,
-                          'quit': self.on_quit}
-        for name, method in action_methods.items():
+        shortcuts = self.settings.get_child('shortcuts')
+        action_methods = [('preferences', self.on_preferences, ''),
+                          ('help', self.on_help, ''),
+                          ('about', self.on_about, ''),
+                          ('new', self.on_new, 'account-new'),
+                          ('edit', self.on_edit, 'account-edit'),
+                          ('delete', self.on_delete, 'account-delete'),
+                          ('view_mode', self.on_view_mode, 'view-mode'),
+                          ('view_size', self.on_view_size, 'view-size'),
+                          ('start', self.on_start, 'app-start'),
+                          ('quit', self.on_quit, 'app-quit')]
+        for name, method, accel in action_methods:
             action = Gio.SimpleAction(name=name)
             self.add_action(action)
             action.connect('activate', method)
+            if accel and shortcuts[accel]:
+                self.set_accels_for_action('app.' + name, [shortcuts[accel]])
     
     def on_activate(self, app):
         if self.hide_flag:
@@ -126,14 +132,9 @@ class Application(Gtk.Application):
         self.height = allocation.height
     
     def on_shutdown(self, app):
-        view = self.settings.get_child('view')
         window = Gio.Settings(schema=self.schema_id + '.window')
-        view.set_value('size', GLib.Variant('q', self.logo_size))
-        view.set_string('mode', self.view_mode)
-        self.window_settings.set_value('width',
-                                       GLib.Variant('q', self.width))
-        self.window_settings.set_value('height',
-                                       GLib.Variant('q', self.height))
+        self.win_settings.set_value('width', GLib.Variant('q', self.width))
+        self.win_settings.set_value('height', GLib.Variant('q', self.height))
         # If the user wants timeouts while the app is running, it makes sense
         # to enforce those on exit as well, even when the timeout isn't over.
         if self.main_view.timeout:
@@ -178,6 +179,40 @@ class Application(Gtk.Application):
         response = dialog.run()
         dialog.destroy()
         self.about_dialog = None
+    
+    def on_new(self, obj, param):
+        self.window.get_titlebar().on_add(None)
+    
+    def on_edit(self, obj, param):
+        widget = self.window.get_focus()
+        if widget.get_parent() in self.main_view.flowbox:
+            self.main_view.on_edit(None, None, widget)
+    
+    def on_delete(self, obj, param):
+        widget = self.window.get_focus()
+        if widget.get_parent() in self.main_view.flowbox:
+            self.main_view.on_delete(None, None, widget)
+    
+    def on_view_mode(self, action, param):
+        action = self.lookup_action('view_mode_switch')
+        if action.get_state() == GLib.Variant('s', 'list'):
+            mode = GLib.Variant('s', 'grid')
+        else:
+            mode = GLib.Variant('s', 'list')
+        action.activate(mode)
+    
+    def on_view_size(self, obj, param):
+        scale = self.window.get_titlebar().scale
+        adjustment = scale.get_adjustment()
+        increment = adjustment.get_step_increment()
+        value = scale.get_value() + increment
+        upper = adjustment.get_upper()
+        if value > upper:
+            value = adjustment.get_lower()
+        scale.set_value(value)
+    
+    def on_start(self, obj, param):
+        print('on_start')
     
     def on_quit(self, obj, param):
         self.quit()
