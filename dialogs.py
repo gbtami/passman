@@ -206,33 +206,25 @@ class Preferences(Gtk.Dialog):
         
         self.shortcuts = app.settings.get_child('shortcuts')
         self.store = Gtk.TreeStore(str, str, str, bool)
-        values = ['Account', '', '', False]
-        account = self.store.append(None, values)
-        values = ['New', self.shortcuts['account-new'],
-                  'account-new', True]
-        self.store.append(account, values)
-        values = ['Edit', self.shortcuts['account-edit'],
-                  'account-edit', True]
-        self.store.append(account, values)
-        values = ['Delete', self.shortcuts['account-delete'],
-                  'account-delete', True]
-        self.store.append(account, values)
-        values = ['View', '', '', False]
-        view = self.store.append(None, values)
-        values = ['Tile/List', self.shortcuts['view-tile-list'],
-                  'view-tile-list', True]
-        self.store.append(view, values)
-        values = ['Size', self.shortcuts['view-size'],
-                  'view-size', True]
-        self.store.append(view, values)
-        values = ['Application', '', '', False]
-        application = self.store.append(None, values)
-        values = ['Start', self.shortcuts['app-start'],
-                  'app-start', True]
-        self.store.append(application, values)
-        values = ['Quit', self.shortcuts['app-quit'],
-                  'app-quit',  True]
-        self.store.append(application, values)
+        values = [('Account', '', False),
+                  ('New', 'account-new', True),
+                  ('Edit', 'account-edit', True),
+                  ('Delete', 'account-delete', True),
+                  ('View', '', False),
+                  ('Tile/List', 'view-mode', True),
+                  ('Size', 'view-size', True),
+                  ('Application', '', False),
+                  ('Start', 'app-start', True),
+                  ('Quit', 'app-quit',  True)]
+        for tree_label, schema_key, edit in values:
+            if edit:
+                accel_name = self.shortcuts[schema_key]
+                accel_key, accel_mods = Gtk.accelerator_parse(accel_name)
+                accel_label = Gtk.accelerator_get_label(accel_key, accel_mods)
+                values = [tree_label, accel_label, schema_key, True]
+                self.store.append(node, values)
+            else:
+                node = self.store.append(None, [tree_label, '', '', False])
         tree = Gtk.TreeView(model=self.store)
         renderer = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn('Action', renderer, text=0)
@@ -425,15 +417,19 @@ class Preferences(Gtk.Dialog):
     def on_accel_edited(self, cell_renderer_accel, path_string,
                         accel_key, accel_mods, hardware_keycode):
         cell_iter = self.store.get_iter_from_string(path_string)
+        name = Gtk.accelerator_name(accel_key, accel_mods)
         label = Gtk.accelerator_get_label(accel_key, accel_mods)
         self.store[cell_iter][1] = label
         value = self.store[cell_iter][2]
-        self.shortcuts.set_value(value, GLib.Variant('s', label))
+        self.shortcuts.set_value(value, GLib.Variant('s', name))
     
     def on_reset_shortcuts_clicked(self, button):
         for i in self.store:
             for j in i.iterchildren():
                 default = self.shortcuts.get_default_value(j[2])
                 self.shortcuts.set_value(j[2], default)
-                j[1] = default.get_string()
+                accel_name = default.get_string()
+                accel_key, accel_mods = Gtk.accelerator_parse(accel_name)
+                accel_label = Gtk.accelerator_get_label(accel_key, accel_mods)
+                j[1] = accel_label
 
