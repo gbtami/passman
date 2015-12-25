@@ -84,7 +84,7 @@
     <key name="view-size" type="s">
       <default l10n="messages">""</default>
     </key>
-    <key name="app-start" type="s">
+    <key name="app-show" type="s">
       <default l10n="messages">"&lt;Ctrl&gt;space"</default>
     </key>
     <key name="app-quit" type="s">
