@@ -10,7 +10,8 @@ from pathlib import Path
 from gi import require_version
 require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
-from gi.repository import Gtk, Gdk, Gio, GLib
+require_version('Keybinder', '3.0')
+from gi.repository import Gtk, Gdk, Gio, GLib, Keybinder
 
 from header_bar import HeaderBar
 from main_view import MainView
@@ -25,6 +26,7 @@ class Application(Gtk.Application):
     name = 'PassMan'
     title = name
     version = '0.1.0'
+    icon = 'dialog-password'
     website = 'http://www.idlecore.com/passman'
     spacing = 8
     app_id = 'com.idlecore.passman'
@@ -74,6 +76,10 @@ class Application(Gtk.Application):
         self.window.set_default_size(self.width, self.height)
         self.window.set_position(Gtk.WindowPosition.MOUSE)
         self.window.set_titlebar(HeaderBar(self))
+        # We need to set the icon here as a backup, the gnome system monitor
+        # for instance, and for whatever reason, doesn't choose the right icon
+        # sometimes, particularly after hiding the window, and showing again.
+        self.window.set_icon_name(self.icon)
         self.main_view = MainView(self)
         
         self.add_actions()
@@ -81,7 +87,30 @@ class Application(Gtk.Application):
         app_menu = builder.get_object('app_menu')
         self.set_app_menu(app_menu)
         
+        Keybinder.init()
+        shortcuts = self.settings.get_child('shortcuts')
+        Keybinder.bind(shortcuts['app-show'], self.add_show_shortcut)
+        
         self.window.add(self.main_view)
+    
+    def add_show_shortcut(self, keystring):
+        self.activate()
+    
+    def add_show_shortcut_test(self):
+        schema = 'org.gnome.settings-daemon.plugins.media-keys'
+        key = 'custom-keybindings'
+        settings = Gio.Settings(schema=schema)
+        bindings = settings.get_strv(key)
+        custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
+        if custom not in bindings:
+            bindings.append(custom)
+            settings.set_strv(key, bindings)
+            schema = schema + '.' + key[:-1]
+            settings = Gio.Settings(schema=schema, path=custom)
+            settings.set_string('name', self.name)
+            settings.set_string('command', self.name.lower())
+            shortcuts = self.settings.get_child('shortcuts')
+            settings.set_string('binding', shortcuts['app-show'])
     
     def on_handle_local_options(self, application, options):
         if options.contains('hide'):
@@ -100,7 +129,6 @@ class Application(Gtk.Application):
                           ('delete', self.on_delete, 'account-delete'),
                           ('view_mode', self.on_view_mode, 'view-mode'),
                           ('view_size', self.on_view_size, 'view-size'),
-                          ('start', self.on_start, 'app-start'),
                           ('quit', self.on_quit, 'app-quit')]
         for name, method, accel in action_methods:
             action = Gio.SimpleAction(name=name)
@@ -118,14 +146,13 @@ class Application(Gtk.Application):
                 self.first_run = False
                 self.main_view.secret.load_collection()
                 self.main_view.init_buttons()
-            # This show is required because when the window is hidden Gtk
-            # doesn't grab focus when asked to present, which is silly.
             self.window.show()
-            self.window.present()
+            # This seems to be the only way to actually
+            # make the window get keyboard focus.
+            self.window.get_window().focus(0)
         else:
             if not self.started_hidden:
                 self.quit()
-            
     
     def on_size_allocate(self, widget, allocation):
         self.width = allocation.width
@@ -168,7 +195,7 @@ class Application(Gtk.Application):
         #dialog.props.license = 'license'
         dialog.props.license_type = Gtk.License.GPL_3_0
         #dialog.props.logo = None
-        dialog.props.logo_icon_name = 'dialog-password'
+        dialog.props.logo_icon_name = self.icon
         dialog.props.program_name = self.name
         #dialog.props.translator_credits = 'translator_credits'
         dialog.props.version = self.version
@@ -210,9 +237,6 @@ class Application(Gtk.Application):
         if value > upper:
             value = adjustment.get_lower()
         scale.set_value(value)
-    
-    def on_start(self, obj, param):
-        print('on_start')
     
     def on_quit(self, obj, param):
         self.quit()
