@@ -8,4 +8,5 @@ Version=0.0.0.1
 Exec=passman --hide
 Icon=dialog-password
 Type=Application
+Encoding=UTF-8
 Categories=Utility
