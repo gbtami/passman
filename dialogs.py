@@ -11,7 +11,8 @@ import shutil
 
 from gi import require_version
 require_version('Gtk', '3.0')
-from gi.repository import Gtk, GLib, Gio
+require_version('Keybinder', '3.0')
+from gi.repository import Gtk, GLib, Gio, Keybinder
 
 from passgen import PassGen
 
@@ -205,26 +206,26 @@ class Preferences(Gtk.Dialog):
         punctuation.handler_unblock(self.handle)
         
         self.shortcuts = app.settings.get_child('shortcuts')
-        self.store = Gtk.TreeStore(str, str, str, bool)
-        values = [('Account', '', False),
-                  ('New', 'account-new', True),
-                  ('Edit', 'account-edit', True),
-                  ('Delete', 'account-delete', True),
-                  ('View', '', False),
-                  ('Tile/List', 'view-mode', True),
-                  ('Size', 'view-size', True),
-                  ('Application', '', False),
-                  ('Start', 'app-start', True),
-                  ('Quit', 'app-quit',  True)]
-        for tree_label, schema_key, edit in values:
+        self.store = Gtk.TreeStore(str, str, str, bool, str)
+        values = [('Account', '', False, ''),
+                  ('New', 'account-new', True, 'app.new'),
+                  ('Edit', 'account-edit', True, 'app.edit'),
+                  ('Delete', 'account-delete', True, 'app.delete'),
+                  ('View', '', False, ''),
+                  ('Tile/List', 'view-mode', True, 'app.view_mode'),
+                  ('Size', 'view-size', True, 'app.view_size'),
+                  ('Application', '', False, ''),
+                  ('Start', 'app-show', True, 'app.show'),
+                  ('Quit', 'app-quit',  True, 'app.quit')]
+        for tree_label, schema_key, edit, action in values:
             if edit:
                 accel_name = self.shortcuts[schema_key]
                 accel_key, accel_mods = Gtk.accelerator_parse(accel_name)
                 accel_label = Gtk.accelerator_get_label(accel_key, accel_mods)
-                values = [tree_label, accel_label, schema_key, True]
+                values = [tree_label, accel_label, schema_key, True, action]
                 self.store.append(node, values)
             else:
-                node = self.store.append(None, [tree_label, '', '', False])
+                node = self.store.append(None, [tree_label, '', '', False, ''])
         tree = Gtk.TreeView(model=self.store)
         renderer = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn('Action', renderer, text=0)
@@ -235,6 +236,7 @@ class Preferences(Gtk.Dialog):
         renderer.set_property('editable', True)
         renderer.set_alignment(0.5, 0.5)
         renderer.connect('accel-edited', self.on_accel_edited)
+        renderer.connect('accel-cleared', self.on_accel_cleared)
         column = Gtk.TreeViewColumn('Shortcut key', renderer,
                                     text=1, editable=3)
         column.set_expand(True)
@@ -417,19 +419,62 @@ class Preferences(Gtk.Dialog):
     def on_accel_edited(self, cell_renderer_accel, path_string,
                         accel_key, accel_mods, hardware_keycode):
         cell_iter = self.store.get_iter_from_string(path_string)
-        name = Gtk.accelerator_name(accel_key, accel_mods)
+        accel_name = Gtk.accelerator_name(accel_key, accel_mods)
         label = Gtk.accelerator_get_label(accel_key, accel_mods)
         self.store[cell_iter][1] = label
+        if self.store[cell_iter][4] == 'app.show':
+            self.set_app_show(accel_name)
+        else:
+            self.set_accel(accel_name, self.store[cell_iter][4])
         value = self.store[cell_iter][2]
-        self.shortcuts.set_value(value, GLib.Variant('s', name))
+        self.shortcuts.set_value(value, GLib.Variant('s', accel_name))
+    
+    def on_accel_cleared(self, cell_renderer_accel, path_string):
+        cell_iter = self.store.get_iter_from_string(path_string)
+        self.store[cell_iter][1] = ''
+        if self.store[cell_iter][4] == 'app.show':
+            self.set_app_show('')
+        else:
+            self.set_accel('', self.store[cell_iter][4])
+        value = self.store[cell_iter][2]
+        self.shortcuts.set_value(value, GLib.Variant('s', ''))
+    
+    def set_accel(self, accel_name, action):
+        accels = self.app.get_accels_for_action(action)
+        if accels:
+            self.app.remove_accelerator(action, None)
+        if accel_name:
+            self.app.set_accels_for_action(action, [accel_name])
+    
+    def set_app_show(self, new):
+        '''
+        We expect gsettings hasn't been changed yet.
+        '''
+        Keybinder.unbind(self.shortcuts['app-show'])
+        Keybinder.bind(new, self.app.add_show_shortcut)
+    
+    # Can't check if the shortcut is already taken by some other function.
+    # Doesn't update in real time.
+    def set_app_show_test(self):
+        schema = 'org.gnome.settings-daemon.plugins.media-keys'
+        key = 'custom-keybindings'
+        custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
+        schema = schema + '.' + key[:-1]
+        settings = Gio.Settings(schema=schema, path=custom)
+        shortcuts = self.app.settings.get_child('shortcuts')
+        settings.set_string('binding', shortcuts['app-show'])
     
     def on_reset_shortcuts_clicked(self, button):
         for i in self.store:
             for j in i.iterchildren():
                 default = self.shortcuts.get_default_value(j[2])
-                self.shortcuts.set_value(j[2], default)
                 accel_name = default.get_string()
+                if j[4] == 'app.show':
+                    self.set_app_show(accel_name)
+                else:
+                    self.set_accel(accel_name, j[4])
                 accel_key, accel_mods = Gtk.accelerator_parse(accel_name)
                 accel_label = Gtk.accelerator_get_label(accel_key, accel_mods)
                 j[1] = accel_label
+                self.shortcuts.set_value(j[2], default)
 
