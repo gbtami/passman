@@ -455,14 +455,14 @@ class Preferences(Gtk.Dialog):
     
     # Can't check if the shortcut is already taken by some other function.
     # Doesn't update in real time.
-    def set_app_show_test(self):
-        schema = 'org.gnome.settings-daemon.plugins.media-keys'
-        key = 'custom-keybindings'
-        custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
-        schema = schema + '.' + key[:-1]
-        settings = Gio.Settings(schema=schema, path=custom)
-        shortcuts = self.app.settings.get_child('shortcuts')
-        settings.set_string('binding', shortcuts['app-show'])
+    #def set_app_show_test(self):
+    #    schema = 'org.gnome.settings-daemon.plugins.media-keys'
+    #    key = 'custom-keybindings'
+    #    custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
+    #    schema = schema + '.' + key[:-1]
+    #    settings = Gio.Settings(schema=schema, path=custom)
+    #    shortcuts = self.app.settings.get_child('shortcuts')
+    #    settings.set_string('binding', shortcuts['app-show'])
     
     def on_reset_shortcuts_clicked(self, button):
         for i in self.store:

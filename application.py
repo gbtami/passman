@@ -96,21 +96,21 @@ class Application(Gtk.Application):
     def add_show_shortcut(self, keystring):
         self.activate()
     
-    def add_show_shortcut_test(self):
-        schema = 'org.gnome.settings-daemon.plugins.media-keys'
-        key = 'custom-keybindings'
-        settings = Gio.Settings(schema=schema)
-        bindings = settings.get_strv(key)
-        custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
-        if custom not in bindings:
-            bindings.append(custom)
-            settings.set_strv(key, bindings)
-            schema = schema + '.' + key[:-1]
-            settings = Gio.Settings(schema=schema, path=custom)
-            settings.set_string('name', self.name)
-            settings.set_string('command', self.name.lower())
-            shortcuts = self.settings.get_child('shortcuts')
-            settings.set_string('binding', shortcuts['app-show'])
+    #def add_show_shortcut_test(self):
+    #    schema = 'org.gnome.settings-daemon.plugins.media-keys'
+    #    key = 'custom-keybindings'
+    #    settings = Gio.Settings(schema=schema)
+    #    bindings = settings.get_strv(key)
+    #    custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
+    #    if custom not in bindings:
+    #        bindings.append(custom)
+    #        settings.set_strv(key, bindings)
+    #        schema = schema + '.' + key[:-1]
+    #        settings = Gio.Settings(schema=schema, path=custom)
+    #        settings.set_string('name', self.name)
+    #        settings.set_string('command', self.name.lower())
+    #        shortcuts = self.settings.get_child('shortcuts')
+    #        settings.set_string('binding', shortcuts['app-show'])
     
     def on_handle_local_options(self, application, options):
         if options.contains('hide'):
