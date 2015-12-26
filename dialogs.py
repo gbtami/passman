@@ -421,6 +421,10 @@ class Preferences(Gtk.Dialog):
         cell_iter = self.store.get_iter_from_string(path_string)
         accel_name = Gtk.accelerator_name(accel_key, accel_mods)
         label = Gtk.accelerator_get_label(accel_key, accel_mods)
+        for row in self.store:
+            if label in [child[1] for child in row.iterchildren()]:
+                self.dialog_repeated_shortcut(label)
+                return
         self.store[cell_iter][1] = label
         if self.store[cell_iter][4] == 'app.show':
             self.set_app_show(accel_name)
@@ -428,6 +432,16 @@ class Preferences(Gtk.Dialog):
             self.set_accel(accel_name, self.store[cell_iter][4])
         value = self.store[cell_iter][2]
         self.shortcuts.set_value(value, GLib.Variant('s', accel_name))
+    
+    def dialog_repeated_shortcut(self, label):
+        message = _('The shortcut {} is already assigned to another action.')
+        message = message.format(label)
+        dialog = Gtk.MessageDialog(transient_for=self,
+                                   message_type=Gtk.MessageType.INFO,
+                                   text=message)
+        dialog.add_buttons(_('OK'), Gtk.ResponseType.OK)
+        response = dialog.run()
+        dialog.destroy()
     
     def on_accel_cleared(self, cell_renderer_accel, path_string):
         cell_iter = self.store.get_iter_from_string(path_string)
