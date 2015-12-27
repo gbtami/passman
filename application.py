@@ -123,8 +123,6 @@ class Application(Gtk.Application):
         shortcuts = self.settings.get_child('shortcuts')
         action_methods = [('preferences', self.on_preferences, ''),
                           ('help', self.on_help, ''),
-                          ('feedback', self.on_feedback, ''),
-                          ('donate', self.on_donate, ''),
                           ('about', self.on_about, ''),
                           ('new', self.on_new, 'account-new'),
                           ('edit', self.on_edit, 'account-edit'),
@@ -182,12 +180,6 @@ class Application(Gtk.Application):
     
     def on_help(self, obj, param):
         print('help')
-    
-    def on_feedback(self, obj, param):
-        print('feedback')
-    
-    def on_donate(self, obj, param):
-        print('donate')
     
     def on_about(self, obj, param):
         if self.about_dialog != None:
