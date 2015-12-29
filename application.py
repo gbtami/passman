@@ -40,8 +40,8 @@ class Application(Gtk.Application):
     log_file = str(log_dir / (name.lower() + '.log'))
     gui_glade = str(data_dir / 'gui.glade')
     gui_ui = str(data_dir / 'gui.ui')
-    schemas_dir = str(data_dir / 'schemas')
     schema_id = app_id
+    schemas_dir = str(data_dir / 'schemas')
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the
@@ -170,6 +170,7 @@ class Application(Gtk.Application):
         self.main_view.secret.lock()
     
     def on_preferences(self, obj, param):
+        # This check is required to avoid multiple 'preferences' windows.
         if self.preferences_dialog != None:
             self.preferences_dialog.present()
             return
@@ -182,6 +183,7 @@ class Application(Gtk.Application):
         print('help')
     
     def on_about(self, obj, param):
+        # This check is required to avoid multiple 'about' windows.
         if self.about_dialog != None:
             self.about_dialog.present()
             return
