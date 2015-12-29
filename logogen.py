@@ -62,7 +62,7 @@ class LogoGen:
         if self.mode == 'list':
             size = self.size * 24
         else:   
-            size = self.size * 48
+            size = self.size * 32
         pixbuf = icon_theme.load_icon('image-missing', size, 0)
         self.image.set_from_pixbuf(pixbuf)
     
@@ -73,8 +73,10 @@ class LogoGen:
                                           self.username,
                                           self.size_close)
         if self.size == 1:
-            text = '<small><small>{}</small></small>'.format(text)
+            text = '{}{}{}'.format('<small>' * 2, text, '</small>' * 2)
         elif self.size == 3:
-            text = '<big><big>{}</big></big>'.format(text)
+            text = '{}{}{}'.format('<big>' * 2, text, '</big>' * 2)
+        elif self.size == 4:
+            text = '{}{}{}'.format('<big>' * 4, text, '</big>' * 4)
         self.label.set_markup(text)
 

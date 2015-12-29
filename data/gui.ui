@@ -99,6 +99,7 @@
               <mark value="1" position="bottom"/>
               <mark value="2" position="bottom"/>
               <mark value="3" position="bottom"/>
+              <mark value="4" position="bottom"/>
             </marks>
           </object>
         </child>
@@ -119,7 +120,7 @@
   
   <object class="GtkAdjustment" id="zoom_adjustment">
     <property name="lower">1</property>
-    <property name="upper">3</property>
+    <property name="upper">4</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
     <property name="value">2</property>
