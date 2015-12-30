@@ -133,7 +133,7 @@ class Edit(Add):
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
         self.notes.get_buffer().set_text(attributes['notes'])
-        app.main_view.secret.get_secret(item)
+        self.password.set_text(app.main_view.secret.get_secret(item))
 
 
 class Preferences(Gtk.Dialog):
