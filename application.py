@@ -72,6 +72,7 @@ class Application(Gtk.Application):
         
         self.window = Gtk.ApplicationWindow(application=app)
         self.window.connect('size-allocate', self.on_size_allocate)
+        self.window.connect('delete-event', self.on_window_delete)
         self.window.set_title(self.title)
         self.window.set_default_size(self.width, self.height)
         self.window.set_position(Gtk.WindowPosition.MOUSE)
@@ -93,8 +94,16 @@ class Application(Gtk.Application):
         
         self.window.add(self.main_view)
     
+    def on_window_delete(self, widget, event):
+        self.main_view.window_hide()
+        # Stop other handlers from running.
+        return True
+    
     def add_show_shortcut(self, keystring):
-        self.activate()
+        if self.window.is_visible():
+            self.main_view.window_hide()
+        else:
+            self.activate()
     
     #def add_show_shortcut_test(self):
     #    schema = 'org.gnome.settings-daemon.plugins.media-keys'

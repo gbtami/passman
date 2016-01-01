@@ -133,15 +133,18 @@ class MainView(Gtk.ScrolledWindow):
         text = self.secret.get_secret(button.item)
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, len(text))
-        if self.autolock:
-            self.secret.lock()
-        if self.autohide:
-            self.app.window.hide()
+        self.window_hide()
         if self.timeout:
             if self.source:
                 GLib.source_remove(self.source)
             args = (self.interval * 1000, self.on_timeout_over)
             self.source = GLib.timeout_add(*args)
+    
+    def window_hide(self):
+        if self.autolock:
+            self.secret.lock()
+        if self.autohide:
+            self.app.window.hide()
     
     def on_timeout_over(self):
         self.source = None
