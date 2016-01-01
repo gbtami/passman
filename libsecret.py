@@ -24,7 +24,8 @@ class LibSecret:
     def make_schema(self, name):
         args = [name + '.schema']
         args += [Secret.SchemaFlags.NONE]
-        args += [{'logo': Secret.SchemaAttributeType.STRING,
+        args += [{'logo_type': Secret.SchemaAttributeType.STRING,
+                  'logo': Secret.SchemaAttributeType.STRING,
                   'service': Secret.SchemaAttributeType.STRING,
                   'username': Secret.SchemaAttributeType.STRING,
                   'notes': Secret.SchemaAttributeType.STRING}]
@@ -56,7 +57,7 @@ class LibSecret:
                 break
     
     def create_item(self, service, username, password, notes):
-        attributes = {'logo': '', 'service': service,
+        attributes = {'logo_type': '', 'logo': '', 'service': service,
                       'username': username, 'notes': notes}
         value = Secret.Value(password, len(password), 'text/plain')
         
@@ -69,7 +70,7 @@ class LibSecret:
     def edit_item(self, item, service, username, password, notes):
         value = Secret.Value(password, len(password), 'text/plain')
         item.set_secret_sync(value)
-        attributes = {'logo': '', 'service': service,
+        attributes = {'logo_type': '', 'logo': '', 'service': service,
                       'username': username, 'notes': notes}
         item.set_attributes_sync(self.schema, attributes)
         item.set_label_sync(service + ': ' + username)
