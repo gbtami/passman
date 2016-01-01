@@ -80,11 +80,22 @@ class HeaderBar(Gtk.HeaderBar):
     def on_add(self, button):
         dialog = dialogs.Add(self.app)
         response = dialog.run()
-        if response == Gtk.ResponseType.OK:
+        while response == Gtk.ResponseType.OK:
             data = dialog.get_data()
-            item = self.app.main_view.secret.create_item(*data)
-            button = self.app.main_view.create_button(item)
-            self.app.main_view.insert_button(button)
+            if data['service'] and data['password']:
+                item = self.app.main_view.secret.create_item(**data)
+                button = self.app.main_view.create_button(item)
+                self.app.main_view.insert_button(button)
+                break
+            error = Gtk.MessageDialog(transient_for=dialog,
+                                      message_type=Gtk.MessageType.ERROR)
+            error.add_buttons(_('OK'), Gtk.ResponseType.OK)
+            message = _('The {} and {} fields must be filled.')
+            message = message.format('<b>Service</b>', '<b>Password</b>')
+            error.set_markup(message)
+            error.run()
+            error.destroy()
+            response = dialog.run()
         dialog.destroy()
     
     def on_unrealize(self, widget):
