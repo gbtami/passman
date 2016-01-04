@@ -141,6 +141,8 @@ class LogoGen:
         self.image.set_from_pixbuf(pixbuf)
     
     def _set_label(self):
+        if not self.username:
+            self.separator = ''
         text = '<b>{}</b>{}{}'.format(self.service,
                                       self.separator,
                                       self.username)
