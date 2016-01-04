@@ -4,10 +4,7 @@
 Module for the Dialog classes
 '''
 
-import os
-import os.path
 import string
-import shutil
 
 from gi import require_version
 require_version('Gtk', '3.0')
@@ -15,7 +12,7 @@ require_version('Keybinder', '3.0')
 from gi.repository import Gtk, GLib, Gio, Keybinder
 
 from passgen import PassGen
-
+from logogen import LogoGen
 
 class Add(Gtk.Dialog):
     '''
@@ -40,18 +37,18 @@ class Add(Gtk.Dialog):
         grid.set_row_spacing(app.spacing)
         grid.set_border_width(app.spacing)
         
-        button = Gtk.Button()
-        icon_theme = Gtk.IconTheme.get_default()
-        pixbuf = icon_theme.load_icon('image-missing', 128, 0)
-        image = Gtk.Image.new_from_pixbuf(pixbuf)
-        button.set_image(image)
-        button.set_halign(Gtk.Align.CENTER)
-        grid.attach(button, 0, 0, 1, 1)
+        self.logo_button = Gtk.Button()
+        self.logo_button.connect('clicked', self.on_logo_clicked)
+        self.logo = LogoGen(app, '', '', 4, 'grid', self.refresh_logo_button)
+        self.logo_button.set_image(self.logo.image)
+        self.logo_button.set_halign(Gtk.Align.CENTER)
+        grid.attach(self.logo_button, 0, 0, 1, 1)
         
         label = Gtk.Label(label=_('<b>Service</b>'), **{'use-markup': True})
         frame = Gtk.Frame(label_widget=label)
         frame.set_shadow_type(Gtk.ShadowType.NONE)
         self.service = Gtk.Entry()
+        self.service.connect('changed', self.on_service_changed)
         self.service.set_activates_default(True)
         self.service.set_hexpand(True)
         frame.add(self.service)
@@ -107,17 +104,40 @@ class Add(Gtk.Dialog):
         box.add(grid)
         self.show_all()
     
+    def on_logo_clicked(self, button):
+        image = button.get_child()
+        button.remove(image)
+        spinner = Gtk.Spinner()
+        button.add(spinner)
+        spinner.start()
+        spinner.show()
+    
+    def on_service_changed(self, entry):
+        logo_name = entry.get_text().lower()
+        self.logo.service = logo_name
+        if not self.logo.update_local(logo_name):
+            child = self.logo_button.get_child()
+            self.logo_button.remove(child)
+            spinner = Gtk.Spinner()
+            spinner.set_size_request(self.logo.logo_size, self.logo.logo_size)
+            self.logo_button.add(spinner)
+            spinner.start()
+            spinner.show()
+    
+    def refresh_logo_button(self):
+        self.logo_button.set_image(self.logo.image)
+    
     def refresh_password(self, button):
         self.password.set_text(PassGen(self.app).password)
     
     def get_data(self):
-        service = self.service.get_text()
-        username = self.username.get_text()
-        password = self.password.get_text()
         buffer = self.notes.get_buffer()
         bounds = buffer.get_bounds()
-        notes = buffer.get_text(bounds[0], bounds[1], False)
-        return (service, username, password, notes)
+        result = {'service': self.service.get_text(),
+                  'username': self.username.get_text(),
+                  'password': self.password.get_text(),
+                  'notes': buffer.get_text(bounds[0], bounds[1], False)}
+        return (result)
 
 
 class Edit(Add):
@@ -434,11 +454,11 @@ class Preferences(Gtk.Dialog):
         self.shortcuts.set_value(value, GLib.Variant('s', accel_name))
     
     def dialog_repeated_shortcut(self, label):
-        message = _('The shortcut {} is already assigned to another action.')
-        message = message.format(label)
         dialog = Gtk.MessageDialog(transient_for=self,
-                                   message_type=Gtk.MessageType.INFO,
-                                   text=message)
+                                   message_type=Gtk.MessageType.INFO)
+        message = _('The shortcut {} is already assigned to another action.')
+        message = message.format('<b>{}</b>'.format(label))
+        dialog.set_markup(message)
         dialog.add_buttons(_('OK'), Gtk.ResponseType.OK)
         response = dialog.run()
         dialog.destroy()
