@@ -14,7 +14,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, Secret
 
 import dialogs
 import libsecret
-import logogen
+from logogen import LogoGen
 
 
 class MainView(Gtk.ScrolledWindow):
@@ -75,7 +75,10 @@ class MainView(Gtk.ScrolledWindow):
         button.connect('popup-menu', self.on_popup_menu)
         service = item.get_attributes()['service']
         username = item.get_attributes()['username']
-        button.logo = logogen.LogoGen(self.app, service, username)
+        size = self.app.window.get_titlebar().view_size
+        mode = self.app.window.get_titlebar().view_mode
+        args = (self.app, service, username, size, mode)
+        button.logo = LogoGen(*args)
         button.add(button.logo.grid)
         return button
     
@@ -98,7 +101,9 @@ class MainView(Gtk.ScrolledWindow):
         service = button.item.get_attributes()['service']
         username = button.item.get_attributes()['username']
         button.remove(button.get_child())
-        button.logo = logogen.LogoGen(self.app, service, username)
+        size = self.app.window.get_titlebar().view_size
+        mode = self.app.window.get_titlebar().view_mode
+        button.logo = LogoGen(self.app, service, username, size, mode)
         button.add(button.logo.grid)
         button.show_all()
         self.flowbox.invalidate_sort()
@@ -186,9 +191,24 @@ class MainView(Gtk.ScrolledWindow):
     def on_edit(self, obj, param, button):
         dialog = dialogs.Edit(self.app, button.item)
         response = dialog.run()
-        if response == Gtk.ResponseType.OK:
+        while response == Gtk.ResponseType.OK:
             data = dialog.get_data()
-            self.secret.edit_item(button.item, *data)
-            self.edit_button(button)
+            if data['service'] and data['password']:
+                self.secret.edit_item(button.item, *data)
+                self.edit_button(button)
+                self.update_logo_async(button)
+                break
+            error = Gtk.MessageDialog(transient_for=dialog,
+                                      message_type=Gtk.MessageType.ERROR)
+            error.add_buttons(_('OK'), Gtk.ResponseType.OK)
+            message = _('The {} and {} fields must be filled.')
+            message = message.format('<b>Service</b>', '<b>Password</b>')
+            error.set_markup(message)
+            error.run()
+            error.destroy()
+            response = dialog.run()
         dialog.destroy()
+    
+    def update_logo_async(self, button):
+        pass
 
