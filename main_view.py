@@ -4,8 +4,6 @@
 Module for the MainView class
 '''
 
-import bisect
-
 from gi import require_version
 require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
@@ -67,18 +65,24 @@ class MainView(Gtk.ScrolledWindow):
         else:
             return 0
     
+    def init_buttons(self):
+        for item in self.secret.collection.get_items():
+            button = self.create_button(item)
+            self.insert_button(button)
+    
     def create_button(self, item):
         button = Gtk.Button()
         button.item = item
         button.connect('button-press-event', self.on_button_press)
         button.connect('clicked', self.on_button_click)
         button.connect('popup-menu', self.on_popup_menu)
+        logo = item.get_attributes()['logo']
         service = item.get_attributes()['service']
         username = item.get_attributes()['username']
         size = self.app.window.get_titlebar().view_size
         mode = self.app.window.get_titlebar().view_mode
-        args = (self.app, service, username, size, mode)
-        button.logo = LogoGen(*args)
+        button.logo = LogoGen(self.app.data_dir)
+        button.logo.make_grid(logo, service, username, size, mode)
         button.add(button.logo.grid)
         return button
     
@@ -111,11 +115,6 @@ class MainView(Gtk.ScrolledWindow):
     def delete_button(self, button):
         self.flowbox.remove(button.get_parent())
         button.destroy()
-    
-    def init_buttons(self):
-        for item in self.secret.collection.get_items():
-            button = self.create_button(item)
-            self.insert_button(button)
     
     def show_context_menu(self, widget):
         action_methods = {'delete': self.on_delete,
