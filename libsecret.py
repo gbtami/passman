@@ -24,8 +24,7 @@ class LibSecret:
     def make_schema(self, name):
         args = [name + '.schema']
         args += [Secret.SchemaFlags.NONE]
-        args += [{'logo_type': Secret.SchemaAttributeType.STRING,
-                  'logo': Secret.SchemaAttributeType.STRING,
+        args += [{'logo': Secret.SchemaAttributeType.STRING,
                   'service': Secret.SchemaAttributeType.STRING,
                   'username': Secret.SchemaAttributeType.STRING,
                   'notes': Secret.SchemaAttributeType.STRING}]
