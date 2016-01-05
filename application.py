@@ -32,7 +32,6 @@ class Application(Gtk.Application):
     app_id = 'com.idlecore.passman'
     app_dir = name.lower()
     data_dir = Path(GLib.get_user_data_dir()) / app_dir
-    img_dir = data_dir / 'images'
     config_dir = Path(GLib.get_user_config_dir()) / app_dir
     autostart_dir = Path(GLib.get_user_config_dir()) / 'autostart'
     autostart_file = 'passman-autostart.desktop'
