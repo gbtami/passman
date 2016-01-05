@@ -39,8 +39,8 @@ class Add(Gtk.Dialog):
         
         self.logo_button = Gtk.Button()
         self.logo_button.connect('clicked', self.on_logo_clicked)
-        self.logo = LogoGen(app, '', '', 4, 'grid', self.refresh_logo_button)
-        self.logo_button.set_image(self.logo.image)
+        self.logo = LogoGen(app.data_dir)
+        self.logo_button.add(self.logo.grid)
         self.logo_button.set_halign(Gtk.Align.CENTER)
         grid.attach(self.logo_button, 0, 0, 1, 1)
         
@@ -113,19 +113,7 @@ class Add(Gtk.Dialog):
         spinner.show()
     
     def on_service_changed(self, entry):
-        logo_name = entry.get_text().lower()
-        self.logo.service = logo_name
-        if not self.logo.update_local(logo_name):
-            child = self.logo_button.get_child()
-            self.logo_button.remove(child)
-            spinner = Gtk.Spinner()
-            spinner.set_size_request(self.logo.logo_size, self.logo.logo_size)
-            self.logo_button.add(spinner)
-            spinner.start()
-            spinner.show()
-    
-    def refresh_logo_button(self):
-        self.logo_button.set_image(self.logo.image)
+        self.logo.set_cached_logo(entry.get_text())
     
     def refresh_password(self, button):
         self.password.set_text(PassGen(self.app).password)
