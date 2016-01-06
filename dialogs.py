@@ -8,8 +8,9 @@ import string
 
 from gi import require_version
 require_version('Gtk', '3.0')
+require_version('GdkPixbuf', '2.0')
 require_version('Keybinder', '3.0')
-from gi.repository import Gtk, GLib, Gio, Keybinder
+from gi.repository import Gtk, GdkPixbuf, GLib, Gio, Keybinder
 
 from passgen import PassGen
 from logogen import LogoGen
@@ -39,6 +40,7 @@ class Add(Gtk.Dialog):
         
         self.logo_button = Gtk.Button()
         self.logo_button.connect('clicked', self.on_logo_clicked)
+        self.custom_logo = ''
         self.logo = LogoGen(app.data_dir)
         self.logo_button.add(self.logo.grid)
         self.logo_button.set_halign(Gtk.Align.CENTER)
@@ -105,15 +107,12 @@ class Add(Gtk.Dialog):
         self.show_all()
     
     def on_logo_clicked(self, button):
-        image = button.get_child()
-        button.remove(image)
-        spinner = Gtk.Spinner()
-        button.add(spinner)
-        spinner.start()
-        spinner.show()
+        self.custom_logo = self.logo.custom_logo_dialog(self)
     
     def on_service_changed(self, entry):
-        self.logo.set_cached_logo(entry.get_text())
+        # Only search for a logo if there isn't a custom one set already.
+        if not self.custom_logo:
+            self.logo.set_cached_logo(entry.get_text())
     
     def refresh_password(self, button):
         self.password.set_text(PassGen(self.app).password)
@@ -121,7 +120,8 @@ class Add(Gtk.Dialog):
     def get_data(self):
         buffer = self.notes.get_buffer()
         bounds = buffer.get_bounds()
-        result = {'service': self.service.get_text(),
+        result = {'logo': self.custom_logo,
+                  'service': self.service.get_text(),
                   'username': self.username.get_text(),
                   'password': self.password.get_text(),
                   'notes': buffer.get_text(bounds[0], bounds[1], False)}
@@ -138,6 +138,8 @@ class Edit(Add):
     def __init__(self, app, item):
         super().__init__(app)
         attributes = item.get_attributes()
+        self.custom_logo = attributes['logo']
+        self.logo.set_logo(self.custom_logo)
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
         self.notes.get_buffer().set_text(attributes['notes'])
