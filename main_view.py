@@ -102,12 +102,14 @@ class MainView(Gtk.ScrolledWindow):
         button.show_all()
     
     def edit_button(self, button):
+        logo = button.item.get_attributes()['logo']
         service = button.item.get_attributes()['service']
         username = button.item.get_attributes()['username']
         button.remove(button.get_child())
         size = self.app.window.get_titlebar().view_size
         mode = self.app.window.get_titlebar().view_mode
-        button.logo = LogoGen(self.app, service, username, size, mode)
+        button.logo = LogoGen(self.app.data_dir)
+        button.logo.make_grid(logo, service, username, size, mode)
         button.add(button.logo.grid)
         button.show_all()
         self.flowbox.invalidate_sort()
@@ -193,9 +195,8 @@ class MainView(Gtk.ScrolledWindow):
         while response == Gtk.ResponseType.OK:
             data = dialog.get_data()
             if data['service'] and data['password']:
-                self.secret.edit_item(button.item, *data)
+                self.secret.edit_item(button.item, **data)
                 self.edit_button(button)
-                self.update_logo_async(button)
                 break
             error = Gtk.MessageDialog(transient_for=dialog,
                                       message_type=Gtk.MessageType.ERROR)
@@ -207,7 +208,4 @@ class MainView(Gtk.ScrolledWindow):
             error.destroy()
             response = dialog.run()
         dialog.destroy()
-    
-    def update_logo_async(self, button):
-        pass
 
