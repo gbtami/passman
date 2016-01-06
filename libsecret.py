@@ -55,21 +55,20 @@ class LibSecret:
                 self.collection = c
                 break
     
-    def create_item(self, service, username, password, notes):
-        attributes = {'logo_type': '', 'logo': '', 'service': service,
+    def create_item(self, logo, service, username, password, notes):
+        attributes = {'logo': logo, 'service': service,
                       'username': username, 'notes': notes}
         value = Secret.Value(password, len(password), 'text/plain')
-        
         args = (self.collection, self.schema, attributes,
                 service + ': ' + username, value,
                 Secret.ItemCreateFlags.NONE, None)
         item = Secret.Item.create_sync(*args)
         return item
     
-    def edit_item(self, item, service, username, password, notes):
+    def edit_item(self, item, logo, service, username, password, notes):
         value = Secret.Value(password, len(password), 'text/plain')
         item.set_secret_sync(value)
-        attributes = {'logo_type': '', 'logo': '', 'service': service,
+        attributes = {'logo': logo, 'service': service,
                       'username': username, 'notes': notes}
         item.set_attributes_sync(self.schema, attributes)
         item.set_label_sync(service + ': ' + username)
