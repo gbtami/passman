@@ -8,13 +8,12 @@ from gi import require_version
 require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib, Gio
 
-import dialogs
-import logogen
+from dialogs import AddDialog
 
 
 class HeaderBar(Gtk.HeaderBar):
     '''
-    HeaderBar
+    HeaderBar class
     '''
     
     def __init__(self, app):
@@ -66,25 +65,23 @@ class HeaderBar(Gtk.HeaderBar):
             mode = 'grid'
         for c in self.app.main_view.flowbox.get_children():
             button = c.get_child()
-            button.logo.set_view(mode)
-            button.show_all()
+            button.logo.remode(mode)
     
     def on_value_changed(self, scale):
         size = int(scale.get_value())
         self.view_size = size
         for c in self.app.main_view.flowbox.get_children():
             button = c.get_child()
-            button.logo.set_size(size)
-            button.show_all()
+            button.logo.resize(size)
     
     def on_add(self, button):
-        dialog = dialogs.Add(self.app)
+        dialog = AddDialog(self.app)
         response = dialog.run()
         while response == Gtk.ResponseType.OK:
-            data = dialog.get_data()
+            data = dialog.get_data_and_finish()
             if data['service'] and data['password']:
                 item = self.app.main_view.secret.create_item(**data)
-                button = self.app.main_view.create_button(item)
+                button = self.app.main_view.create_button(item, dialog.logo)
                 self.app.main_view.insert_button(button)
                 break
             error = Gtk.MessageDialog(transient_for=dialog,
