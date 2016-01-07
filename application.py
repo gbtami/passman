@@ -15,12 +15,12 @@ from gi.repository import Gtk, Gdk, Gio, GLib, Keybinder
 
 from header_bar import HeaderBar
 from main_view import MainView
-import dialogs
+from dialogs import PreferencesDialog
 
 
 class Application(Gtk.Application):
     '''
-    Main Application
+    Main Application class
     '''
     
     name = 'PassMan'
@@ -182,7 +182,7 @@ class Application(Gtk.Application):
         if self.preferences_dialog != None:
             self.preferences_dialog.present()
             return
-        self.preferences_dialog = dialogs.Preferences(self)
+        self.preferences_dialog = PreferencesDialog(self)
         self.preferences_dialog.run()
         self.preferences_dialog.destroy()
         self.preferences_dialog = None

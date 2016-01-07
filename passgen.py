@@ -10,7 +10,7 @@ import string
 
 class PassGen:
     '''
-    Password Random Generator
+    Random Password Generator
     '''
     
     def __init__(self, app):

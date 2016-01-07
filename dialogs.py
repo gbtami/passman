@@ -13,16 +13,16 @@ require_version('Keybinder', '3.0')
 from gi.repository import Gtk, GdkPixbuf, GLib, Gio, Keybinder
 
 from passgen import PassGen
-from logogen import LogoGen
+from logogen import LogoHeader
 
-class Add(Gtk.Dialog):
+class AddDialog(Gtk.Dialog):
     '''
-    Add Dialog
+    AddDialog class
     '''
     
     title = _('New Account')
     
-    def __init__(self, app):
+    def __init__(self, app, logo=None):
         self.app = app
         properties = {'use_header_bar': True}
         super().__init__(transient_for=app.window, **properties)
@@ -40,8 +40,13 @@ class Add(Gtk.Dialog):
         
         self.logo_button = Gtk.Button()
         self.logo_button.connect('clicked', self.on_logo_clicked)
-        self.custom_logo = ''
-        self.logo = LogoGen(app.data_dir)
+        self.custom_logo = None
+        size = app.window.get_titlebar().view_size
+        mode = app.window.get_titlebar().view_mode
+        if logo:
+            self.logo = logo
+        else:
+            self.logo = LogoHeader(app.data_dir)
         self.logo_button.add(self.logo.grid)
         self.logo_button.set_halign(Gtk.Align.CENTER)
         grid.attach(self.logo_button, 0, 0, 1, 1)
@@ -107,20 +112,24 @@ class Add(Gtk.Dialog):
         self.show_all()
     
     def on_logo_clicked(self, button):
-        self.custom_logo = self.logo.custom_logo_dialog(self)
+        if self.custom_logo:
+            self.custom_logo = None
+            self.logo.set_default_image()
+        else:
+            self.custom_logo = self.logo.custom_logo_dialog(self)
     
     def on_service_changed(self, entry):
         # Only search for a logo if there isn't a custom one set already.
         if not self.custom_logo:
-            self.logo.set_cached_logo(entry.get_text())
+            self.logo.set_image('', entry.get_text())
     
     def refresh_password(self, button):
         self.password.set_text(PassGen(self.app).password)
     
-    def get_data(self):
+    def get_data_and_finish(self):
         buffer = self.notes.get_buffer()
         bounds = buffer.get_bounds()
-        result = {'logo': self.custom_logo,
+        result = {'logo': self.logo.logo,
                   'service': self.service.get_text(),
                   'username': self.username.get_text(),
                   'password': self.password.get_text(),
@@ -128,27 +137,28 @@ class Add(Gtk.Dialog):
         return (result)
 
 
-class Edit(Add):
+class EditDialog(AddDialog):
     '''
-    Edit Dialog
+    EditDialog
     '''
     
     title = _('Edit Account')
     
-    def __init__(self, app, item):
-        super().__init__(app)
+    def __init__(self, app, button):
+        item, logo = button.item, button.logo
+        super().__init__(app, logo.make_logo_header())
         attributes = item.get_attributes()
         self.custom_logo = attributes['logo']
-        self.logo.set_logo(self.custom_logo)
+        #self.logo.set_image(self.custom_logo, attributes['service'])
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
         self.notes.get_buffer().set_text(attributes['notes'])
         self.password.set_text(app.main_view.secret.get_secret(item))
 
 
-class Preferences(Gtk.Dialog):
+class PreferencesDialog(Gtk.Dialog):
     '''
-    Preferences Dialog
+    PreferencesDialog
     '''
     
     title = _('Preferences')
