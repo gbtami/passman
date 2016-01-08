@@ -27,8 +27,10 @@ class LogoHeader:
     '''
     
     size = 128
+    interp = GdkPixbuf.InterpType.BILINEAR
     
     def __init__(self, data_dir):
+        self.service = ''
         self.data_dir = data_dir
         self.img_dir = data_dir / 'images'
         self.grid = Gtk.Grid()
@@ -44,30 +46,37 @@ class LogoHeader:
         self.image.set_from_pixbuf(default_image)
         self.image.show()
     
-    def set_image(self, logo='', service=''):
-        self.logo = logo
+    def set_service(self, service):
         self.service = service
+    
+    def set_image(self, logo=''):
+        self.logo = logo
         if logo:
             pixbuf = self.logo_server.get_custom(logo)
             if pixbuf:
-                self.image.set_from_pixbuf(pixbuf)
-                self.image.show()
+                self.set_pixbuf(pixbuf)
                 return
-            else:
-                self.logo = ''
-                self.set_default_image()
-                return
+            self.logo = ''
         logo_name = self.service.lower()
-        if self.logo_server.get_cache(logo_name, self.callback):
-            self.spin.start(self.size)
+        pixbuf = self.logo_server.get_local(logo_name)
+        if pixbuf:
+            self.set_pixbuf(pixbuf)
         else:
-            self.set_default_image()
+            if self.logo_server.get_cache(logo_name, self.callback):
+                self.spin.start(self.size)
+            else:
+                self.set_default_image()
+    
+    def set_pixbuf(self, pixbuf):
+        pixbuf = pixbuf.scale_simple(self.size, self.size, self.interp)
+        self.image.set_from_pixbuf(pixbuf)
+        self.image.show()
     
     def callback(self, logo_name):
         self.spin.stop()
         pixbuf = self.logo_server.get_local(logo_name)
         if pixbuf:
-            self.image.set_from_pixbuf(pixbuf)
+            self.set_pixbuf(pixbuf)
         else:
             self.set_default_image()
     
@@ -183,6 +192,7 @@ class LogoTile:
             self.set_default_image()
     
     def set_mode(self, mode):
+        self.mode = mode
         self.grid.remove(self.label)
         if mode == 'grid':
             self.grid.set_halign(Gtk.Align.CENTER)
@@ -234,7 +244,8 @@ class LogoTile:
 
     def make_logo_header(self):
         logo_header = LogoHeader(self.data_dir)
-        logo_header.set_image(self.logo, self.service)
+        logo_header.set_service(self.service)
+        logo_header.set_image(self.logo)
         return logo_header
 
 
@@ -271,11 +282,7 @@ class LogoServer:
     
     def get_cache(self, logo_name, callback):
         if logo_name in self.logo_name_cache:
-            pixbuf = self.get_local(logo_name)
-            if pixbuf:
-                GLib.idle_add(callback, logo_name)
-            else:
-                self.get_remote(logo_name, callback)
+            self.get_remote(logo_name, callback)
             return True
         return False
     
