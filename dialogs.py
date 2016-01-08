@@ -114,14 +114,15 @@ class AddDialog(Gtk.Dialog):
     def on_logo_clicked(self, button):
         if self.custom_logo:
             self.custom_logo = None
-            self.logo.set_default_image()
+            self.logo.set_image()
         else:
             self.custom_logo = self.logo.custom_logo_dialog(self)
     
     def on_service_changed(self, entry):
+        self.logo.set_service(entry.get_text())
         # Only search for a logo if there isn't a custom one set already.
         if not self.custom_logo:
-            self.logo.set_image('', entry.get_text())
+            self.logo.set_image()
     
     def refresh_password(self, button):
         self.password.set_text(PassGen(self.app).password)
@@ -149,7 +150,6 @@ class EditDialog(AddDialog):
         super().__init__(app, logo.make_logo_header())
         attributes = item.get_attributes()
         self.custom_logo = attributes['logo']
-        #self.logo.set_image(self.custom_logo, attributes['service'])
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
         self.notes.get_buffer().set_text(attributes['notes'])
