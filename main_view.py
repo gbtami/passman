@@ -10,9 +10,9 @@ require_version('Gdk', '3.0')
 require_version('Secret', '1')
 from gi.repository import Gtk, Gdk, Gio, GLib, Secret
 
-import dialogs
-import libsecret
-from logogen import LogoGen
+from libsecret import LibSecret
+from dialogs import EditDialog
+from logogen import LogoTile
 
 
 class MainView(Gtk.ScrolledWindow):
@@ -24,7 +24,7 @@ class MainView(Gtk.ScrolledWindow):
         super().__init__()
         self.app = app
         self.source = None
-        self.secret = libsecret.LibSecret(app)
+        self.secret = LibSecret(app)
         self.load_settings()
         self.load_widgets()
     
@@ -70,19 +70,22 @@ class MainView(Gtk.ScrolledWindow):
             button = self.create_button(item)
             self.insert_button(button)
     
-    def create_button(self, item):
+    def create_button(self, item, logo=None):
         button = Gtk.Button()
-        button.item = item
         button.connect('button-press-event', self.on_button_press)
         button.connect('clicked', self.on_button_click)
         button.connect('popup-menu', self.on_popup_menu)
-        logo = item.get_attributes()['logo']
-        service = item.get_attributes()['service']
-        username = item.get_attributes()['username']
+        button.item = item
         size = self.app.window.get_titlebar().view_size
         mode = self.app.window.get_titlebar().view_mode
-        button.logo = LogoGen(self.app.data_dir)
-        button.logo.make_grid(logo, service, username, size, mode)
+        username = item.get_attributes()['username']
+        if logo:
+            button.logo = logo.make_logo_tile(username, size, mode)
+        else:
+            logo = item.get_attributes()['logo']
+            service = item.get_attributes()['service']
+            button.logo = LogoTile(self.app.data_dir, logo, service,
+                                   username, size, mode)
         button.add(button.logo.grid)
         return button
     
@@ -101,15 +104,12 @@ class MainView(Gtk.ScrolledWindow):
         style.remove_class('grid-child')
         button.show_all()
     
-    def edit_button(self, button):
-        logo = button.item.get_attributes()['logo']
-        service = button.item.get_attributes()['service']
+    def edit_button(self, button, logo):
         username = button.item.get_attributes()['username']
         button.remove(button.get_child())
         size = self.app.window.get_titlebar().view_size
         mode = self.app.window.get_titlebar().view_mode
-        button.logo = LogoGen(self.app.data_dir)
-        button.logo.make_grid(logo, service, username, size, mode)
+        button.logo = logo.make_logo_tile(username, size, mode)
         button.add(button.logo.grid)
         button.show_all()
         self.flowbox.invalidate_sort()
@@ -190,13 +190,13 @@ class MainView(Gtk.ScrolledWindow):
         dialog.destroy()
     
     def on_edit(self, obj, param, button):
-        dialog = dialogs.Edit(self.app, button.item)
+        dialog = EditDialog(self.app, button)
         response = dialog.run()
         while response == Gtk.ResponseType.OK:
-            data = dialog.get_data()
+            data = dialog.get_data_and_finish()
             if data['service'] and data['password']:
                 self.secret.edit_item(button.item, **data)
-                self.edit_button(button)
+                self.edit_button(button, dialog.logo)
                 break
             error = Gtk.MessageDialog(transient_for=dialog,
                                       message_type=Gtk.MessageType.ERROR)
