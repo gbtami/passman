@@ -65,14 +65,14 @@ class HeaderBar(Gtk.HeaderBar):
             mode = 'grid'
         for c in self.app.main_view.flowbox.get_children():
             button = c.get_child()
-            button.logo.remode(mode)
+            button.logo.set_mode(mode)
     
     def on_value_changed(self, scale):
         size = int(scale.get_value())
         self.view_size = size
         for c in self.app.main_view.flowbox.get_children():
             button = c.get_child()
-            button.logo.resize(size)
+            button.logo.set_size(size)
     
     def on_add(self, button):
         dialog = AddDialog(self.app)
