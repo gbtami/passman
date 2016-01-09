@@ -254,7 +254,7 @@ class LogoServer:
     LogoImage class
     '''
     
-    logo_server = 'http://localhost:8080/logo_server/'
+    logo_server = 'http://localhost:8080/logo_server'
     timeout = 2
     
     def __init__(self, data_dir):
@@ -303,10 +303,11 @@ class LogoServer:
     
     def get_remote_worker(self, logo_name, callback):
         import time
-        time.sleep(2)
-        url = '{}{}'.format(self.logo_server, logo_name)
+        time.sleep(1)
         try:
-            r = requests.get(url, timeout=self.timeout)
+            r = requests.get(self.logo_server,
+                             timeout=self.timeout,
+                             params={'name': logo_name})
             if r.status_code == requests.codes.ok and len(r.content) > 0:
                 with io.BytesIO(r.content) as in_memory_file:
                     logo_file = tarfile.open(fileobj=in_memory_file, mode='r:')
