@@ -1,0 +1,274 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-05 17:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: application.py:137 ../application.py:124
+msgid "Easy to use password manager."
+msgstr ""
+
+#: ../application.py:125
+msgid "Copyright © 2015 - {} authors"
+msgstr ""
+
+#: dialogs.py:17
+msgid "New Account"
+msgstr ""
+
+#: dialogs.py:43
+msgid "<b>Service</b>"
+msgstr ""
+
+#: dialogs.py:53
+msgid "<b>Username</b>"
+msgstr ""
+
+#: dialogs.py:63
+msgid "<b>Password</b>"
+msgstr ""
+
+#: dialogs.py:86
+msgid "<b>Notes</b>"
+msgstr ""
+
+#: dialogs.py:120
+msgid "Edit Account"
+msgstr ""
+
+#: data/menus.ui:6 ../data/menus.ui:6
+msgid "Preferences"
+msgstr ""
+
+#: data/menus.ui:12 ../data/menus.ui:12
+msgid "Help"
+msgstr ""
+
+#: data/menus.ui:16 ../data/menus.ui:16
+msgid "About"
+msgstr ""
+
+#: data/menus.ui:22 data/preferences.glade:593 ../data/menus.ui:22
+msgid "Quit"
+msgstr ""
+
+#: data/menus.ui:38 data/preferences.glade:581 ../data/menus.ui:38
+msgid "Edit"
+msgstr ""
+
+#: data/menus.ui:45 data/preferences.glade:585 data/preferences.glade:586
+#: main_view.py:137 ../data/menus.ui:45
+msgid "Delete"
+msgstr ""
+
+#: data/preferences.glade:477
+msgid "Space"
+msgstr ""
+
+#: data/preferences.glade:496
+msgid "All"
+msgstr ""
+
+#: data/preferences.glade:508
+msgid "None"
+msgstr ""
+
+#: data/preferences.glade:577
+msgid "New"
+msgstr ""
+
+#: data/preferences.glade:589
+msgid "Start"
+msgstr ""
+
+#: data/preferences.glade:662
+msgid "Change language for this application:"
+msgstr ""
+
+#: data/preferences.glade:685
+msgid "<b>Language</b>"
+msgstr ""
+
+#: data/preferences.glade:710
+msgid "Run this application as soon as you login."
+msgstr ""
+
+#: data/preferences.glade:729
+msgid "<b>Autorun</b>"
+msgstr ""
+
+#: data/preferences.glade:754
+msgid "Reset All"
+msgstr ""
+
+#: data/preferences.glade:766 data/preferences.glade:982
+#: data/preferences.glade:1308 data/preferences.glade:1440
+msgid "Reset"
+msgstr ""
+
+#: data/preferences.glade:780
+msgid ""
+"Reset these preferences:\n"
+"<small>General</small>"
+msgstr ""
+
+#: data/preferences.glade:794
+msgid ""
+"Reset all preferences:\n"
+"<small>General, Collections, Passwords and Shortcuts</small>"
+msgstr ""
+
+#: data/preferences.glade:809 data/preferences.glade:1470
+msgid "<b>Resets</b>"
+msgstr ""
+
+#: data/preferences.glade:825
+msgid "General"
+msgstr ""
+
+#: data/preferences.glade:854
+msgid "Set this collection as the system's default."
+msgstr ""
+
+#: data/preferences.glade:872
+msgid "<b>Default</b>"
+msgstr ""
+
+#: data/preferences.glade:897
+msgid "Unlock this collection with your login password."
+msgstr ""
+
+#: data/preferences.glade:916
+msgid "Automatically lock the collection after each use."
+msgstr ""
+
+#: data/preferences.glade:934
+msgid ""
+"<small>This option requires <b>password timeout</b> to be enabled.</small>"
+msgstr ""
+
+#: data/preferences.glade:957
+msgid "<b>Locking</b>"
+msgstr ""
+
+#: data/preferences.glade:996
+msgid ""
+"Reset these preferences:\n"
+"<small>Collections</small>"
+msgstr ""
+
+#: data/preferences.glade:1012 data/preferences.glade:1338
+msgid "<b>Reset</b>"
+msgstr ""
+
+#: data/preferences.glade:1031
+msgid "Collection"
+msgstr ""
+
+#: data/preferences.glade:1063
+msgid "Password size:"
+msgstr ""
+
+#: data/preferences.glade:1088
+msgid "characters"
+msgstr ""
+
+#: data/preferences.glade:1101
+msgid "<b>Size</b>"
+msgstr ""
+
+#: data/preferences.glade:1131
+msgid "Lowercase"
+msgstr ""
+
+#: data/preferences.glade:1144
+msgid "Uppercase"
+msgstr ""
+
+#: data/preferences.glade:1157
+msgid "Digits"
+msgstr ""
+
+#: data/preferences.glade:1170
+msgid "Punctuation"
+msgstr ""
+
+#: data/preferences.glade:1197
+msgid ""
+"<small>Choose the type of characters to use on your randomly generated "
+"passwords.</small>"
+msgstr ""
+
+#: data/preferences.glade:1213
+msgid "<b>Alphabet</b>"
+msgstr ""
+
+#: data/preferences.glade:1238
+msgid "Set password timeout:"
+msgstr ""
+
+#: data/preferences.glade:1270
+msgid "seconds"
+msgstr ""
+
+#: data/preferences.glade:1283
+msgid "<b>Timeout</b>"
+msgstr ""
+
+#: data/preferences.glade:1322
+msgid ""
+"Reset these preferences:\n"
+"<small>Passwords</small>"
+msgstr ""
+
+#: data/preferences.glade:1357
+msgid "Passwords"
+msgstr ""
+
+#: data/preferences.glade:1393
+msgid "Action"
+msgstr ""
+
+#: data/preferences.glade:1399
+msgid "Shortcut key"
+msgstr ""
+
+#: data/preferences.glade:1415
+msgid "<b>Shortcuts</b>"
+msgstr ""
+
+#: data/preferences.glade:1454
+msgid ""
+"Reset these preferences:\n"
+"<small>Shortcuts</small>"
+msgstr ""
+
+#: data/preferences.glade:1489
+msgid "Shortcuts"
+msgstr ""
+
+#: main_view.py:132
+msgid "Are you sure you want to delete account {}?"
+msgstr ""
+
+#: main_view.py:136
+msgid "Cancel"
+msgstr ""
+
+#: main_view.py:142
+msgid "This operation will be permanent and irreversible."
+msgstr ""
+

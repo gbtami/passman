@@ -1,0 +1,285 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-05 17:03+0000\n"
+"PO-Revision-Date: 2015-12-05 17:06+0000\n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.5\n"
+
+#: application.py:137 ../application.py:124
+msgid "Easy to use password manager."
+msgstr "Gestor de passwords fácil de usar."
+
+#: ../application.py:125
+msgid "Copyright © 2015 - {} authors"
+msgstr "Copyright © 2015 - Autores da aplicação {}"
+
+#: dialogs.py:17
+msgid "New Account"
+msgstr "Conta Nova"
+
+#: dialogs.py:43
+msgid "<b>Service</b>"
+msgstr "<b>Serviço</b>"
+
+#: dialogs.py:53
+msgid "<b>Username</b>"
+msgstr "<b>Utilizador</b>"
+
+#: dialogs.py:63
+msgid "<b>Password</b>"
+msgstr "<b>Senha</b>"
+
+#: dialogs.py:86
+msgid "<b>Notes</b>"
+msgstr "<b>Notas</b>"
+
+#: dialogs.py:120
+msgid "Edit Account"
+msgstr "Alterar Conta"
+
+#: data/menus.ui:6 ../data/menus.ui:6
+msgid "Preferences"
+msgstr "Preferências"
+
+#: data/menus.ui:12 ../data/menus.ui:12
+msgid "Help"
+msgstr "Ajuda"
+
+#: data/menus.ui:16 ../data/menus.ui:16
+msgid "About"
+msgstr "Sobre"
+
+#: data/menus.ui:22 data/preferences.glade:593 ../data/menus.ui:22
+msgid "Quit"
+msgstr "Sair"
+
+#: data/menus.ui:38 data/preferences.glade:581 ../data/menus.ui:38
+msgid "Edit"
+msgstr "Alterar"
+
+#: data/menus.ui:45 data/preferences.glade:585 data/preferences.glade:586
+#: main_view.py:137 ../data/menus.ui:45
+msgid "Delete"
+msgstr "Apagar"
+
+#: data/preferences.glade:477
+msgid "Space"
+msgstr "Espaço"
+
+#: data/preferences.glade:496
+msgid "All"
+msgstr "Todos"
+
+#: data/preferences.glade:508
+msgid "None"
+msgstr "Nenhum"
+
+#: data/preferences.glade:577
+msgid "New"
+msgstr "Nova"
+
+#: data/preferences.glade:589
+msgid "Start"
+msgstr "Iniciar"
+
+#: data/preferences.glade:662
+msgid "Change language for this application:"
+msgstr "Altere o idioma desta aplicação:"
+
+#: data/preferences.glade:685
+msgid "<b>Language</b>"
+msgstr "<b>Idioma</b>"
+
+#: data/preferences.glade:710
+msgid "Run this application as soon as you login."
+msgstr "Inicie esta aplicação assim que fizer login."
+
+#: data/preferences.glade:729
+msgid "<b>Autorun</b>"
+msgstr "<b>Auto-iniciar</b>"
+
+#: data/preferences.glade:754
+msgid "Reset All"
+msgstr "Repor Todas"
+
+#: data/preferences.glade:766 data/preferences.glade:982
+#: data/preferences.glade:1308 data/preferences.glade:1440
+msgid "Reset"
+msgstr "Repor"
+
+#: data/preferences.glade:780
+msgid ""
+"Reset these preferences:\n"
+"<small>General</small>"
+msgstr ""
+"Repor estas preferências:\n"
+"<small>Geral</small>"
+
+#: data/preferences.glade:794
+msgid ""
+"Reset all preferences:\n"
+"<small>General, Collections, Passwords and Shortcuts</small>"
+msgstr ""
+"Repor todas as preferências:\n"
+"<small>Geral, Coleções, Senhas, Atalhos</small>"
+
+#: data/preferences.glade:809 data/preferences.glade:1470
+msgid "<b>Resets</b>"
+msgstr "<b>Reposições</b>"
+
+#: data/preferences.glade:825
+msgid "General"
+msgstr "Geral"
+
+#: data/preferences.glade:854
+msgid "Set this collection as the system's default."
+msgstr "Defina esta coleção como padrão do sistema."
+
+#: data/preferences.glade:872
+msgid "<b>Default</b>"
+msgstr "<b>Padrão</b>"
+
+#: data/preferences.glade:897
+msgid "Unlock this collection with your login password."
+msgstr "Desbloqueie esta coleção com a sua senha de login."
+
+#: data/preferences.glade:916
+msgid "Automatically lock the collection after each use."
+msgstr "Bloqueie automaticamente a coleção depois de cada uso."
+
+#: data/preferences.glade:934
+msgid ""
+"<small>This option requires <b>password timeout</b> to be enabled.</small>"
+msgstr "<small>Esta opção requer <b>temporizador de senha</b> ativo.</small>"
+
+#: data/preferences.glade:957
+msgid "<b>Locking</b>"
+msgstr "<b>Bloqueios</b>"
+
+#: data/preferences.glade:996
+msgid ""
+"Reset these preferences:\n"
+"<small>Collections</small>"
+msgstr ""
+"Repor estas preferências:\n"
+"<small>Coleções</small>"
+
+#: data/preferences.glade:1012 data/preferences.glade:1338
+msgid "<b>Reset</b>"
+msgstr "<b>Repor</b>"
+
+#: data/preferences.glade:1031
+msgid "Collection"
+msgstr "Coleção"
+
+#: data/preferences.glade:1063
+msgid "Password size:"
+msgstr "Tamanho da senha:"
+
+#: data/preferences.glade:1088
+msgid "characters"
+msgstr "caracteres"
+
+#: data/preferences.glade:1101
+msgid "<b>Size</b>"
+msgstr "<b>Tamanho</b>"
+
+#: data/preferences.glade:1131
+msgid "Lowercase"
+msgstr "Minúsculas"
+
+#: data/preferences.glade:1144
+msgid "Uppercase"
+msgstr "Maiúsculas"
+
+#: data/preferences.glade:1157
+msgid "Digits"
+msgstr "Dígitos"
+
+#: data/preferences.glade:1170
+msgid "Punctuation"
+msgstr "Pontuação"
+
+#: data/preferences.glade:1197
+msgid ""
+"<small>Choose the type of characters to use on your randomly generated "
+"passwords.</small>"
+msgstr ""
+"<small>Escolha o tipo de caracteres usados nas suas senhas geradas "
+"aleatoriamente.</small>"
+
+#: data/preferences.glade:1213
+msgid "<b>Alphabet</b>"
+msgstr "<b>Alfabeto</b>"
+
+#: data/preferences.glade:1238
+msgid "Set password timeout:"
+msgstr "Defina intervalo:"
+
+#: data/preferences.glade:1270
+msgid "seconds"
+msgstr "segundos"
+
+#: data/preferences.glade:1283
+msgid "<b>Timeout</b>"
+msgstr "<b>Temporizador</b>"
+
+#: data/preferences.glade:1322
+msgid ""
+"Reset these preferences:\n"
+"<small>Passwords</small>"
+msgstr ""
+"Repor estas preferências:\n"
+"<small>Senhas</small>"
+
+#: data/preferences.glade:1357
+msgid "Passwords"
+msgstr "Senhas"
+
+#: data/preferences.glade:1393
+msgid "Action"
+msgstr "Ação"
+
+#: data/preferences.glade:1399
+msgid "Shortcut key"
+msgstr "Tecla de atalho"
+
+#: data/preferences.glade:1415
+msgid "<b>Shortcuts</b>"
+msgstr "<b>Atalhos</b>"
+
+#: data/preferences.glade:1454
+msgid ""
+"Reset these preferences:\n"
+"<small>Shortcuts</small>"
+msgstr ""
+"Repor estas preferências:\n"
+"<small>Atalhos</small>"
+
+#: data/preferences.glade:1489
+msgid "Shortcuts"
+msgstr "Atalhos"
+
+#: main_view.py:132
+msgid "Are you sure you want to delete account {}?"
+msgstr "Tem a certeza que deseja apagar a conta {}?"
+
+#: main_view.py:136
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: main_view.py:142
+msgid "This operation will be permanent and irreversible."
+msgstr "Esta operação será permanente e irreversível."
