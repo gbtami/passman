@@ -65,3 +65,4 @@ stack
 windows
 data/#gui.glade#
 data/gui.glade~
+data/images/*
