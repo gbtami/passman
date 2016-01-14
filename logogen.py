@@ -278,7 +278,7 @@ class LogoServer:
         path = self.data_dir / 'logo_name_cache.bz2'
         with bz2.open(str(path), 'rb') as logo_name_cache_file:
             logo_name_cache_bytes = logo_name_cache_file.read()
-            self.logo_name_cache = pickle.loads(logo_name_cache_bytes)
+            self.logo_name_cache = set(pickle.loads(logo_name_cache_bytes))
     
     def get_cache(self, logo_name, callback):
         if logo_name in self.logo_name_cache:
