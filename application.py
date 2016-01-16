@@ -94,11 +94,24 @@ class Application(Gtk.Application):
         self.window.add(self.main_view)
     
     def on_window_delete(self, widget, event):
+        '''
+        The window should hide most of the time.
+        The program is supposed to startup quickly, and the best way to do that
+        it's to not startup at all. So each time the user just wants the window
+        to go away, it gets hidden, even when the close button is clicked.
+        When the user makes an explicit effort to close the program, either
+        using the app menus Quit option, or by pressing the quit shortcut,
+        which will be different than the hide shortcut, then we close it.
+        '''
         self.main_view.window_hide()
         # Stop other handlers from running.
         return True
     
     def add_show_shortcut(self, keystring):
+        '''
+        The show shortcut works both to show and hide the window. So we need
+        to check if the window is visible before activating it or hiding it.
+        '''
         if self.window.is_visible():
             self.main_view.window_hide()
         else:
@@ -121,6 +134,9 @@ class Application(Gtk.Application):
     #        settings.set_string('binding', shortcuts['app-show'])
     
     def on_handle_local_options(self, application, options):
+        '''
+        This method will handle the command line options.
+        '''
         if options.contains('hide'):
             self.hide_flag = True
             self.started_hidden = True
@@ -128,6 +144,9 @@ class Application(Gtk.Application):
         return -1
     
     def add_actions(self):
+        '''
+        This method will add actions to this application action map.
+        '''
         shortcuts = self.settings.get_child('shortcuts')
         action_methods = [('preferences', self.on_preferences, ''),
                           ('help', self.on_help, ''),
@@ -146,6 +165,30 @@ class Application(Gtk.Application):
                 self.set_accels_for_action('app.' + name, [shortcuts[accel]])
     
     def on_activate(self, app):
+        '''
+        This method will activate the window, most of the time.
+        This method gets called when the application is first run, so it needs
+        to check if the hide flag was specified, if it was, it won't actually
+        activate the window, and it won't populate the window with any data.
+        The reason for this is because the data that needs to be displayed is
+        inside a collection, which may be locked, asking the user for a
+        password on login, which is when by default the application is run,
+        will be an unintuitive experience. The password may be in the 'Login'
+        keyring, in which case the collection will be unlocked automatically,
+        but we can't rely on that, and so the data is only unlocked and loaded
+        when the application is first shown. This will slow the first show a
+        bit, but if the password to unlock the collection is required, the user
+        will know why that popup asking for a password is showing.
+        Also when the collection is first unlock, and the user doesn't input
+        the correct password, or just cancels the popup, there will be
+        different behaviour depending on whether the application was run
+        initially hidden or not. We feel it's best to return the window to the
+        previous state to deliver a more intuitive experience to the user.
+        So if the window is hidden, then it's shown, and needs a password to
+        unlock the collection, if that password query fails, it returns to
+        being hidden. If the application is being started without the hide flag
+        and a password query fails, then the application is shutdown.
+        '''
         if self.hide_flag:
             self.hide_flag = False
             return
@@ -163,10 +206,19 @@ class Application(Gtk.Application):
                 self.quit()
     
     def on_size_allocate(self, widget, allocation):
+        '''
+        This method records any changes to the window size.
+        We could store these settings in real time on disk, but the smoothness
+        of the resizing operation would suffer a bit too much.
+        '''
         self.width = allocation.width
         self.height = allocation.height
     
     def on_shutdown(self, app):
+        '''
+        This method saves some settings on shutdown,
+        locks the collection, and does some cleanup.
+        '''
         window = Gio.Settings(schema=self.schema_id + '.window')
         self.win_settings.set_value('width', GLib.Variant('q', self.width))
         self.win_settings.set_value('height', GLib.Variant('q', self.height))
@@ -178,6 +230,10 @@ class Application(Gtk.Application):
         self.main_view.secret.lock()
     
     def on_preferences(self, obj, param):
+        '''
+        This method startsup the preferences dialog, making sure it's
+        the only one currently being displayed.
+        '''
         # This check is required to avoid multiple 'preferences' windows.
         if self.preferences_dialog != None:
             self.preferences_dialog.present()
@@ -191,6 +247,10 @@ class Application(Gtk.Application):
         print('help')
     
     def on_about(self, obj, param):
+        '''
+        This method shows the about dialog, making sure it's
+        the only one currently being displayed.
+        '''
         # This check is required to avoid multiple 'about' windows.
         if self.about_dialog != None:
             self.about_dialog.present()
