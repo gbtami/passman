@@ -476,7 +476,7 @@ class PreferencesDialog(Gtk.Dialog):
     def set_accel(self, accel_name, action):
         accels = self.app.get_accels_for_action(action)
         if accels:
-            self.app.remove_accelerator(action, None)
+            self.app.set_accels_for_action(action, [])
         if accel_name:
             self.app.set_accels_for_action(action, [accel_name])
     
