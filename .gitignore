@@ -57,12 +57,12 @@ docs/_build/
 target/
 
 # Custom
-test.py
+passman/test.py
 TODO
 files
 ve0
-windows
+passman/windows
 version
-data/#gui.glade#
-data/gui.glade~
-data/images/*
+passman/data/#gui.glade#
+passman/data/gui.glade~
+passman/data/images/*
