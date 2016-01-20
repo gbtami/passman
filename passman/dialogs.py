@@ -12,8 +12,8 @@ require_version('GdkPixbuf', '2.0')
 require_version('Keybinder', '3.0')
 from gi.repository import Gtk, GdkPixbuf, GLib, Gio, Keybinder
 
-from passgen import PassGen
-from logogen import LogoHeader
+from .passgen import PassGen
+from .logogen import LogoHeader
 
 class AddDialog(Gtk.Dialog):
     '''

@@ -10,9 +10,9 @@ require_version('Gdk', '3.0')
 require_version('Secret', '1')
 from gi.repository import Gtk, Gdk, Gio, GLib, Secret
 
-from libsecret import LibSecret
-from dialogs import EditDialog
-from logogen import LogoTile
+from .libsecret import LibSecret
+from .dialogs import EditDialog
+from .logogen import LogoTile
 
 
 class MainView(Gtk.ScrolledWindow):

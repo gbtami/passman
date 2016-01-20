@@ -13,9 +13,9 @@ require_version('Gdk', '3.0')
 require_version('Keybinder', '3.0')
 from gi.repository import Gtk, Gdk, Gio, GLib, Keybinder
 
-from header_bar import HeaderBar
-from main_view import MainView
-from dialogs import PreferencesDialog
+from .header_bar import HeaderBar
+from .main_view import MainView
+from .dialogs import PreferencesDialog
 
 
 class Application(Gtk.Application):

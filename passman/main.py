@@ -24,7 +24,7 @@ gettext.install('passman', '/home/xor/workspace/passman/locale')
 
 import sys
 
-from application import Application
+from .application import Application
 
 
 def main():

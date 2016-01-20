@@ -8,7 +8,7 @@ from gi import require_version
 require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib, Gio
 
-from dialogs import AddDialog
+from .dialogs import AddDialog
 
 
 class HeaderBar(Gtk.HeaderBar):
