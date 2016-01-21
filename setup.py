@@ -3,8 +3,12 @@ from os import path
 from gi.repository import GLib
 from pathlib import Path
 
-app_dir = str(Path(GLib.get_system_data_dirs()[-1]) / 'applications')
-cfg_dir = str(Path(GLib.get_user_config_dir()[-1]) / 'autostart')
+sys_data_dir = Path(GLib.get_system_data_dirs()[-1])
+schema_dir = str(sys_data_dir / 'glib-2.0' / 'schemas')
+app_dir = str(sys_data_dir / 'applications')
+app_data_dir = str(sys_data_dir / 'passman')
+cfg_dir = Path(GLib.get_user_config_dir())
+autostart_dir = str(cfg_dir / 'autostart')
 
 here = path.abspath(path.dirname(__file__))
 
@@ -86,24 +90,24 @@ setup(
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
-    package_data={'passman': ['data/gui.glade',
-                              'data/gui.ui',
-                              'data/logo_name_cache.bz2',
-                              'data/passman-autostart.desktop',
-                              'data/com.idlecore.passman.gschema.xml',
-                              'freedesktop/passman.desktop',
-                              'freedesktop/passman-autostart.desktop']},
+    # package_data={'sample': ['package_data.dat']},
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    data_files=[(app_dir, ['passman/freedesktop/passman.desktop']),
-                (cfg_dir, ['passman/freedesktop/passman-autostart.desktop'])],
+    # data_files=[('my_data', ['data/data_file'])],
+    data_files=[(app_dir, ['freedesktop/passman.desktop']),
+                (autostart_dir, ['freedesktop/passman-autostart.desktop']),
+                (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
+                (app_data_dir, ['gui/glade',
+                                'gui/ui',
+                                'cache/logo_name_cache.bz2',
+                                'freedesktop/passman-autostart.desktop'])],
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
-    entry_points={'console_scripts': ['passman = passman.main:main']}
+    entry_points={'console_scripts': ['passman=passman.main:main']}
 )
 
