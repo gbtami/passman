@@ -60,9 +60,8 @@ target/
 passman/test.py
 TODO
 files
-ve0
-passman/windows
+windows
 version
-passman/data/#gui.glade#
-passman/data/gui.glade~
-passman/data/images/*
+gui/#gui.glade#
+gui/gui.glade~
+
