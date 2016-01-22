@@ -29,14 +29,13 @@ class LogoHeader:
     size = 128
     interp = GdkPixbuf.InterpType.BILINEAR
     
-    def __init__(self, data_dir):
+    def __init__(self, app):
         self.service = ''
-        self.data_dir = data_dir
-        self.img_dir = data_dir / 'images'
+        self.app = app
         self.grid = Gtk.Grid()
         self.image = Gtk.Image()
         self.grid.attach(self.image, 0, 0, 1, 1)
-        self.logo_server = LogoServer(data_dir)
+        self.logo_server = LogoServer(app)
         self.spin = LogoSpin(self.grid, self.image)
         self.set_image()
     
@@ -98,7 +97,7 @@ class LogoHeader:
         all_filter.set_name('All Files')
         all_filter.add_pattern('*')
         dialog.add_filter(all_filter)
-        dialog.set_current_folder(str(self.img_dir))
+        dialog.set_current_folder(str(self.app.img_dir))
         response = dialog.run()
         logo_name = ''
         if response == Gtk.ResponseType.OK:
@@ -108,7 +107,7 @@ class LogoHeader:
         return logo_name
     
     def make_logo_tile(self, username, size, mode):
-        return LogoTile(self.data_dir, self.logo, self.service,
+        return LogoTile(self.app, self.logo, self.service,
                         username, size, mode)
 
 
@@ -119,14 +118,13 @@ class LogoTile:
     
     interp = GdkPixbuf.InterpType.BILINEAR
     
-    def __init__(self, data_dir, logo, service, username, size, mode):
-        self.data_dir = data_dir
+    def __init__(self, app, logo, service, username, size, mode):
+        self.app = app
         self.logo = logo
         self.service = service
         self.username = username
         self.size = size
         self.mode = mode
-        self.img_dir = data_dir / 'images'
         self.grid = Gtk.Grid()
         self.image = Gtk.Image()
         self.grid.attach(self.image, 0, 0, 1, 1)
@@ -143,7 +141,7 @@ class LogoTile:
             self.grid.set_halign(Gtk.Align.FILL)
             self.grid.attach(self.label, 1, 0, 1, 1)
             self.separator = '<b>: </b>'
-        self.logo_server = LogoServer(data_dir)
+        self.logo_server = LogoServer(app)
         self.spin = LogoSpin(self.grid, self.image)
         self.set_image(logo, True)
         self.set_label()
@@ -243,7 +241,7 @@ class LogoTile:
             return self.size * 24
 
     def make_logo_header(self):
-        logo_header = LogoHeader(self.data_dir)
+        logo_header = LogoHeader(self.app)
         logo_header.set_service(self.service)
         logo_header.set_image(self.logo)
         return logo_header
@@ -257,9 +255,8 @@ class LogoServer:
     logo_server = 'http://localhost:8080/logo_server'
     timeout = 2
     
-    def __init__(self, data_dir):
-        self.data_dir = data_dir
-        self.img_dir = data_dir / 'images'
+    def __init__(self, app):
+        self.app = app
         self.load_cache()
     
     def load_cache(self):
@@ -275,7 +272,7 @@ class LogoServer:
         available in the logo server, but when the password is created, there
         is one last unconditional logo check that will catch those cases.
         '''
-        path = self.data_dir / 'logo_name_cache.bz2'
+        path = self.app.sys_data_dir / 'logo_name_cache.bz2'
         with bz2.open(str(path), 'rb') as logo_name_cache_file:
             logo_name_cache_bytes = logo_name_cache_file.read()
             self.logo_name_cache = set(pickle.loads(logo_name_cache_bytes))
@@ -290,8 +287,8 @@ class LogoServer:
         return GdkPixbuf.Pixbuf.new_from_file(path)
     
     def get_local(self, logo_name):
-        if logo_name in os.listdir(str(self.img_dir)):
-            path = str(self.img_dir / logo_name / 'logo.png')
+        if logo_name in os.listdir(str(self.app.img_dir)):
+            path = str(self.app.img_dir / logo_name / 'logo.png')
             return GdkPixbuf.Pixbuf.new_from_file(path)
     
     def get_remote(self, logo_name, callback):
@@ -311,7 +308,7 @@ class LogoServer:
             if r.status_code == requests.codes.ok and len(r.content) > 0:
                 with io.BytesIO(r.content) as in_memory_file:
                     logo_file = tarfile.open(fileobj=in_memory_file, mode='r:')
-                    path = str(self.data_dir)
+                    path = str(self.app.user_data_dir)
                     logo_file.extractall(path=path)
                     logo_file.close()
         except requests.exceptions.RequestException as e:
