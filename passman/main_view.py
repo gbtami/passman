@@ -84,7 +84,7 @@ class MainView(Gtk.ScrolledWindow):
         else:
             logo = item.get_attributes()['logo']
             service = item.get_attributes()['service']
-            button.logo = LogoTile(self.app.data_dir, logo, service,
+            button.logo = LogoTile(self.app, logo, service,
                                    username, size, mode)
         button.add(button.logo.grid)
         return button
@@ -139,7 +139,8 @@ class MainView(Gtk.ScrolledWindow):
         text = self.secret.get_secret(button.item)
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, len(text))
-        self.window_hide()
+        if self.autohide:
+            self.window_hide()
         if self.timeout:
             if self.source:
                 GLib.source_remove(self.source)
@@ -149,8 +150,8 @@ class MainView(Gtk.ScrolledWindow):
     def window_hide(self):
         if self.autolock:
             self.secret.lock()
-        if self.autohide:
-            self.app.window.hide()
+        for toplevel in self.app.window.list_toplevels():
+            toplevel.hide()
     
     def on_timeout_over(self):
         self.source = None
