@@ -5,6 +5,8 @@ Module for the Dialog classes
 '''
 
 import string
+import shutil
+import os
 
 from gi import require_version
 require_version('Gtk', '3.0')
@@ -46,7 +48,7 @@ class AddDialog(Gtk.Dialog):
         if logo:
             self.logo = logo
         else:
-            self.logo = LogoHeader(app.data_dir)
+            self.logo = LogoHeader(app)
         self.logo_button.add(self.logo.grid)
         self.logo_button.set_halign(Gtk.Align.CENTER)
         grid.attach(self.logo_button, 0, 0, 1, 1)
@@ -275,7 +277,7 @@ class PreferencesDialog(Gtk.Dialog):
         status = toggle_button.get_active()
         self.general.set_boolean('autorun', status)
         if status:
-            source = str(self.app.data_dir / self.app.autostart_file)
+            source = str(self.app.sys_data_dir / self.app.autostart_file)
             destination = str(self.app.autostart_dir)
             shutil.copy(source, destination)
         else:
