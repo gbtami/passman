@@ -16,15 +16,15 @@ import gettext
 # internally invoke gettext() or dcgettext(). For these applications,
 # it may be necessary to bind the text domain, so that the libraries
 # can properly locate their message catalogs.
-locale.bindtextdomain('passman', '/home/xor/workspace/passman/locale')
+locale.bindtextdomain('passman', '/home/xor/workspace/idlecore/passman/locale')
 
 # We need to install this before anything else because the _() function will
 # be added to the built-ins, and it will be used in the Application class
-gettext.install('passman', '/home/xor/workspace/passman/locale')
+gettext.install('passman', '/home/xor/workspace/idlecore/passman/locale')
 
 import sys
 
-from .application import Application
+from passman.application import Application
 
 
 def main():
