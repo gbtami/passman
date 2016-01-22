@@ -27,20 +27,20 @@ class Application(Gtk.Application):
     title = name
     version = '0.1.0'
     icon = 'dialog-password'
-    website = 'http://www.idlecore.com/passman'
+    website = 'https://github.com/xor/passman'
     spacing = 8
     app_id = 'com.idlecore.passman'
     app_dir = name.lower()
-    data_dir = Path(GLib.get_user_data_dir()) / app_dir
-    config_dir = Path(GLib.get_user_config_dir()) / app_dir
+    user_data_dir = Path(GLib.get_user_data_dir()) / app_dir
+    sys_data_dir = Path(GLib.get_system_data_dirs()[-1]) / app_dir
     autostart_dir = Path(GLib.get_user_config_dir()) / 'autostart'
     autostart_file = 'passman-autostart.desktop'
-    log_dir = config_dir / 'logs'
+    log_dir = user_data_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
-    gui_glade = str(data_dir / 'gui.glade')
-    gui_ui = str(data_dir / 'gui.ui')
+    img_dir = user_data_dir / 'images'
+    gui_glade = str(sys_data_dir / 'glade')
+    gui_ui = str(sys_data_dir / 'ui')
     schema_id = app_id
-    schemas_dir = str(data_dir / 'schemas')
     
     def __init__(self):
         # Despite many examples showing __init__ being called with the
@@ -60,6 +60,8 @@ class Application(Gtk.Application):
         self.connect('handle-local-options', self.on_handle_local_options)
     
     def on_startup(self, app):
+        self.create_directories()
+        
         self.settings = Gio.Settings(schema=self.schema_id + '.preferences')
         self.win_settings = Gio.Settings(schema=self.schema_id + '.window')
         self.width = self.win_settings['width']
@@ -81,6 +83,7 @@ class Application(Gtk.Application):
         # sometimes, particularly after hiding the window, and showing again.
         self.window.set_icon_name(self.icon)
         self.main_view = MainView(self)
+        self.window.add(self.main_view)
         
         self.add_actions()
         builder = Gtk.Builder.new_from_file(self.gui_ui)
@@ -90,8 +93,14 @@ class Application(Gtk.Application):
         Keybinder.init()
         shortcuts = self.settings.get_child('shortcuts')
         Keybinder.bind(shortcuts['app-show'], self.add_show_shortcut)
-        
-        self.window.add(self.main_view)
+    
+    def create_directories(self):
+        if not self.user_data_dir.exists():
+            self.user_data_dir.mkdir(mode=0o700)
+        if not self.log_dir.exists():
+            self.log_dir.mkdir(mode=0o700)
+        if not self.img_dir.exists():
+            self.img_dir.mkdir(mode=0o700)
     
     def on_window_delete(self, widget, event):
         '''
@@ -113,8 +122,10 @@ class Application(Gtk.Application):
         to check if the window is visible before activating it or hiding it.
         '''
         if self.window.is_visible():
+            print('hide')
             self.main_view.window_hide()
         else:
+            print('activate', Keybinder.get_current_event_time())
             self.activate()
     
     #def add_show_shortcut_test(self):
@@ -189,10 +200,12 @@ class Application(Gtk.Application):
         being hidden. If the application is being started without the hide flag
         and a password query fails, then the application is shutdown.
         '''
+        print('on_activate')
         if self.hide_flag:
             self.hide_flag = False
             return
         if self.main_view.secret.unlock():
+            print('secret.unlock()')
             if self.first_run:
                 self.first_run = False
                 self.main_view.secret.load_collection()
