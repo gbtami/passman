@@ -26,6 +26,16 @@ class PassGen:
         for i in settings['punctuation']:
             self.alphabet += chr(i)
         r = random.SystemRandom()
-        self.password = [r.choice(self.alphabet) for i in range(self.size)]
-        self.password = ''.join(self.password)
+        if self.alphabet:
+            self.password = [r.choice(self.alphabet) for i in range(self.size)]
+            self.password = ''.join(self.password)
+        else:
+            # This, of course, isn't ideal.
+            # It happens though when the user leaves no characters, in the
+            # preferences, to generate the password with. An empty password
+            # however will never be stored, the Add dialog detects them and
+            # pops up an alert. Anything beyond that however, digit only
+            # passwords, single character alphabet, and other nonsense,
+            # Darwin will have to sort out.
+            self.password = ''
 
