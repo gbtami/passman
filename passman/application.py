@@ -92,7 +92,7 @@ class Application(Gtk.Application):
         
         Keybinder.init()
         shortcuts = self.settings.get_child('shortcuts')
-        Keybinder.bind(shortcuts['app-show'], self.add_show_shortcut)
+        Keybinder.bind(shortcuts['app-show'], self.on_show)
     
     def create_directories(self):
         if not self.user_data_dir.exists():
@@ -105,28 +105,42 @@ class Application(Gtk.Application):
     def on_window_delete(self, widget, event):
         '''
         The window should hide most of the time.
-        The program is supposed to startup quickly, and the best way to do that
-        it's to not startup at all. So each time the user just wants the window
-        to go away, it gets hidden, even when the close button is clicked.
-        When the user makes an explicit effort to close the program, either
-        using the app menus Quit option, or by pressing the quit shortcut,
-        which will be different than the hide shortcut, then we close it.
+        The program is supposed to startup quickly, and the best way to do
+        that it's to not startup at all. So each time the user just wants
+        the window to go away, it gets hidden, even when the close button
+        is clicked. Only when the user makes an explicit effort to quit it
+        should that actually be done. This can be achieved by either using
+        the app menu's Quit option, or by pressing the quit shortcut.
         '''
         self.main_view.window_hide()
         # Stop other handlers from running.
         return True
     
-    def add_show_shortcut(self, keystring):
+    def on_show(self, keystring):
         '''
-        The show shortcut works both to show and hide the window. So we need
-        to check if the window is visible before activating it or hiding it.
+        Getting the show shortcut to work as a toggle is a can of worms.
+        
+        Keybinder repeats the keys if you keep pressing the shortcut.
+            It has no way of disabling key repeat.
+        Keybinder doesn't work with the <Release> tag.
+        Keybinder leaks some key presses into the currently active widget.
+            It's not that it leaks all, it leaks some, it's weird.
+            There is no way to tag an event as handled to prevent event leak.
+        Keybinder grabs focus.
+            I can't check which window has focus.
+        Switching quickly from hide to activate crashes GNOME.
+        There is no way to hide all toplevels consistently.
+            If you have a dialog open, you need to hide it explicitly.
+            If that dialog has a dialog itself, like when you need to show an
+                error message, then you need to explicitly hide that one as
+                well. However depending on the widgets you have on it, and the
+                shortcut you set for Keybinder, some of the keys might leak
+                into the widget and close the dialog, which will reactivate
+                the parent, and negate the hide instruction previously sent.
+        
+        Leave it alone.
         '''
-        if self.window.is_visible():
-            print('hide')
-            self.main_view.window_hide()
-        else:
-            print('activate', Keybinder.get_current_event_time())
-            self.activate()
+        self.activate()
     
     #def add_show_shortcut_test(self):
     #    schema = 'org.gnome.settings-daemon.plugins.media-keys'
@@ -200,12 +214,10 @@ class Application(Gtk.Application):
         being hidden. If the application is being started without the hide flag
         and a password query fails, then the application is shutdown.
         '''
-        print('on_activate')
         if self.hide_flag:
             self.hide_flag = False
             return
         if self.main_view.secret.unlock():
-            print('secret.unlock()')
             if self.first_run:
                 self.first_run = False
                 self.main_view.secret.load_collection()
