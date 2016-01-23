@@ -150,8 +150,7 @@ class MainView(Gtk.ScrolledWindow):
     def window_hide(self):
         if self.autolock:
             self.secret.lock()
-        for toplevel in self.app.window.list_toplevels():
-            toplevel.hide()
+        self.app.window.hide()
     
     def on_timeout_over(self):
         self.source = None

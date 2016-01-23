@@ -487,7 +487,7 @@ class PreferencesDialog(Gtk.Dialog):
         We expect gsettings hasn't been changed yet.
         '''
         Keybinder.unbind(self.shortcuts['app-show'])
-        Keybinder.bind(new, self.app.add_show_shortcut)
+        Keybinder.bind(new, self.app.on_show)
     
     # Can't check if the shortcut is already taken by some other function.
     # Doesn't update in real time.
