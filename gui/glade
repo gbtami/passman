@@ -668,7 +668,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkCheckButton" id="autorun">
+                  <object class="GtkCheckButton" id="autostart">
                     <property name="label" translatable="yes">Run this application as soon as you login.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -676,7 +676,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                     <property name="xalign">0</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_autorun_toggled" swapped="no"/>
+                    <signal name="toggled" handler="on_autostart_toggled" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -689,7 +689,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
               <object class="GtkLabel" id="label6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Autorun&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Autostart&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
             </child>
