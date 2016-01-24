@@ -21,7 +21,7 @@
   
   <schema id="com.idlecore.passman.preferences.general"
           path="/com/idlecore/passman/preferences/general/">
-    <key name="autorun" type="b">
+    <key name="autostart" type="b">
       <default>true</default>
     </key>
     <key name="autohide" type="b">
