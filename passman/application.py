@@ -5,6 +5,8 @@ Module for the Application class
 '''
 
 import logging
+import shutil
+import os
 from pathlib import Path
 
 from gi import require_version
@@ -66,6 +68,7 @@ class Application(Gtk.Application):
         self.win_settings = Gio.Settings(schema=self.schema_id + '.window')
         self.width = self.win_settings['width']
         self.height = self.win_settings['height']
+        self.set_autostart(self.settings.get_child('general')['autostart'])
         self.about_dialog = None
         self.preferences_dialog = None
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
@@ -101,6 +104,18 @@ class Application(Gtk.Application):
             self.log_dir.mkdir(mode=0o700)
         if not self.img_dir.exists():
             self.img_dir.mkdir(mode=0o700)
+        if not self.autostart_dir.exists():
+            self.autostart_dir.mkdir(mode=0o775)
+    
+    def set_autostart(self, status):
+        if status:
+            source = str(self.sys_data_dir / self.autostart_file)
+            destination = str(self.autostart_dir)
+            shutil.copy(source, destination)
+        else:
+            file_path = str(self.autostart_dir / self.autostart_file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
     
     def on_window_delete(self, widget, event):
         '''
@@ -223,9 +238,11 @@ class Application(Gtk.Application):
                 self.main_view.secret.load_collection()
                 self.main_view.init_buttons()
             self.window.show()
-            # This seems to be the only way to actually
-            # make the window get keyboard focus.
-            self.window.get_window().focus(0)
+            # This line will produce warnings on journalctl when passman
+            # is activated without using the keyboard shortcut.
+            # This happens because Gtk doesn't set this as the current event,
+            # and so we have no object to get the time from.
+            self.window.get_window().focus(Keybinder.get_current_event_time())
         else:
             if not self.started_hidden:
                 self.quit()
