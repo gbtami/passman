@@ -4,6 +4,9 @@ include LICENSE.txt
 # Include the desktop file
 include freedesktop/passman.desktop
 
+# Include the autostart desktop file
+include freedesktop/passman-autostart.desktop
+
 # Include schema file
 include schema/com.idlecore.passman.gschema.xml
 
