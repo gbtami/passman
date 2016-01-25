@@ -1,4 +1,3 @@
-rm -r /home/xor/.config/passman
 rm -r /home/xor/.config/autostart/passman-autostart.desktop
 rm -r /home/xor/.local/share/passman
 rm /usr/bin/passman
