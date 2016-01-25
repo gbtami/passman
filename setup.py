@@ -7,11 +7,13 @@ sys_data_dir = Path(GLib.get_system_data_dirs()[-1])
 schema_dir = str(sys_data_dir / 'glib-2.0' / 'schemas')
 app_dir = str(sys_data_dir / 'applications')
 app_data_dir = str(sys_data_dir / 'passman')
-cfg_dir = Path(GLib.get_user_config_dir())
 
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+    f.readline()
+    f.readline()
+    f.readline()
     long_description = f.read()
 
 setup(
@@ -22,7 +24,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.1.0',
 
-    description='Easy to use password manager.',
+    description='Easy to use password manager',
     long_description=long_description,
 
     # The project's main homepage.
