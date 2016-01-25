@@ -5,8 +5,6 @@ Module for the Dialog classes
 '''
 
 import string
-import shutil
-import os
 
 from gi import require_version
 require_version('Gtk', '3.0')
@@ -178,8 +176,8 @@ class PreferencesDialog(Gtk.Dialog):
         notebook = self.builder.get_object('notebook')
         
         self.general = app.settings.get_child('general')
-        autorun = self.builder.get_object('autorun')
-        autorun.set_active(self.general['autorun'])
+        autostart = self.builder.get_object('autostart')
+        autostart.set_active(self.general['autostart'])
         autohide = self.builder.get_object('autohide')
         autohide.set_active(self.general['autohide'])
         
@@ -273,17 +271,10 @@ class PreferencesDialog(Gtk.Dialog):
         box.add(notebook)
         self.show_all()
     
-    def on_autorun_toggled(self, toggle_button):
+    def on_autostart_toggled(self, toggle_button):
         status = toggle_button.get_active()
-        self.general.set_boolean('autorun', status)
-        if status:
-            source = str(self.app.sys_data_dir / self.app.autostart_file)
-            destination = str(self.app.autostart_dir)
-            shutil.copy(source, destination)
-        else:
-            file_path = str(self.app.autostart_dir / self.app.autostart_file)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
+        self.general.set_boolean('autostart', status)
+        self.app.set_autostart(status)
     
     def on_autohide_toggled(self, toggle_button):
         status = toggle_button.get_active()
@@ -291,9 +282,9 @@ class PreferencesDialog(Gtk.Dialog):
         self.app.main_view.autohide = status
     
     def on_reset_general_clicked(self, button):
-        default = self.general.get_default_value('autorun')
-        autorun = self.builder.get_object('autorun')
-        autorun.set_active(default)
+        default = self.general.get_default_value('autostart')
+        autostart = self.builder.get_object('autostart')
+        autostart.set_active(default)
         default = self.general.get_default_value('autohide')
         autohide = self.builder.get_object('autohide')
         autohide.set_active(default)
