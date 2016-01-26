@@ -62,6 +62,6 @@ TODO
 files
 windows
 version
-gui/#gui.glade#
-gui/gui.glade~
+gui/#glade#
+gui/glade~
 
