@@ -68,7 +68,9 @@ class Application(Gtk.Application):
         self.win_settings = Gio.Settings(schema=self.schema_id + '.window')
         self.width = self.win_settings['width']
         self.height = self.win_settings['height']
-        self.set_autostart(self.settings.get_child('general')['autostart'])
+        self.general_settings = self.settings.get_child('general')
+        self.set_autostart(self.general_settings['autostart'])
+        self.closehide = self.general_settings['closehide']
         self.about_dialog = None
         self.preferences_dialog = None
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG,
@@ -127,9 +129,12 @@ class Application(Gtk.Application):
         should that actually be done. This can be achieved by either using
         the app menu's Quit option, or by pressing the quit shortcut.
         '''
-        self.main_view.window_hide()
-        # Stop other handlers from running.
-        return True
+        if self.closehide:
+            self.main_view.window_hide()
+            # Stop other handlers from running.
+            return True
+        else:
+            return False
     
     def on_show(self, keystring):
         '''

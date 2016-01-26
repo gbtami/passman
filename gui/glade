@@ -624,7 +624,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="column_spacing">8</property>
                 <child>
                   <object class="GtkCheckButton" id="autohide">
-                    <property name="label" translatable="yes">Hide window on click.</property>
+                    <property name="label" translatable="yes">Automatically hide after choosing a password.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -638,13 +638,29 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkCheckButton" id="closehide">
+                    <property name="label" translatable="yes">When closing window, just hide, don't quit.</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="xalign">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_closehide_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
               </object>
             </child>
             <child type="label">
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Autohide&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Window&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
             </child>

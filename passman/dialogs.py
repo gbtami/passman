@@ -180,6 +180,8 @@ class PreferencesDialog(Gtk.Dialog):
         autostart.set_active(self.general['autostart'])
         autohide = self.builder.get_object('autohide')
         autohide.set_active(self.general['autohide'])
+        closehide = self.builder.get_object('closehide')
+        closehide.set_active(self.general['closehide'])
         
         self.collection = app.settings.get_child('collection')
         default_button = self.builder.get_object('default_button')
@@ -281,6 +283,11 @@ class PreferencesDialog(Gtk.Dialog):
         self.general.set_boolean('autohide', status)
         self.app.main_view.autohide = status
     
+    def on_closehide_toggled(self, toggle_button):
+        status = toggle_button.get_active()
+        self.general.set_boolean('closehide', status)
+        self.app.closehide = status
+    
     def on_reset_general_clicked(self, button):
         default = self.general.get_default_value('autostart')
         autostart = self.builder.get_object('autostart')
@@ -288,6 +295,9 @@ class PreferencesDialog(Gtk.Dialog):
         default = self.general.get_default_value('autohide')
         autohide = self.builder.get_object('autohide')
         autohide.set_active(default)
+        default = self.general.get_default_value('closehide')
+        closehide = self.builder.get_object('closehide')
+        closehide.set_active(default)
     
     def on_reset_all_clicked(self, button):
         reset_general = self.builder.get_object('reset_general')
