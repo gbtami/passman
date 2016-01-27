@@ -237,10 +237,22 @@ class Application(Gtk.Application):
         if self.hide_flag:
             self.hide_flag = False
             return
+        # If the collection wasn't created quit
+        if not self.main_view.secret.collection:
+            self.quit()
+            return
         if self.main_view.secret.unlock():
+            # The app can start hidden to speed up showing it later,
+            # but I wouldn't want to ask for a collection password right after
+            # the user logs in, particularly because the collection would be
+            # locked and the user would have to input the password again later
+            # when showing the window. So I populate the buttons on the first
+            # show instead. I also set the started_hidden flag, this makes the
+            # app never quit when coming from hiding and the unlock fails,
+            # it will just keep hidden.
             if self.first_run:
                 self.first_run = False
-                self.main_view.secret.load_collection()
+                self.started_hidden = True
                 self.main_view.init_buttons()
             self.window.show()
             # This line will produce warnings on journalctl when passman
@@ -249,6 +261,8 @@ class Application(Gtk.Application):
             # and so we have no object to get the time from.
             self.window.get_window().focus(Keybinder.get_current_event_time())
         else:
+            # If the application starts hidden, I prefer to return the app to
+            # the previous state, hidden, instead of quitting.
             if not self.started_hidden:
                 self.quit()
     
@@ -274,7 +288,8 @@ class Application(Gtk.Application):
         if self.main_view.timeout:
             clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
             clipboard.clear()
-        self.main_view.secret.lock()
+        if self.main_view.secret.collection:
+            self.main_view.secret.lock()
     
     def on_preferences(self, obj, param):
         '''

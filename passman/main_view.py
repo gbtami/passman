@@ -66,6 +66,7 @@ class MainView(Gtk.ScrolledWindow):
             return 0
     
     def init_buttons(self):
+        self.secret.load_collection()
         for item in self.secret.collection.get_items():
             button = self.create_button(item)
             self.insert_button(button)
