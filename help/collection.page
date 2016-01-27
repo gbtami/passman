@@ -1,0 +1,15 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="collection">
+  
+  <info>
+    <link type="guide" xref="index#preferences"/>
+    <desc>
+      Learn about the preferences for the collection
+      where your accounts are stored in.
+    </desc>
+  </info>
+  
+  <title>Collection Preferences</title>
+
+</page>

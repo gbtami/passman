@@ -1,0 +1,12 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="delete">
+  
+  <info>
+    <link type="guide" xref="index#management"/>
+    <desc>Learn how to delete an existing account.</desc>
+  </info>
+  
+  <title>Delete Account</title>
+
+</page>

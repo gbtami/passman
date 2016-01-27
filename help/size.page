@@ -1,0 +1,14 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="size">
+
+  <info>
+    <link type="guide" xref="index#appearance"/>
+    <desc>
+      Learn how to change the size of the account buttons on your application.
+    </desc>
+  </info>
+  
+  <title>Change Button Size</title>
+
+</page>

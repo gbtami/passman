@@ -1,0 +1,12 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="add">
+  
+  <info>
+    <link type="guide" xref="index#management"/>
+    <desc>Learn how to create a new account.</desc>
+  </info>
+  
+  <title>Create Account</title>
+
+</page>

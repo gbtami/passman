@@ -1,0 +1,14 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="general">
+  
+  <info>
+    <link type="guide" xref="index#preferences"/>
+    <desc>
+      Learn about the general purpose preferences for this application.
+    </desc>
+  </info>
+  
+  <title>General Preferences</title>
+
+</page>

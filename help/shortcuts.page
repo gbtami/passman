@@ -1,0 +1,14 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="shortcuts">
+  
+  <info>
+    <link type="guide" xref="index#preferences"/>
+    <desc>
+      Learn about the shortcuts for this application and how to change them.
+    </desc>
+  </info>
+  
+  <title>Shortcuts Preferences</title>
+
+</page>

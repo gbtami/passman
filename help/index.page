@@ -1,0 +1,25 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="guide"
+      id="index">
+  
+  <title>Passman Help</title>
+  
+  <p>
+    Welcome to the PassMan help page. For a quick introduction
+    read the <link xref="tutorial"/> page. For more information
+    consult the sections bellow.
+  </p>
+  
+  <section id="management" style="2column">
+    <title>Account Management</title>
+  </section>
+  
+  <section id="appearance" style="2column">
+    <title>Visual Appearance</title>
+  </section>
+  
+  <section id="preferences" style="2column">
+    <title>Application Preferences</title>
+  </section>
+
+</page>

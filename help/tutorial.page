@@ -1,0 +1,14 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="tutorial">
+  
+  <info>
+    <link type="guide" xref="index"/>
+    <desc>
+      A quick tutorial that will show you the basics of using this application.
+    </desc>
+  </info>
+  
+  <title>Getting Started</title>
+
+</page>
