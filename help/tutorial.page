@@ -10,5 +10,46 @@
   </info>
   
   <title>Getting Started</title>
+  
+  <section>
+    <title>First run</title>
+    <p>
+      <app>Passman</app> needs to create a collection to store all the accounts
+      you will create. So when it runs for the first time, it tries to create
+      that collection and asks you for a password to protect it.
+      <em style="strong">This password is very important, it's the one password
+      you must always remember and it must be strong. A strong password should
+      have at least 16 characters, should use lower and uppercase letters,
+      digits and punctuation.</em> If you can't think of a good one, don't
+      worry, just use a password you can remember, and you can change it later
+      on the <gui>Preferences</gui>. You can also generate a random password,
+      by creating a new account, and taking the password that was randomly
+      generated for it.
+    </p>
+  </section>
+  
+  <section>
+    <title>Creating your first account</title>
+    <p>
+      You can create an account in two different ways. You can press the button
+      on the title bar, on the left, with a plus symbol, or you can use the
+      keyboard shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>N</key></keyseq>.
+    </p>
+    <media src="images/new_button.png"/>
+    <p>
+      This will open the <gui>New Account</gui> dialog.
+    </p>
+    <media src="images/new_account.png"/>
+    <p>
+      Here you only need to fill in the <gui>Service</gui> field. The
+      <gui>Password</gui> field also needs to be filled, but <app>PassMan</app>
+      does that automatically for you with a random password. The
+      <gui>Username</gui> field isn't required, but if you have several
+      accounts on the same service, you'll probably want to fill in the
+      username so you can tell the accounts apart.
+    </p>
+    <media src="images/sample_account.png"/>
+  </section>
 
 </page>
