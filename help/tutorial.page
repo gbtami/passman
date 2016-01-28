@@ -31,25 +31,127 @@
   <section>
     <title>Creating your first account</title>
     <p>
-      You can create an account in two different ways. You can press the button
-      on the title bar, on the left, with a plus symbol, or you can use the
-      keyboard shortcut, which by default is
+      You can create an account in two different ways. You can press the
+      <gui style="button">New Account</gui> button on the title bar, or you
+      can use the <gui>New</gui> keyboard shortcut, which by default is
       <keyseq><key>Ctrl</key><key>N</key></keyseq>.
     </p>
-    <media src="images/new_button.png"/>
+    <figure>
+      <desc>
+        The <gui style="button">New Account</gui> button on the title bar.
+      </desc>
+      <media src="images/new_button.png"/>
+    </figure>
     <p>
       This will open the <gui>New Account</gui> dialog.
     </p>
-    <media src="images/new_account.png"/>
+    <figure>
+      <desc>
+        The <gui>New Account</gui> dialog.
+      </desc>
+      <media src="images/new_account.png"/>
+    </figure>
     <p>
-      Here you only need to fill in the <gui>Service</gui> field. The
+      Here you only need to fill the <gui>Service</gui> field. The
       <gui>Password</gui> field also needs to be filled, but <app>PassMan</app>
       does that automatically for you with a random password. The
       <gui>Username</gui> field isn't required, but if you have several
-      accounts on the same service, you'll probably want to fill in the
-      username so you can tell the accounts apart.
+      accounts on the same service, you'll probably want to fill it so you
+      can tell the accounts apart.
     </p>
-    <media src="images/sample_account.png"/>
+    <figure>
+      <desc>
+        A filled <gui>New Account</gui> dialog.
+      </desc>
+      <media src="images/sample_account.png"/>
+    </figure>
+    <p>
+      You can just press <gui style="button">OK</gui> and the account will
+      be created for you.
+    </p>
+    <figure>
+      <desc>
+        A newly created account being displayed on the main window.
+      </desc>
+      <media src="images/account_created.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Showing and hiding</title>
+    <p>
+      You just created a new account, but you don't need it quite just yet, so
+      you want to close this window. You can do it by pressing the
+      <gui style="button">Close</gui> button on the title bar or by using
+      the system's keyboard shortcut to close a window, which by default is
+      <keyseq><key>Alt</key><key>F4</key></keyseq>.
+    </p>
+    <figure>
+      <desc>
+        The <gui style="button">Close</gui> button on the title bar.
+      </desc>
+      <media src="images/close_button.png"/>
+    </figure>
+    <p>
+      <app>PassMan</app> however doesn't like being closed, it likes to stay
+      hidden so that when it's needed it can show up quicker. So whenever you
+      close this window, you are actually just hiding it. To show the window
+      again you can just run <app>PassMan</app> again, or, and this is the
+      <em style="strong">best way</em>, you can use the <gui>Show</gui>
+      keyboard shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>Space</key></keyseq>.
+    </p>
+    <p>  
+      If you ever want to actually close <app>PassMan</app>, you can also
+      do it either by choosing the <gui>Quit</gui> option from the
+      <gui>Application Menu</gui>, or using the <gui>Quit</gui> keyboard
+      shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>Q</key></keyseq>.
+      Keep in mind however that if <app>PassMan</app> isn't running, the
+      <gui>Show</gui> keyboard shortcut won't work.
+    </p>
+    <figure>
+      <desc>
+        The <gui>Application Menu</gui> with the <gui>Quit</gui> option
+        highlighted.
+      </desc>
+      <media src="images/quit.png"/>
+    </figure>
+  </section>
+  <section>
+    <title>Using your account</title>
+    <p>
+      The time as come that you need the password you stored previously. So
+      first you need to show <app>PassMan</app> using the steps mentioned in
+      the previous section. Then, you need to find the account that has the
+      password you are looking for. When you find it, you can either just click
+      on it, or you can use the arrow keys on your keyboard to select it and
+      then press <key>Space</key> or <key>Enter</key>.
+    </p>
+    <figure>
+      <desc>
+        Just click the button to copy the password.
+      </desc>
+      <media src="images/click.png"/>
+    </figure>
+    <p>
+      This action hides the window away, and takes the password from that
+      account and copies it. Now you can just <gui>Paste</gui> it on any field
+      you need using either the system's keyboard shortcut
+      <keyseq><key>Ctrl</key><key>V</key></keyseq>, or press the right mouse
+      button to access the context menu, and select the <gui>Paste</gui>
+      option.
+    </p>
+    <figure>
+      <desc>
+        Pressing <keyseq><key>Ctrl</key><key>V</key></keyseq> pastes the
+        previously copied password to the field.
+      </desc>
+      <media src="images/login.png"/>
+    </figure>
+    <p>
+      And that is all, congratulations, you are now using a password manager.
+    </p>
   </section>
 
 </page>
