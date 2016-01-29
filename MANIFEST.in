@@ -13,5 +13,13 @@ include schema/com.idlecore.passman.gschema.xml
 # Include GUI files
 recursive-include gui *
 
+# Include help files
+recursive-include help *
+
 # Include logo names cache file
 include cache/logo_name_cache.bz2
+
+# Exclude files that aren't required
+# Glade keeps some backups and temporary files in this format
+global-exclude *~
+global-exclude #*#
