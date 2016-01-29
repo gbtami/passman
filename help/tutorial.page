@@ -40,7 +40,7 @@
       <desc>
         The <gui style="button">New Account</gui> button on the title bar.
       </desc>
-      <media src="images/new_button.png"/>
+      <media src="media/new_button.png"/>
     </figure>
     <p>
       This will open the <gui>New Account</gui> dialog.
@@ -49,7 +49,7 @@
       <desc>
         The <gui>New Account</gui> dialog.
       </desc>
-      <media src="images/new_account.png"/>
+      <media src="media/new_account.png"/>
     </figure>
     <p>
       Here you only need to fill the <gui>Service</gui> field. The
@@ -63,7 +63,7 @@
       <desc>
         A filled <gui>New Account</gui> dialog.
       </desc>
-      <media src="images/sample_account.png"/>
+      <media src="media/sample_account.png"/>
     </figure>
     <p>
       You can just press <gui style="button">OK</gui> and the account will
@@ -73,7 +73,7 @@
       <desc>
         A newly created account being displayed on the main window.
       </desc>
-      <media src="images/account_created.png"/>
+      <media src="media/account_created.png"/>
     </figure>
   </section>
   
@@ -90,7 +90,7 @@
       <desc>
         The <gui style="button">Close</gui> button on the title bar.
       </desc>
-      <media src="images/close_button.png"/>
+      <media src="media/close_button.png"/>
     </figure>
     <p>
       <app>PassMan</app> however doesn't like being closed, it likes to stay
@@ -115,7 +115,7 @@
         The <gui>Application Menu</gui> with the <gui>Quit</gui> option
         highlighted.
       </desc>
-      <media src="images/quit.png"/>
+      <media src="media/quit.png"/>
     </figure>
   </section>
   <section>
@@ -132,7 +132,7 @@
       <desc>
         Just click the button to copy the password.
       </desc>
-      <media src="images/click.png"/>
+      <media src="media/click.png"/>
     </figure>
     <p>
       This action hides the window away, and takes the password from that
@@ -147,7 +147,7 @@
         Pressing <keyseq><key>Ctrl</key><key>V</key></keyseq> pastes the
         previously copied password to the field.
       </desc>
-      <media src="images/login.png"/>
+      <media src="media/login.png"/>
     </figure>
     <p>
       And that is all, congratulations, you are now using a password manager.
