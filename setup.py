@@ -1,16 +1,24 @@
 from setuptools import setup, find_packages
-from os import path
 from gi.repository import GLib
 from pathlib import Path
+import os
 
 sys_data_dir = Path(GLib.get_system_data_dirs()[-1])
 schema_dir = str(sys_data_dir / 'glib-2.0' / 'schemas')
 app_dir = str(sys_data_dir / 'applications')
 app_data_dir = str(sys_data_dir / 'passman')
+help_dir = str(sys_data_dir / 'help' / 'C' / 'passman')
+help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
 
-here = path.abspath(path.dirname(__file__))
+help_walk = list(os.walk('help'))
+dirpath, dirnames, filenames = help_walk[0]
+dirpath = Path(dirpath)
+help_files = [str(dirpath / filename) for filename in filenames]
+dirpath, dirnames, filenames = help_walk[1]
+dirpath = Path(dirpath)
+help_media_files = [str(dirpath / filename) for filename in filenames]
 
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open('README.rst', encoding='utf-8') as f:
     f.readline()
     f.readline()
     f.readline()
@@ -100,6 +108,8 @@ setup(
     # data_files=[('my_data', ['data/data_file'])],
     data_files=[(app_dir, ['freedesktop/passman.desktop']),
                 (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
+                (help_dir, help_files),
+                (help_media_dir, help_media_files),
                 (app_data_dir, ['gui/glade',
                                 'gui/ui',
                                 'cache/logo_name_cache.bz2',
