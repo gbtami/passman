@@ -306,7 +306,7 @@ class Application(Gtk.Application):
         self.preferences_dialog = None
     
     def on_help(self, obj, param):
-        print('help')
+        Gio.AppInfo.launch_default_for_uri('help:' + self.name.lower())
     
     def on_about(self, obj, param):
         '''
