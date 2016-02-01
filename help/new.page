@@ -1,0 +1,126 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="new">
+  
+  <info>
+    <link type="guide" xref="index#accounts"/>
+    <desc>Learn how to create a new account.</desc>
+  </info>
+  
+  <title>Create Account</title>
+  
+  <section>
+    <title>Open the <gui>New Account</gui> dialog</title>
+    <p>
+      To create a new account you need to open the <gui>New Account</gui>
+      dialog. You can do this by pressing the
+      <gui style="button">New Account</gui> button on the title bar, or you can
+      use the <gui>New</gui> keyboard shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>N</key></keyseq>.
+    </p>
+    <figure>
+      <desc>
+        The <gui style="button">New Account</gui> button on the title bar.
+      </desc>
+      <media src="media/new_button.png"/>
+    </figure>
+    <p>
+      This will open the <gui>New Account</gui> dialog. Which will present you
+      with a button with a logo right at the top, 2 empty input fields,
+      <gui>Service</gui> and <gui>Username</gui>, and 2 more hidden fields,
+      <gui>Password</gui> and <gui>Notes</gui>.
+    </p>
+    <figure>
+      <desc>
+        The <gui>New Account</gui> dialog.
+      </desc>
+      <media src="media/new_account.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Logo</title>
+    <p>
+      The logo button will automatically change based on the text you input in
+      the <gui>Service</gui> field. You can also set the logo manually if you
+      press the button. The image you choose will be scaled to fit the button.
+      If you want to set the logo image back to the default, you just need to
+      press the button again.
+    </p>
+    <figure>
+      <desc>
+        The account logo automatically matches the <gui>Service</gui> name.
+      </desc>
+      <media src="media/service_logo.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Service</title>
+    <p>
+      This should be the name of the service you are creating the account for.
+      So if you want to store a password for your GitHub account, then you
+      should call this <em>GitHub</em>. If you don't have a custom logo and the
+      <gui>Service</gui> matches any of the services <app>PassMan</app> already
+      knows about, then it will automatically choose a logo.
+    </p>
+    <p>
+      <em>
+        This field needs to be filed, otherwise the account won't be created.
+      </em>
+    </p>
+  </section>
+  
+  <section>
+    <title>Username</title>
+    <p>
+      This should be the username you use to login to this service. It's useful
+      when you have multiple accounts from the same service, it will help you
+      tell those accounts apart.
+    </p>
+    <p>
+      <em>
+        This field doesn't need to be filed.
+      </em>
+    </p>
+  </section>
+  
+  <section>
+    <title>Password</title>
+    <p>
+      This should be the password you use to login to this service. This field
+      is always hidden by default, if you want to show it you need to press the
+      <gui>Password</gui> label. This field is filled automatically but if you
+      want to set your password manually you can just type it in. If you don't
+      like the password that was generated automatically you can also press the
+      <gui style="button">Refresh</gui> button.
+    </p>
+    <p>
+      <em>
+        This field needs to be filed, otherwise the account won't be created.
+      </em>
+    </p>
+    <figure>
+      <desc>
+        The password <gui style="button">Refresh</gui> button.
+      </desc>
+      <media src="media/refresh.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Notes</title>
+    <p>
+      This field should contain any notes you want associated with this
+      account. It's generally useful to store answers to security questions
+      websites generally ask you to let you reset your password.
+    </p>
+    <p>
+      <em>
+        This field doesn't need to be filed.
+      </em>
+    </p>
+  </section>
+
+</page>
+
