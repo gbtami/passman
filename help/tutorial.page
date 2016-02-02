@@ -20,10 +20,10 @@
       <em style="strong">This password is very important, it's the one password
       you must always remember and it must be strong. A strong password should
       have at least 16 characters, should use lower and uppercase letters,
-      digits, and punctuation.</em> If you can't think of a good one, don't
-      worry, just use a password you can remember, and you can change it later
-      on the <gui>Preferences</gui>. You can also generate a random password,
-      by creating a new account, and taking the password that was randomly
+      digits, and punctuation.</em> If you can't think of a good one, just use
+      a password you can remember, and you can change it later on the
+      <gui>Preferences</gui>. You can also generate a random password, by
+      creating a new account, and taking the password that was randomly
       generated for it.
     </p>
   </section>
