@@ -10,15 +10,15 @@
     consult the sections bellow.
   </p>
   
-  <section id="accounts" style="2column">
+  <section id="accounts" groups="first second third" style="2column">
     <title>Account Management</title>
   </section>
   
-  <section id="appearance" style="2column">
+  <section id="appearance" groups="first second" style="2column">
     <title>Visual Appearance</title>
   </section>
   
-  <section id="preferences" style="2column">
+  <section id="preferences" groups="first second third fourth" style="2column">
     <title>Application Preferences</title>
   </section>
 
