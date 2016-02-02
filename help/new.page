@@ -3,7 +3,7 @@
       id="new">
   
   <info>
-    <link type="guide" xref="index#accounts"/>
+    <link type="guide" xref="index#accounts" group="first"/>
     <desc>Learn how to create a new account.</desc>
   </info>
   
@@ -112,8 +112,8 @@
     <title>Notes</title>
     <p>
       This field should contain any notes you want associated with this
-      account. It's generally useful to store answers to security questions
-      websites generally ask you to let you reset your password.
+      account. It's useful to store answers to security questions websites
+      generally ask you to let you reset your password.
     </p>
     <p>
       <em>
