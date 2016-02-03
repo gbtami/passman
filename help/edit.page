@@ -3,10 +3,46 @@
       id="edit">
   
   <info>
-    <link type="guide" xref="index#accounts"/>
+    <link type="guide" xref="index#accounts" group="second"/>
     <desc>Learn how to edit an existing account.</desc>
   </info>
   
   <title>Edit Account</title>
+  
+  <section>
+    <title>Open the <gui>Edit Account</gui> dialog</title>
+    <p>
+      To open the <gui>Edit Account</gui> dialog you need to right click on an
+      account button, this will bring up a small popup, you then click on the
+      <gui>Edit</gui> option.
+    </p>
+    <figure>
+      <desc>
+        The <gui>Edit</gui> option on the popup menu.
+      </desc>
+      <media src="media/edit_open.png"/>
+    </figure>
+    <p>
+      You can also use the arrow keys on your keyboard to choose the account
+      you want to edit and press the <gui>Menu</gui> key to bring up the popup
+      seen above.
+    </p>
+  </section>
+  
+  <section>
+    <title>Edit your Account</title>
+    <p>
+      After opening the <gui>Edit Account</gui> dialog you are presented with a
+      dialog similar to the one you see when you create a new account, however
+      this one is already filled. You can now change any field you wish and
+      just press <gui>OK</gui> when you are done.
+    </p>
+    <figure>
+      <desc>
+        The <gui>Edit Account</gui> dialog.
+      </desc>
+      <media src="media/edit_filled.png"/>
+    </figure>
+  </section>
 
 </page>
