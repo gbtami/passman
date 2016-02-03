@@ -3,10 +3,49 @@
       id="delete">
   
   <info>
-    <link type="guide" xref="index#accounts"/>
+    <link type="guide" xref="index#accounts" group="third"/>
     <desc>Learn how to delete an existing account.</desc>
   </info>
   
   <title>Delete Account</title>
+  
+  <section>
+    <title>Open the <gui>Delete Account</gui> dialog</title>
+    <p>
+      To open the <gui>Delete Account</gui> dialog you need to right click on
+      an account button, this will bring up a small popup, you then click on
+      the <gui>Delete</gui> option.
+    </p>
+    <figure>
+      <desc>
+        The <gui>Delete</gui> option on the popup menu.
+      </desc>
+      <media src="media/delete_open.png"/>
+    </figure>
+    <p>
+      You can also use the arrow keys on your keyboard to choose the account
+      you want to delete and press the <gui>Menu</gui> key to bring up the
+      popup seen above.
+    </p>
+  </section>
+  
+  <section>
+    <title>Delete your Account</title>
+    <p>
+      After opening the <gui>Delete Account</gui> dialog you are presented with
+      only two options, either <gui>Delete</gui> or <gui>Cancel</gui>. If you
+      choose to delete the account, all the data associated with it will be
+      removed. This action is irreversible so please make sure you don't need
+      any of it before deleting. Make sure you don't need the password for
+      another account, and make sure there is no useful information in the
+      notes for that account.
+    </p>
+    <figure>
+      <desc>
+        The <gui>Delete Account</gui> dialog.
+      </desc>
+      <media src="media/delete_dialog.png"/>
+    </figure>
+  </section>
 
 </page>
