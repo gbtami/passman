@@ -22,7 +22,7 @@
     <title>Autostart</title>
     <terms>
       <item>
-        <title>Run this application as soon as you login.</title>
+        <title>Run this application as soon as you login:</title>
         <p>
           Default: On
         </p>
@@ -39,7 +39,7 @@
     <title>Window</title>
     <terms>
       <item>
-        <title>Automatically hide after choosing a password.</title>
+        <title>Automatically hide after choosing a password:</title>
         <p>
           Default: On
         </p>
@@ -52,7 +52,7 @@
         </p>
       </item>
       <item>
-        <title>When closing window, just hide, don't quit.</title>
+        <title>When closing window, just hide, don't quit:</title>
         <p>
           Default: On
         </p>
@@ -72,7 +72,7 @@
     <title>Resets</title>
     <terms>
       <item>
-        <title>Reset these preferences</title>
+        <title>Reset these preferences:</title>
         <p>
           General
         </p>
@@ -81,7 +81,7 @@
         </p>
       </item>
       <item>
-        <title>Reset All</title>
+        <title>Reset all preferences:</title>
         <p>
           General, Collections, Passwords, Shortcuts
         </p>

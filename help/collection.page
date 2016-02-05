@@ -23,7 +23,7 @@
     <title>Default</title>
     <terms>
       <item>
-        <title>Make Default</title>
+        <title>Make Default:</title>
         <p>
           This is a setting you can mostly ignore. It turns the collection
           <app>PassMan</app> creates into the default collection for your
@@ -43,7 +43,7 @@
     <title>Password</title>
     <terms>
       <item>
-        <title>Change Password</title>
+        <title>Change Password:</title>
         <p>
           When you ran <app>PassMan</app> for the first time, it created a
           collection to keep your accounts in, and asked you for a password
@@ -64,7 +64,7 @@
     <title>Locking</title>
     <terms>
       <item>
-        <title>Automatically lock the collection after each use.</title>
+        <title>Automatically lock the collection after each use:</title>
         <p>
           Default: Off
         </p>
@@ -90,10 +90,10 @@
   </section>
   
   <section>
-    <title>Resets</title>
+    <title>Reset</title>
     <terms>
       <item>
-        <title>Reset these preferences</title>
+        <title>Reset these preferences:</title>
         <p>
           Collection
         </p>
