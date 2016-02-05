@@ -1374,7 +1374,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
               <object class="GtkLabel" id="label37">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Resets&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Reset&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
             </child>
