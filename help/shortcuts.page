@@ -3,12 +3,98 @@
       id="shortcuts">
   
   <info>
-    <link type="guide" xref="index#preferences"/>
+    <link type="guide" xref="index#preferences" group="fourth"/>
     <desc>
       Learn about the shortcuts for this application and how to change them.
     </desc>
   </info>
   
   <title>Shortcuts Preferences</title>
+  
+  <figure>
+    <desc>
+      The <gui>Passwords</gui> page on the <gui>Preferences</gui> dialog.
+    </desc>
+    <media src="media/shortcuts_preferences.png"/>
+  </figure>
+  
+  <section>
+    <title>Shortcuts</title>
+    <list>
+      <item>
+        <terms>
+          <title>Account</title>
+          <item>
+            <title>New</title>
+            <p>
+              Shortcut to create a new account.
+            </p>
+          </item>
+          <item>
+            <title>Edit</title>
+            <p>
+              Shortcut to edit an existing account.
+            </p>
+          </item>
+          <item>
+            <title>Delete</title>
+            <p>
+              Shortcut to delete an existing account.
+            </p>
+          </item>
+        </terms>
+      </item>
+      <item>
+        <terms>
+          <title>View</title>
+          <item>
+            <title>Tile/List</title>
+            <p>
+              Shortcut to toggle between the tile and list views.
+            </p>
+          </item>
+          <item>
+            <title>Size</title>
+            <p>
+              Shortcut to cycle through all the possible account button sizes.
+            </p>
+          </item>
+        </terms>
+      </item>
+      <item>
+        <terms>
+          <title>Application</title>
+          <item>
+            <title>Show</title>
+            <p>
+              Shortcut to show the <app>PassMan</app> window.
+              This will only work if the application is already running.
+            </p>
+          </item>
+          <item>
+            <title>Quit</title>
+            <p>
+              Shortcut to exit <app>PassMan</app>.
+            </p>
+          </item>
+        </terms>
+      </item>
+    </list>
+  </section>
+  
+  <section>
+    <title>Reset</title>
+    <terms>
+      <item>
+        <title>Reset these preferences:</title>
+        <p>
+          Shortcuts
+        </p>
+        <p>
+          This button will let you reset the preferences on this page only.
+        </p>
+      </item>
+    </terms>
+  </section>
 
 </page>
