@@ -237,7 +237,7 @@ class PreferencesDialog(Gtk.Dialog):
                   ('Tile/List', 'view-mode', True, 'app.view_mode'),
                   ('Size', 'view-size', True, 'app.view_size'),
                   ('Application', '', False, ''),
-                  ('Start', 'app-show', True, 'app.show'),
+                  ('Show', 'app-show', True, 'app.show'),
                   ('Quit', 'app-quit',  True, 'app.quit')]
         for tree_label, schema_key, edit, action in values:
             if edit:
