@@ -2,6 +2,7 @@
 Name=PassMan
 Name[pt]=Passman
 GenericName=Password Manager
+GenericName[pt]=Gestor de Passwords
 Comment=Easily manage all your passwords.
 Comment[pt]=Faça facilmente a gestão de todas as suas senhas.
 Exec=passman
