@@ -31,6 +31,12 @@
           login. This is convenient since otherwise the user will have to start
           <app>PassMan</app> manually each time the computer reboots.
         </p>
+        <p>
+          It's necessary to note that even though this feature is on by
+          default, <app>PassMan</app> won't actually autostart until the user
+          manually runs the application at least once. We feel autostart is a
+          feature that should be set on a per-user basis and not system wide.
+        </p>
       </item>
     </terms>
   </section>
