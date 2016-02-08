@@ -59,8 +59,6 @@ target/
 # Custom
 passman/test.py
 TODO
-files
-windows
 version
 gui/#glade#
 gui/glade~
