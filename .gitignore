@@ -63,3 +63,7 @@ version
 gui/#glade#
 gui/glade~
 
+#pynsist
+windows/pynsist_pkgs
+windows/build
+windows/pygi.exe
