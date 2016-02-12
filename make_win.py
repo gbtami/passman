@@ -9,4 +9,4 @@ os.system('cp schema/com.idlecore.passman.gschema.xml '
 os.system('glib-compile-schemas '
           'windows/pynsist_pkgs/gnome/share/glib-2.0/schemas/')
 
-os.system('pynsist windows/installer.cfg')
+os.system('pynsist installer.cfg')
