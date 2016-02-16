@@ -293,7 +293,7 @@ class Application(Gtk.Application):
     
     def on_preferences(self, obj, param):
         '''
-        This method startsup the preferences dialog, making sure it's
+        This method starts the preferences dialog, making sure it's
         the only one currently being displayed.
         '''
         # This check is required to avoid multiple 'preferences' windows.
@@ -306,6 +306,10 @@ class Application(Gtk.Application):
         self.preferences_dialog = None
     
     def on_help(self, obj, param):
+        '''
+        This method will launch the system's default
+        application to read help files.
+        '''
         Gio.AppInfo.launch_default_for_uri('help:' + self.name.lower())
     
     def on_about(self, obj, param):
@@ -340,19 +344,35 @@ class Application(Gtk.Application):
         self.about_dialog = None
     
     def on_new(self, obj, param):
+        '''
+        This method will be called when the accelerator to add a new account
+        is used. It will delegate this task to the HeaderBar object.
+        '''
         self.window.get_titlebar().on_add(None)
     
     def on_edit(self, obj, param):
+        '''
+        This method will be called when the accelerator to edit an account
+        is used. It will delegate this task to the main_view object.
+        '''
         widget = self.window.get_focus()
         if widget.get_parent() in self.main_view.flowbox:
             self.main_view.on_edit(None, None, widget)
     
     def on_delete(self, obj, param):
+        '''
+        This method will be called when the accelerator to delete an account
+        is used. It will delegate this task to the main_view object.
+        '''
         widget = self.window.get_focus()
         if widget.get_parent() in self.main_view.flowbox:
             self.main_view.on_delete(None, None, widget)
     
     def on_view_mode(self, action, param):
+        '''
+        This method will be called when the accelerator to change the view
+        is used. This task will be handled in the HeaderBar object.
+        '''
         action = self.lookup_action('view_mode_switch')
         if action.get_state() == GLib.Variant('s', 'list'):
             mode = GLib.Variant('s', 'grid')
@@ -361,6 +381,10 @@ class Application(Gtk.Application):
         action.activate(mode)
     
     def on_view_size(self, obj, param):
+        '''
+        This method will be called when the accelerator to change the size of
+        the items is used. This task will be handled in the HeaderBar object.
+        '''
         scale = self.window.get_titlebar().scale
         adjustment = scale.get_adjustment()
         increment = adjustment.get_step_increment()
@@ -371,5 +395,8 @@ class Application(Gtk.Application):
         scale.set_value(value)
     
     def on_quit(self, obj, param):
+        '''
+        Quit the application
+        '''
         self.quit()
 
