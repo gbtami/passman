@@ -62,6 +62,11 @@ class Application(Gtk.Application):
         self.connect('handle-local-options', self.on_handle_local_options)
     
     def on_startup(self, app):
+        '''
+        This method handles the startup signal.
+        As per GNOME guidelines this is where most of
+        the work to create the window should be done.
+        '''
         self.create_directories()
         
         self.settings = Gio.Settings(schema=self.schema_id + '.preferences')
@@ -100,6 +105,10 @@ class Application(Gtk.Application):
         Keybinder.bind(shortcuts['app-show'], self.on_show)
     
     def create_directories(self):
+        '''
+        This method makes sure all the directories that are needed
+        by this application either already exist or are created.
+        '''
         if not self.user_data_dir.exists():
             self.user_data_dir.mkdir(mode=0o700)
         if not self.log_dir.exists():
@@ -110,6 +119,9 @@ class Application(Gtk.Application):
             self.autostart_dir.mkdir(mode=0o775)
     
     def set_autostart(self, status):
+        '''
+        This method sets this application to autostart.
+        '''
         if status:
             source = str(self.sys_data_dir / self.autostart_file)
             destination = str(self.autostart_dir)
