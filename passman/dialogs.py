@@ -112,6 +112,10 @@ class AddDialog(Gtk.Dialog):
         self.show_all()
     
     def on_logo_clicked(self, button):
+        '''
+        This method lets the user select an image to use on the logo button.
+        Or if an image is already set, it sets back the default image.
+        '''
         if self.custom_logo:
             self.custom_logo = None
             self.logo.set_image()
@@ -119,15 +123,23 @@ class AddDialog(Gtk.Dialog):
             self.custom_logo = self.logo.custom_logo_dialog(self)
     
     def on_service_changed(self, entry):
+        '''
+        This method sets logo image based on the service name.
+        It only does this however, only if there isn't a custom image
+        already set by the user.
+        '''
         self.logo.set_service(entry.get_text())
         # Only search for a logo if there isn't a custom one set already.
         if not self.custom_logo:
             self.logo.set_image()
     
     def refresh_password(self, button):
+        '''
+        This method refreshes the password field with a new password.
+        '''
         self.password.set_text(PassGen(self.app).password)
     
-    def get_data_and_finish(self):
+    def get_data(self):
         buffer = self.notes.get_buffer()
         bounds = buffer.get_bounds()
         result = {'logo': self.logo.logo,
@@ -135,7 +147,7 @@ class AddDialog(Gtk.Dialog):
                   'username': self.username.get_text(),
                   'password': self.password.get_text(),
                   'notes': buffer.get_text(bounds[0], bounds[1], False)}
-        return (result)
+        return result
 
 
 class EditDialog(AddDialog):

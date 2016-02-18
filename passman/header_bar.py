@@ -78,7 +78,7 @@ class HeaderBar(Gtk.HeaderBar):
         dialog = AddDialog(self.app)
         response = dialog.run()
         while response == Gtk.ResponseType.OK:
-            data = dialog.get_data_and_finish()
+            data = dialog.get_data()
             if data['service'] and data['password']:
                 item = self.app.main_view.secret.create_item(**data)
                 button = self.app.main_view.create_button(item, dialog.logo)

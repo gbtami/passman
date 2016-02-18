@@ -194,7 +194,7 @@ class MainView(Gtk.ScrolledWindow):
         dialog = EditDialog(self.app, button)
         response = dialog.run()
         while response == Gtk.ResponseType.OK:
-            data = dialog.get_data_and_finish()
+            data = dialog.get_data()
             if data['service'] and data['password']:
                 self.secret.edit_item(button.item, **data)
                 self.edit_button(button, dialog.logo)
