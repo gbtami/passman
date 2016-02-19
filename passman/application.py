@@ -7,13 +7,18 @@ Module for the Application class
 import logging
 import shutil
 import os
+import platform
 from pathlib import Path
 
 from gi import require_version
 require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
-require_version('Keybinder', '3.0')
-from gi.repository import Gtk, Gdk, Gio, GLib, Keybinder
+from gi.repository import Gtk, Gdk, Gio, GLib
+if platform.system() == 'Windows':
+    import pyHook
+else:
+    require_version('Keybinder', '3.0')
+    from gi.repository import Keybinder
 
 from .header_bar import HeaderBar
 from .main_view import MainView
@@ -100,9 +105,50 @@ class Application(Gtk.Application):
         app_menu = builder.get_object('app_menu')
         self.set_app_menu(app_menu)
         
-        Keybinder.init()
+        self.add_global_shortcut()
+    
+    def add_global_shortcut(self):
         shortcuts = self.settings.get_child('shortcuts')
-        Keybinder.bind(shortcuts['app-show'], self.on_show)
+        if platform.system() == 'Windows':
+            self.modifiers = {Gdk.ModifierType.GDK_SHIFT_MASK:
+                                  ['VK_SHIFT'],
+                              Gdk.ModifierType.GDK_CONTROL_MASK:
+                                  ['VK_CONTROL'],
+                              Gdk.ModifierType.GDK_MOD1_MASK:
+                                  ['VK_MENU'],
+                              Gdk.ModifierType.GDK_SUPER_MASK:
+                                  ['VK_LWIN', 'VK_RWIN']}
+            hook_manager = pyHook.HookManager()
+            hook_manager.KeyDown = self.on_keyboard_event
+            self.set_hotkey(shortcuts['app-show'])
+            hook_manager.HookKeyboard()
+        else:
+            Keybinder.init()
+            Keybinder.bind(shortcuts['app-show'], self.on_show)
+    
+    def set_hotkey(self, new):
+        key, mods = Gtk.accelerator_parse(new)
+        self.virtual_keys = []
+        for mod, vks in self.modifiers.items():
+            if mod & mods:
+                self.virtual_keys.extend(vks)
+        self.hotkey = key
+    
+    def on_keyboard_event(self, event):
+        '''
+        This method is used in Windows only.
+        It will get keyboard events and find
+        the ones matching the global shortcut.
+        '''
+        if event.Ascii == self.hotkey:
+            for vk in self.virtual_keys:
+                if not HookManager.GetKeyState(HookConstants.VKeyToID(vk)):
+                    break
+            else:
+                self.activate()
+                return False
+        # Return True to pass the event to other handlers.
+        return True
     
     def create_directories(self):
         '''
@@ -173,22 +219,6 @@ class Application(Gtk.Application):
         Leave it alone.
         '''
         self.activate()
-    
-    #def add_show_shortcut_test(self):
-    #    schema = 'org.gnome.settings-daemon.plugins.media-keys'
-    #    key = 'custom-keybindings'
-    #    settings = Gio.Settings(schema=schema)
-    #    bindings = settings.get_strv(key)
-    #    custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
-    #    if custom not in bindings:
-    #        bindings.append(custom)
-    #        settings.set_strv(key, bindings)
-    #        schema = schema + '.' + key[:-1]
-    #        settings = Gio.Settings(schema=schema, path=custom)
-    #        settings.set_string('name', self.name)
-    #        settings.set_string('command', self.name.lower())
-    #        shortcuts = self.settings.get_child('shortcuts')
-    #        settings.set_string('binding', shortcuts['app-show'])
     
     def on_handle_local_options(self, application, options):
         '''
