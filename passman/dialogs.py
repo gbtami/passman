@@ -5,12 +5,17 @@ Module for the Dialog classes
 '''
 
 import string
+import platform
 
 from gi import require_version
 require_version('Gtk', '3.0')
 require_version('GdkPixbuf', '2.0')
-require_version('Keybinder', '3.0')
-from gi.repository import Gtk, GdkPixbuf, GLib, Gio, Keybinder
+from gi.repository import Gtk, GdkPixbuf, GLib, Gio
+if platform.system() == 'Windows':
+    import pyHook
+else:
+    require_version('Keybinder', '3.0')
+    from gi.repository import Keybinder
 
 from .passgen import PassGen
 from .logogen import LogoHeader
@@ -497,21 +502,15 @@ class PreferencesDialog(Gtk.Dialog):
     
     def set_app_show(self, new):
         '''
-        We expect gsettings hasn't been changed yet.
+        We use the value from gsettings to first unbind the current
+        key, so in the process of changing the hotkey, we expect the
+        API user to first call this method and later change gsettings.
         '''
-        Keybinder.unbind(self.shortcuts['app-show'])
-        Keybinder.bind(new, self.app.on_show)
-    
-    # Can't check if the shortcut is already taken by some other function.
-    # Doesn't update in real time.
-    #def set_app_show_test(self):
-    #    schema = 'org.gnome.settings-daemon.plugins.media-keys'
-    #    key = 'custom-keybindings'
-    #    custom = '/{}/{}/passman/'.format(schema.replace('.', '/'), key)
-    #    schema = schema + '.' + key[:-1]
-    #    settings = Gio.Settings(schema=schema, path=custom)
-    #    shortcuts = self.app.settings.get_child('shortcuts')
-    #    settings.set_string('binding', shortcuts['app-show'])
+        if platform.system() == 'Windows':
+            self.app.set_hotkey(new)
+        else:
+            Keybinder.unbind(self.shortcuts['app-show'])
+            Keybinder.bind(new, self.app.on_show)
     
     def on_reset_shortcuts_clicked(self, button):
         for i in self.store:
