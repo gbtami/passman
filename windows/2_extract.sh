@@ -11,7 +11,8 @@ cp -r bindings/* ../pynsist_pkgs
 rm -r bindings
 
 # Copy the noarch and specified architecture dependencies into the gnome folder
-array=( ATK Base GDK GDKPixbuf GTK JPEG Pango WebP TIFF HarfBuzz GnuTLS Secret )
+array=( ATK Base GDK GDKPixbuf GTK JPEG Pango WebP TIFF HarfBuzz GnuTLS \
+        Secret GCrypt )
 
 for i in "${array[@]}"
 do
