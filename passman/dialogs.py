@@ -145,6 +145,10 @@ class AddDialog(Gtk.Dialog):
         self.password.set_text(PassGen(self.app).password)
     
     def get_data(self):
+        '''
+        This method returns a dictionary with the
+        data from all the fields in this dialog.
+        '''
         buffer = self.notes.get_buffer()
         bounds = buffer.get_bounds()
         result = {'logo': self.logo.logo,
@@ -291,21 +295,36 @@ class PreferencesDialog(Gtk.Dialog):
         self.show_all()
     
     def on_autostart_toggled(self, toggle_button):
+        '''
+        This method toggles the autostart feature on gsettings and gets
+        the changes made to make sure the application does indeed autostart.
+        '''
         status = toggle_button.get_active()
         self.general.set_boolean('autostart', status)
         self.app.set_autostart(status)
     
     def on_autohide_toggled(self, toggle_button):
+        '''
+        This method toggles the autohide feature on gsettings and sets
+        the autohide variable to activate that behavior on the application.
+        '''
         status = toggle_button.get_active()
         self.general.set_boolean('autohide', status)
         self.app.main_view.autohide = status
     
     def on_closehide_toggled(self, toggle_button):
+        '''
+        This method toggles the closehide feature on gsettings and sets
+        the closehide variable to activate that behavior on the application.
+        '''
         status = toggle_button.get_active()
         self.general.set_boolean('closehide', status)
         self.app.closehide = status
     
     def on_reset_general_clicked(self, button):
+        '''
+        This method will reset all preferences on the general page.
+        '''
         default = self.general.get_default_value('autostart')
         autostart = self.builder.get_object('autostart')
         autostart.set_active(default)
@@ -317,6 +336,9 @@ class PreferencesDialog(Gtk.Dialog):
         closehide.set_active(default)
     
     def on_reset_all_clicked(self, button):
+        '''
+        This method will reset all preferences on all pages.
+        '''
         reset_general = self.builder.get_object('reset_general')
         reset_collections = self.builder.get_object('reset_collections')
         reset_passwords = self.builder.get_object('reset_passwords')
