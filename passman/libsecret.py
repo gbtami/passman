@@ -6,10 +6,7 @@ Module for the libsecret API
 
 from gi import require_version
 require_version('Secret', '1')
-# Yes, I know gnome-keyring is deprecated, I also know libsecret has
-# no way to change the password of a collection, so here we are.
-require_version('GnomeKeyring', '1.0')
-from gi.repository import GLib, Secret, GnomeKeyring
+from gi.repository import GLib, Secret, Gio
 
 class LibSecret:
     '''
@@ -93,7 +90,22 @@ class LibSecret:
         return self.collection.get_locked()
     
     def change_password(self):
-        GnomeKeyring.change_password_sync(self.collection_name, None, None)
+        bus = Gio.bus_get_sync(Gio.BusType.SESSION)
+        bus_name = 'org.freedesktop.secrets'
+        object_path = '/org/freedesktop/secrets'
+        interface = 'org.gnome.keyring.InternalUnsupportedGuiltRiddenInterface'
+        method = 'ChangeWithPrompt'
+        collection_path = self.collection.get_object_path()
+        variant = GLib.Variant.new_object_path(collection_path)
+        parameters = GLib.Variant.new_tuple(variant)
+        flags = Gio.DBusCallFlags.NONE
+        prompt = bus.call_sync(bus_name, object_path, interface, method,
+                               parameters, None, flags, -1, None)
+        interface = 'org.freedesktop.Secret.Prompt'
+        method = 'Prompt'
+        parameters = GLib.Variant.new_tuple(GLib.Variant('s', ''))
+        bus.call_sync(bus_name, prompt.unpack()[0], interface, method,
+                      parameters, None, flags, -1, None)
     
     def set_default(self):
         self.service.set_alias_sync('default', self.collection)
