@@ -298,6 +298,7 @@ class PreferencesDialog(Gtk.Dialog):
         '''
         This method toggles the autostart feature on gsettings and gets
         the changes made to make sure the application does indeed autostart.
+        Autostart means the application starts when the user logs in.
         '''
         status = toggle_button.get_active()
         self.general.set_boolean('autostart', status)
@@ -307,6 +308,8 @@ class PreferencesDialog(Gtk.Dialog):
         '''
         This method toggles the autohide feature on gsettings and sets
         the autohide variable to activate that behavior on the application.
+        Autohide means the application hides automatically after
+        the user chooses a password.
         '''
         status = toggle_button.get_active()
         self.general.set_boolean('autohide', status)
@@ -316,6 +319,8 @@ class PreferencesDialog(Gtk.Dialog):
         '''
         This method toggles the closehide feature on gsettings and sets
         the closehide variable to activate that behavior on the application.
+        Closehide means the window is just hidden when the user
+        presses the close button.
         '''
         status = toggle_button.get_active()
         self.general.set_boolean('closehide', status)
