@@ -802,12 +802,12 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                 <property name="row_spacing">8</property>
                 <property name="column_spacing">8</property>
                 <child>
-                  <object class="GtkButton" id="reset_collections">
+                  <object class="GtkButton" id="reset_collection">
                     <property name="label" translatable="yes">Reset</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_reset_collections_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_reset_collection_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

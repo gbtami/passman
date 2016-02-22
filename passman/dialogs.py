@@ -345,15 +345,18 @@ class PreferencesDialog(Gtk.Dialog):
         This method will reset all preferences on all pages.
         '''
         reset_general = self.builder.get_object('reset_general')
-        reset_collections = self.builder.get_object('reset_collections')
+        reset_collection = self.builder.get_object('reset_collection')
         reset_passwords = self.builder.get_object('reset_passwords')
         reset_shortcuts = self.builder.get_object('reset_shortcuts')
         reset_general.clicked()
-        reset_collections.clicked()
+        reset_collection.clicked()
         reset_passwords.clicked()
         reset_shortcuts.clicked()
     
     def on_default_button_clicked(self, button):
+        '''
+        This method makes the PassMan collection the default one on the system.
+        '''
         button.set_sensitive(False)
         self.app.main_view.secret.set_default()
         label = 'This collection is the system\'s default.'
@@ -361,14 +364,26 @@ class PreferencesDialog(Gtk.Dialog):
         default_label.set_markup(label)
     
     def on_change_password_clicked(self, button):
+        '''
+        This method will change the password for the PassMan collection.
+        '''
         self.app.main_view.secret.change_password()
     
     def on_autolock_toggled(self, toggle_button):
+        '''
+        This method toggles the autolock feature on gsettings and sets
+        the autolock variable to activate that behavior on the application.
+        Autolock means the collection will automatically lock each time
+        the application is closed or hidden.
+        '''
         status = toggle_button.get_active()
         self.collection.set_boolean('autolock', status)
         self.app.main_view.autolock = status
     
-    def on_reset_collections_clicked(self, button):
+    def on_reset_collection_clicked(self, button):
+        '''
+        This method will reset all preferences on the collection page.
+        '''
         default = self.collection.get_default_value('autolock')
         autolock = self.builder.get_object('autolock')
         autolock.set_active(default)
