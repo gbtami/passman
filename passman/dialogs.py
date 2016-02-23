@@ -389,10 +389,18 @@ class PreferencesDialog(Gtk.Dialog):
         autolock.set_active(default)
     
     def on_password_size_value_changed(self, adjustment):
+        '''
+        This method sets the password size on gsettings.
+        '''
         value = GLib.Variant('q', adjustment.get_value())
         self.passwords.set_value('size', value)
     
     def on_timeout_toggled(self, toggle_button):
+        '''
+        This method sets whether or not the password will timeout.
+        This means the password will be cleared from the clipboard
+        after some time has passed since it was copied.
+        '''
         is_active = toggle_button.get_active()
         interval = self.builder.get_object('interval')
         interval.set_sensitive(is_active)
@@ -402,20 +410,40 @@ class PreferencesDialog(Gtk.Dialog):
         self.passwords.set_boolean('timeout', is_active)
     
     def on_timeout_interval_value_changed(self, adjustment):
+        '''
+        This method sets the amount of time it takes the password to timeout.
+        '''
         value = GLib.Variant('q', adjustment.get_value())
         self.passwords.set_value('interval', value)
         self.app.main_view.interval = adjustment.get_value()
     
     def on_lowercase_toggled(self, toggle_button):
+        '''
+        This method adds lowercase letters to the alphabet
+        used to generate random passwords.
+        '''
         self.passwords.set_boolean('lowercase', toggle_button.get_active())
     
     def on_uppercase_toggled(self, toggle_button):
+        '''
+        This method adds uppercase letters to the alphabet
+        used to generate random passwords.
+        '''
         self.passwords.set_boolean('uppercase', toggle_button.get_active())
     
     def on_digits_toggled(self, toggle_button):
+        '''
+        This method adds digits to the alphabet
+        used to generate random passwords.
+        '''
         self.passwords.set_boolean('digits', toggle_button.get_active())
     
     def on_punctuation_toggled(self, toggle_button):
+        '''
+        This method creates a dialog to ask the user which
+        punctuation characters it wants to be included in
+        the alphabet to used to create random passwords.
+        '''
         properties = {'use_header_bar': True}
         dialog = Gtk.Dialog(transient_for=self, **properties)
         dialog.add_buttons('_OK', Gtk.ResponseType.OK,
@@ -459,16 +487,27 @@ class PreferencesDialog(Gtk.Dialog):
         dialog.destroy()
     
     def on_all_clicked(self, button):
+        '''
+        This is the method to select all the characters
+        on the punctuation selection dialog.
+        '''
         for c in ' ' + string.punctuation:
             key = self.builder.get_object(str(ord(c)))
             key.set_active(True)
     
     def on_none_clicked(self, button):
+        '''
+        This is the method to remove all the characters
+        on the punctuation selection dialog.
+        '''
         for c in ' ' + string.punctuation:
             key = self.builder.get_object(str(ord(c)))
             key.set_active(False)
     
     def on_reset_passwords_clicked(self, button):
+        '''
+        This method will reset all preferences on the passwords page.
+        '''
         default = self.passwords.get_default_value('size')
         size = self.builder.get_object('size')
         size.set_value(default.get_uint16())
