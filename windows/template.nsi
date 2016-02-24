@@ -12,4 +12,5 @@
         [% endif %]
     [% endfor %]
     SetOutPath "$INSTDIR"
-[% endblock install_shortcuts %]
+[% endblock %]
+
