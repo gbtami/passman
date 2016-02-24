@@ -7,7 +7,7 @@
         [% if scname == "PassMan" %]
             CreateShortCut "$SMSTARTUP\[[scname]].lnk" \
                            "[[ sc['target'] ]]" \
-                           '[[ sc['parameters'] ]] --hide' \
+                           '[[ sc['parameters'] ]] --autostart --hide' \
                            "$INSTDIR\[[ sc['icon'] ]]"
         [% endif %]
     [% endfor %]

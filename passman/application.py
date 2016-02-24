@@ -5,7 +5,6 @@ Module for the Application class
 '''
 
 import logging
-import shutil
 import os
 import platform
 from pathlib import Path
@@ -58,6 +57,9 @@ class Application(Gtk.Application):
                        'Useful when you start the application at login.')
         self.add_main_option('hide', 0, GLib.OptionFlags.NONE,
                              GLib.OptionArg.NONE, description, None)
+        description = ('Autostart the application on login.')
+        self.add_main_option('autostart', 0, GLib.OptionFlags.NONE,
+                             GLib.OptionArg.NONE, description, None)
         self.hide_flag = False
         self.started_hidden = False
         self.first_run = True
@@ -79,7 +81,6 @@ class Application(Gtk.Application):
         self.width = self.win_settings['width']
         self.height = self.win_settings['height']
         self.general_settings = self.settings.get_child('general')
-        self.set_autostart(self.general_settings['autostart'])
         self.closehide = self.general_settings['closehide']
         self.about_dialog = None
         self.preferences_dialog = None
@@ -164,19 +165,6 @@ class Application(Gtk.Application):
         if not self.autostart_dir.exists():
             self.autostart_dir.mkdir(mode=0o775)
     
-    def set_autostart(self, status):
-        '''
-        This method sets this application to autostart.
-        '''
-        if status:
-            source = str(self.sys_data_dir / self.autostart_file)
-            destination = str(self.autostart_dir)
-            shutil.copy(source, destination)
-        else:
-            file_path = str(self.autostart_dir / self.autostart_file)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
-    
     def on_window_delete(self, widget, event):
         '''
         The window should hide most of the time.
@@ -224,10 +212,16 @@ class Application(Gtk.Application):
         '''
         This method will handle the command line options.
         '''
+        if options.contains('autostart'):
+            settings = Gio.Settings(schema=self.schema_id + '.preferences')
+            general_preferences = settings.get_child('general')
+            if not general_preferences['autostart']:
+                # Nop, the user doesn't want to autostart, exit app.
+                return 0
         if options.contains('hide'):
             self.hide_flag = True
             self.started_hidden = True
-        # All ok, process the rest of the command line
+        # All ok, process the rest of the command line.
         return -1
     
     def add_actions(self):

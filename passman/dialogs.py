@@ -296,13 +296,11 @@ class PreferencesDialog(Gtk.Dialog):
     
     def on_autostart_toggled(self, toggle_button):
         '''
-        This method toggles the autostart feature on gsettings and gets
-        the changes made to make sure the application does indeed autostart.
+        This method toggles the autostart feature on gsettings.
         Autostart means the application starts when the user logs in.
         '''
         status = toggle_button.get_active()
         self.general.set_boolean('autostart', status)
-        self.app.set_autostart(status)
     
     def on_autohide_toggled(self, toggle_button):
         '''
