@@ -537,6 +537,9 @@ class PreferencesDialog(Gtk.Dialog):
     
     def on_accel_edited(self, cell_renderer_accel, path_string,
                         accel_key, accel_mods, hardware_keycode):
+        '''
+        This method edits the shortcut on a grid cell.
+        '''
         cell_iter = self.store.get_iter_from_string(path_string)
         accel_name = Gtk.accelerator_name(accel_key, accel_mods)
         label = Gtk.accelerator_get_label(accel_key, accel_mods)
@@ -553,6 +556,10 @@ class PreferencesDialog(Gtk.Dialog):
         self.shortcuts.set_value(value, GLib.Variant('s', accel_name))
     
     def dialog_repeated_shortcut(self, label):
+        '''
+        This method shows a dialog window warning
+        the user the shortcut chosen is repeated.
+        '''
         dialog = Gtk.MessageDialog(transient_for=self,
                                    message_type=Gtk.MessageType.INFO)
         message = _('The shortcut {} is already assigned to another action.')
@@ -563,6 +570,9 @@ class PreferencesDialog(Gtk.Dialog):
         dialog.destroy()
     
     def on_accel_cleared(self, cell_renderer_accel, path_string):
+        '''
+        This method clears the shortcut.
+        '''
         cell_iter = self.store.get_iter_from_string(path_string)
         self.store[cell_iter][1] = ''
         if self.store[cell_iter][4] == 'app.show':
@@ -573,6 +583,9 @@ class PreferencesDialog(Gtk.Dialog):
         self.shortcuts.set_value(value, GLib.Variant('s', ''))
     
     def set_accel(self, accel_name, action):
+        '''
+        This is a lower level method to set the accelerator for an action.
+        '''
         accels = self.app.get_accels_for_action(action)
         if accels:
             self.app.set_accels_for_action(action, [])
@@ -581,6 +594,7 @@ class PreferencesDialog(Gtk.Dialog):
     
     def set_app_show(self, new):
         '''
+        This is a specific method to set just the show accelerator.
         We use the value from gsettings to first unbind the current
         key, so in the process of changing the hotkey, we expect the
         API user to first call this method and later change gsettings.
@@ -592,6 +606,9 @@ class PreferencesDialog(Gtk.Dialog):
             Keybinder.bind(new, self.app.on_show)
     
     def on_reset_shortcuts_clicked(self, button):
+        '''
+        This method will reset all preferences on the shortcuts page.
+        '''
         for i in self.store:
             for j in i.iterchildren():
                 default = self.shortcuts.get_default_value(j[2])
