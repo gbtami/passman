@@ -8,7 +8,9 @@ sys_config_dir = Path(GLib.get_system_config_dirs()[0])
 autostart_dir = str(sys_config_dir / 'autostart')
 schema_dir = str(sys_data_dir / 'glib-2.0' / 'schemas')
 app_dir = str(sys_data_dir / 'applications')
-app_data_dir = str(sys_data_dir / 'passman')
+app_data_dir = sys_data_dir / 'passman'
+gui_dir = str(app_data_dir / 'gui')
+cache_dir = str(app_data_dir / 'cache')
 help_dir = str(sys_data_dir / 'help' / 'C' / 'passman')
 help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
 
@@ -113,8 +115,8 @@ setup(
                 (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
                 (help_dir, help_files),
                 (help_media_dir, help_media_files),
-                (app_data_dir, ['gui/glade', 'gui/ui',
-                                'cache/logo_name_cache.bz2'])],
+                (gui_dir, ['gui/glade', 'gui/ui']),
+                (cache_dir, ['cache/logo_name_cache.bz2'])],
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow

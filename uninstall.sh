@@ -1,6 +1,6 @@
 # This little file just helps me track of all the files that are added
 # So if I ever want a clean system, I can just remove everything.
-rm -r /home/xor/.config/autostart/passman-autostart.desktop
+rm /etc/xdg/autostart/passman-autostart.desktop
 rm -r /home/xor/.local/share/passman
 rm /usr/bin/passman
 rm -r /usr/share/passman

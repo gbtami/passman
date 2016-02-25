@@ -38,14 +38,16 @@ class Application(Gtk.Application):
     app_id = 'com.idlecore.passman'
     app_dir = name.lower()
     user_data_dir = Path(GLib.get_user_data_dir()) / app_dir
-    sys_data_dir = Path(GLib.get_system_data_dirs()[-1]) / app_dir
-    autostart_dir = Path(GLib.get_user_config_dir()) / 'autostart'
-    autostart_file = 'passman-autostart.desktop'
+    if platform.system() == 'Windows':
+        sys_data_dir = Path(GLib.get_system_data_dirs()[-1]) / app_dir
+    else:
+        # Currently working directory
+        sys_data_dir = Path(app_dir)
     log_dir = user_data_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     img_dir = user_data_dir / 'images'
-    gui_glade = str(sys_data_dir / 'glade')
-    gui_ui = str(sys_data_dir / 'ui')
+    gui_glade = str(sys_data_dir / 'gui' / 'glade')
+    gui_ui = str(sys_data_dir / 'gui' / 'ui')
     schema_id = app_id
     
     def __init__(self):
@@ -162,8 +164,6 @@ class Application(Gtk.Application):
             self.log_dir.mkdir(mode=0o700)
         if not self.img_dir.exists():
             self.img_dir.mkdir(mode=0o700)
-        if not self.autostart_dir.exists():
-            self.autostart_dir.mkdir(mode=0o775)
     
     def on_window_delete(self, widget, event):
         '''
