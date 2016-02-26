@@ -39,10 +39,10 @@ class Application(Gtk.Application):
     app_dir = name.lower()
     user_data_dir = Path(GLib.get_user_data_dir()) / app_dir
     if platform.system() == 'Windows':
-        sys_data_dir = Path(GLib.get_system_data_dirs()[-1]) / app_dir
-    else:
         # Currently working directory
-        sys_data_dir = Path(app_dir)
+        sys_data_dir = Path()
+    else:
+        sys_data_dir = Path(GLib.get_system_data_dirs()[-1]) / app_dir
     log_dir = user_data_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     img_dir = user_data_dir / 'images'
