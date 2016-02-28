@@ -4,6 +4,7 @@
     ; This is a complete overwrite of the install_shortcuts block,
     ; so there is no need to call super(). It is also assumed
     ; SetOutPath points to $INSTDIR.
+    SetOutPath "$INSTDIR"
     Var /GLOBAL passman_install_directory
     [% if single_shortcut %]
         StrCpy $passman_install_directory "$SMPROGRAMS"
