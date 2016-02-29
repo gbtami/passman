@@ -173,8 +173,9 @@ class EditDialog(AddDialog):
         self.custom_logo = attributes['logo']
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
-        self.notes.get_buffer().set_text(attributes['notes'])
-        self.password.set_text(app.main_view.secret.get_secret(item))
+        password, notes = eval(app.main_view.secret.get_secret(item))
+        self.notes.get_buffer().set_text(notes)
+        self.password.set_text(password)
 
 
 class PreferencesDialog(Gtk.Dialog):

@@ -23,8 +23,7 @@ class LibSecret:
         args += [Secret.SchemaFlags.NONE]
         args += [{'logo': Secret.SchemaAttributeType.STRING,
                   'service': Secret.SchemaAttributeType.STRING,
-                  'username': Secret.SchemaAttributeType.STRING,
-                  'notes': Secret.SchemaAttributeType.STRING}]
+                  'username': Secret.SchemaAttributeType.STRING}]
         self.schema = Secret.Schema.new(*args)
     
     def get_collection(self):
@@ -56,9 +55,9 @@ class LibSecret:
                 break
     
     def create_item(self, logo, service, username, password, notes):
-        attributes = {'logo': logo, 'service': service,
-                      'username': username, 'notes': notes}
-        value = Secret.Value(password, len(password), 'text/plain')
+        attributes = {'logo': logo, 'service': service, 'username': username}
+        secret = repr((password, notes))
+        value = Secret.Value(secret, len(secret), 'text/plain')
         args = (self.collection, self.schema, attributes,
                 service + ': ' + username, value,
                 Secret.ItemCreateFlags.NONE, None)
@@ -66,10 +65,10 @@ class LibSecret:
         return item
     
     def edit_item(self, item, logo, service, username, password, notes):
-        value = Secret.Value(password, len(password), 'text/plain')
+        secret = repr((password, notes))
+        value = Secret.Value(secret, len(secret), 'text/plain')
         item.set_secret_sync(value)
-        attributes = {'logo': logo, 'service': service,
-                      'username': username, 'notes': notes}
+        attributes = {'logo': logo, 'service': service, 'username': username}
         item.set_attributes_sync(self.schema, attributes)
         item.set_label_sync(service + ': ' + username)
     
@@ -78,7 +77,7 @@ class LibSecret:
     
     def get_secret(self, item):
         item.load_secret_sync()
-        return item.get_secret().get_text()
+        return eval(item.get_secret().get_text())[0]
     
     def lock(self):
         return self.service.lock_sync([self.collection])[0] == 1
