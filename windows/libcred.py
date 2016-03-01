@@ -23,7 +23,7 @@ class Credential(ctypes.Structure):
                 ('CredentialBlob', LPBYTE),
                 ('Persist', DWORD),
                 ('AttributeCount', DWORD),
-                ('Attributes', PCREDENTIAL_ATTRIBUTE),
+                ('Attributes', CredAttributes),
                 ('TargetAlias', LPTSTR),
                 ('UserName', LPTSTR)]
 
@@ -42,6 +42,27 @@ class CredBlob(ctypes.Structure):
     '''
     
     _fields_ = [('password', LPTSTR), ('notes', LPTSTR)]
+
+
+class CredItem():
+    '''
+    Credential Virtual Item class
+    This class is used to implement methods that are present in the
+    libsecret Item class and are used through out the program, but
+    don't exist in the Windows Credentials API. This way, instead of
+    adding a bunch of platform checks everywhere in the code, I use
+    the same method calls and just change the class that handles them.
+    '''
+    
+    def __init__(self, service, username):
+        self.service = service
+        self.username = username
+    
+    def get_attributes(self):
+        pass
+    
+    def get_label(self):
+        pass
 
 
 class LibCred:
@@ -71,19 +92,26 @@ class LibCred:
         pass
     
     def create_item(self, logo, service, username, password, notes):
+        # If I add more attributes later, I need to increment this.
         cred_attributes_type = CredAttributes * 1
         attributes = cred_attributes_type(logo)
         blob = CredBlob(password, notes)
         cred_flags = DWORD(0)
         cred_type = self.CRED_TYPE_GENERIC
-        cred_target_name = LPTSTR(service)
+        # I make this the target_name because otherwise users with multiple
+        # accounts on the same service won't be able to create those
+        # credentials. They would end up just overwriting the same
+        # credential for the service each time a new account is added.
+        cred_target_name = LPTSTR(repr(service, username))
         cred_comment = LPTSTR('')
-        cred_last_written = FILETIME(0)
+        cred_last_written = FILETIME(0, 0)
         cred_credential_blob_size = ctypes.sizeof(blob)
         cred_credential_blob = ctypes.byref(blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
         cred_attribute_count = DWORD(len(attributes))
         cred_attributes = ctypes.byref(attributes)
+        # I keep this alias to mark which credentials are created using
+        # PassMan, the ones that aren't, won't be displayed.
         cred_target_alias = LPTSTR('passman')
         cred_username = LPTSTR(username)
         cred = Credential(cred_flags, cred_type, cred_target_name,
@@ -91,7 +119,8 @@ class LibCred:
                           cred_credential_blob_size, cred_credential_blob,
                           cred_persist, cred_attribute_count, cred_attributes,
                           cred_target_alias, cred_username)
-        self.advapi32.CredWrite(ctypes.byref(cred), 0)
+        self.advapi32.CredWriteW(ctypes.byref(cred), 0)
+        return CredItem(service, username)
     
     def edit_item(self, logo, service, username, password, notes):
         pass  
