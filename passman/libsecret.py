@@ -77,7 +77,7 @@ class LibSecret:
     
     def get_secret(self, item):
         item.load_secret_sync()
-        return eval(item.get_secret().get_text())[0]
+        return item.get_secret().get_text()
     
     def lock(self):
         return self.service.lock_sync([self.collection])[0] == 1
