@@ -122,32 +122,30 @@ class LibCred:
         self.advapi32.CredWriteW(ctypes.byref(cred), 0)
         return CredItem(service, username)
     
-    def edit_item(self, logo, service, username, password, notes):
-        pass  
+    def edit_item(self, item, logo, service, username, password, notes):
+        self.create_item(logo, service, username, password, notes)
     
     def delete_item(self, item):
-        pass
+        target = LPSTR(repr((item.service, item.username)))
+        self.advapi32.CredDeleteW(target, self.CRED_TYPE_GENERIC, 0)
     
     def get_secret(self, item):
-        pass
+        target = LPSTR(repr((item.service, item.username)))
+        out = ctypes.byref(Credential())
+        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0, out)
+        return (out.CredentialBlob.password, out.CredentialBlob.notes)
     
     def lock(self):
         '''
         Not implemented on Windows
         '''
-        pass
+        return True
     
     def unlock(self):
         '''
         Not implemented on Windows
         '''
-        pass
-    
-    def is_locked(self):
-        '''
-        Not implemented on Windows
-        '''
-        pass
+        return True
     
     def change_password(self):
         '''
