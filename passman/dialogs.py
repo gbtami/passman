@@ -173,7 +173,7 @@ class EditDialog(AddDialog):
         self.custom_logo = attributes['logo']
         self.service.set_text(attributes['service'])
         self.username.set_text(attributes['username'])
-        password, notes = eval(app.main_view.secret.get_secret(item))
+        password, notes = app.main_view.secret.get_secret(item)
         self.notes.get_buffer().set_text(notes)
         self.password.set_text(password)
 

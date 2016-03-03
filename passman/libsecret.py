@@ -77,16 +77,13 @@ class LibSecret:
     
     def get_secret(self, item):
         item.load_secret_sync()
-        return item.get_secret().get_text()
+        return eval(item.get_secret().get_text())
     
     def lock(self):
         return self.service.lock_sync([self.collection])[0] == 1
     
     def unlock(self):
         return self.service.unlock_sync([self.collection])[0] == 1
-    
-    def is_locked(self):
-        return self.collection.get_locked()
     
     def change_password(self):
         bus = Gio.bus_get_sync(Gio.BusType.SESSION)
