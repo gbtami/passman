@@ -4,13 +4,17 @@
 Module for the MainView class
 '''
 
+import platform
+
 from gi import require_version
 require_version('Gtk', '3.0')
 require_version('Gdk', '3.0')
-require_version('Secret', '1')
-from gi.repository import Gtk, Gdk, Gio, GLib, Secret
+from gi.repository import Gtk, Gdk, Gio, GLib
 
-from .libsecret import LibSecret
+if platform.system() == 'Windows':
+    from .libcred import LibCred as LibSecret
+else:
+    from .libsecret import LibSecret
 from .dialogs import EditDialog
 from .logogen import LogoTile
 
@@ -137,9 +141,9 @@ class MainView(Gtk.ScrolledWindow):
         return True
     
     def on_button_click(self, button):
-        text = self.secret.get_secret(button.item)
+        password, notes = self.secret.get_secret(button.item)
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        clipboard.set_text(text, len(text))
+        clipboard.set_text(password, len(password))
         if self.autohide:
             self.window_hide()
         if self.timeout:
