@@ -5,8 +5,23 @@ Module for the Windows Credentials util library
 '''
 
 import ctypes
-from ctypes.wintypes import DWORD, LPTSTR, FILETIME, LPBYTE, \
-                            PCREDENTIAL_ATTRIBUTE
+from ctypes.wintypes import DWORD, LPWSTR, FILETIME, LPBYTE
+
+
+class CredAttributes(ctypes.Structure):
+    '''
+    Credential Attributes ctypes structure
+    '''
+    
+    _fields_ = [('logo', LPWSTR)]
+
+
+class CredBlob(ctypes.Structure):
+    '''
+    Credential Blob ctypes structure
+    '''
+    
+    _fields_ = [('password', LPWSTR), ('notes', LPWSTR)]
 
 
 class Credential(ctypes.Structure):
@@ -16,37 +31,21 @@ class Credential(ctypes.Structure):
 
     _fields_ = [('Flags', DWORD),
                 ('Type', DWORD),
-                ('TargetName', LPTSTR),
-                ('Comment', LPTSTR),
+                ('TargetName', LPWSTR),
+                ('Comment', LPWSTR),
                 ('LastWritten', FILETIME),
                 ('CredentialBlobSize', DWORD),
                 ('CredentialBlob', LPBYTE),
                 ('Persist', DWORD),
                 ('AttributeCount', DWORD),
                 ('Attributes', CredAttributes),
-                ('TargetAlias', LPTSTR),
-                ('UserName', LPTSTR)]
+                ('TargetAlias', LPWSTR),
+                ('UserName', LPWSTR)]
 
 
-class CredAttributes(ctypes.Structure):
+class CredItem:
     '''
-    Credential Attributes ctypes structure
-    '''
-    
-    _fields_ = [('logo', LPTSTR)]
-
-
-class CredBlob(ctypes.Structure):
-    '''
-    Credential Blob ctypes structure
-    '''
-    
-    _fields_ = [('password', LPTSTR), ('notes', LPTSTR)]
-
-
-class CredItem():
-    '''
-    Credential Virtual Item class
+    Credential Virtual Item class.
     This class is used to implement methods that are present in the
     libsecret Item class and are used through out the program, but
     don't exist in the Windows Credentials API. This way, instead of
@@ -65,6 +64,18 @@ class CredItem():
         pass
 
 
+class CredCollection:
+    '''
+    Credential Virtual Collection class. See CredItem class for more details.
+    '''
+    
+    def __init__(self):
+        self.items = []
+    
+    def get_items(self):
+        return self.items
+
+
 class LibCred:
     '''
     LibCred class
@@ -75,21 +86,18 @@ class LibCred:
     # Windows Vista Home Basic, Windows Vista Home Premium, Windows Vista
     # Starter, and Windows XP Home Edition:  This value is not supported.
     CRED_PERSIST_LOCAL_MACHINE = DWORD(2)
+    # Windows Server 2003 and Windows XP:  This flag is not supported.
+    CRED_ENUMERATE_ALL_CREDENTIALS = DWORD(1)
     
-    def __init__(self):
-        pass
+    def __init__(self, app):
+        self.app = app
     
     def get_collection(self):
-        '''
-        Not implemented on Windows
-        '''
-        pass
+        self.collection = CredCollection()
         
     def load_collection(self):
-        '''
-        Not implemented on Windows
-        '''
-        pass
+        CredEnumerateW(None, CRED_ENUMERATE_ALL_CREDENTIALS,
+                       ctypes.byref(DWORD()), ctypes.POINTER())
     
     def create_item(self, logo, service, username, password, notes):
         # If I add more attributes later, I need to increment this.
@@ -102,8 +110,8 @@ class LibCred:
         # accounts on the same service won't be able to create those
         # credentials. They would end up just overwriting the same
         # credential for the service each time a new account is added.
-        cred_target_name = LPTSTR(repr(service, username))
-        cred_comment = LPTSTR('')
+        cred_target_name = LPWSTR(repr(service, username))
+        cred_comment = LPWSTR('')
         cred_last_written = FILETIME(0, 0)
         cred_credential_blob_size = ctypes.sizeof(blob)
         cred_credential_blob = ctypes.byref(blob)
@@ -112,8 +120,8 @@ class LibCred:
         cred_attributes = ctypes.byref(attributes)
         # I keep this alias to mark which credentials are created using
         # PassMan, the ones that aren't, won't be displayed.
-        cred_target_alias = LPTSTR('passman')
-        cred_username = LPTSTR(username)
+        cred_target_alias = LPWSTR('passman')
+        cred_username = LPWSTR(username)
         cred = Credential(cred_flags, cred_type, cred_target_name,
                           cred_comment, cred_last_written,
                           cred_credential_blob_size, cred_credential_blob,
