@@ -7,7 +7,7 @@ Module for the Application class
 import logging
 import os
 import platform
-from pathlib import Path
+import pathlib
 
 from gi import require_version
 require_version('Gtk', '3.0')
@@ -37,12 +37,12 @@ class Application(Gtk.Application):
     spacing = 8
     app_id = 'com.idlecore.passman'
     app_dir = name.lower()
-    user_data_dir = Path(GLib.get_user_data_dir()) / app_dir
+    user_data_dir = pathlib.Path(GLib.get_user_data_dir()) / app_dir
     if platform.system() == 'Windows':
         # Currently working directory
-        sys_data_dir = Path()
+        sys_data_dir = pathlib.Path()
     else:
-        sys_data_dir = Path(GLib.get_system_data_dirs()[-1]) / app_dir
+        sys_data_dir = pathlib.Path(GLib.get_system_data_dirs()[-1]) / app_dir
     log_dir = user_data_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     img_dir = user_data_dir / 'images'
