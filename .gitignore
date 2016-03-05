@@ -44,8 +44,8 @@ coverage.xml
 *,cover
 
 # Translations
-*.mo
-*.pot
+# *.mo
+# *.pot
 
 # Django stuff:
 *.log
@@ -64,6 +64,11 @@ gui/#glade#
 gui/glade~
 
 #pynsist
-windows/pynsist_pkgs
-windows/build
+pynsist_pkgs
+build
 windows/pygi.exe
+ve0
+python-3.4.4
+windows/
+windows/pyHook*
+windows/python*
