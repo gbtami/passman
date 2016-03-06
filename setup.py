@@ -13,14 +13,20 @@ gui_dir = str(app_data_dir / 'gui')
 cache_dir = str(app_data_dir / 'cache')
 help_dir = str(sys_data_dir / 'help' / 'C' / 'passman')
 help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
+locale_dir = sys_data_dir / 'locale'
 
-help_walk = list(os.walk('help'))
-dirpath, dirnames, filenames = help_walk[0]
+help_walk = os.walk('help')
+dirpath, dirnames, filenames = next(help_walk)
 dirpath = Path(dirpath)
 help_files = [str(dirpath / filename) for filename in filenames]
-dirpath, dirnames, filenames = help_walk[1]
+dirpath, dirnames, filenames = next(help_walk)
 dirpath = Path(dirpath)
 help_media_files = [str(dirpath / filename) for filename in filenames]
+
+locale_walk = os.walk('locale')
+dirpath, dirnames, filenames = next(locale_walk)
+dirpath = Path(dirpath)
+locale_files = [str(dirpath / dirname) for dirname in dirnames]
 
 with open('README.rst', encoding='utf-8') as f:
     f.readline()
@@ -116,7 +122,8 @@ setup(
                 (help_dir, help_files),
                 (help_media_dir, help_media_files),
                 (gui_dir, ['gui/glade', 'gui/ui']),
-                (cache_dir, ['cache/logo_name_cache.bz2'])],
+                (cache_dir, ['cache/logo_name_cache.bz2']),
+                (locale_dir, locale_files)],
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
