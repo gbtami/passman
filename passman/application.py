@@ -111,6 +111,10 @@ class Application(Gtk.Application):
         self.add_global_shortcut()
     
     def add_global_shortcut(self):
+        '''
+        This method adds a global shortcut,
+        the shortcut used to show the application.
+        '''
         shortcuts = self.settings.get_child('shortcuts')
         if platform.system() == 'Windows':
             self.modifiers = {Gdk.ModifierType.GDK_SHIFT_MASK:
@@ -130,6 +134,11 @@ class Application(Gtk.Application):
             Keybinder.bind(shortcuts['app-show'], self.on_show)
     
     def set_hotkey(self, new):
+        '''
+        This method is used on Windows only, and it's used to set some
+        instance variables that will later be used on every keyboard event
+        to figure out if the show shortcut has been pressed.
+        '''
         key, mods = Gtk.accelerator_parse(new)
         self.virtual_keys = []
         for mod, vks in self.modifiers.items():
