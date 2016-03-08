@@ -54,6 +54,10 @@ class HeaderBar(Gtk.HeaderBar):
         self.show_all()
     
     def on_view_mode(self, action, target):
+        '''
+        This method handles the view mode changed when
+        invoked from the header bar menu.
+        '''
         self.view_mode = target.get_string()
         action.change_state(target)
         flowbox = self.app.main_view.flowbox
@@ -68,6 +72,10 @@ class HeaderBar(Gtk.HeaderBar):
             button.logo.set_mode(mode)
     
     def on_value_changed(self, scale):
+        '''
+        This method handles the size change when invoked
+        from the header bar menu.
+        '''
         size = int(scale.get_value())
         self.view_size = size
         for c in self.app.main_view.flowbox.get_children():
@@ -75,6 +83,9 @@ class HeaderBar(Gtk.HeaderBar):
             button.logo.set_size(size)
     
     def on_add(self, button):
+        '''
+        This method show the dialog that lets you create a new account.
+        '''
         dialog = AddDialog(self.app)
         response = dialog.run()
         while response == Gtk.ResponseType.OK:
@@ -96,6 +107,13 @@ class HeaderBar(Gtk.HeaderBar):
         dialog.destroy()
     
     def on_unrealize(self, widget):
+        '''
+        This method is called when the window is destroyed.
+        I could handle it in the window instance instead, but since
+        the variables storing the size and mode are on this object by
+        the time the window called it's own unrealize, the header bar
+        would already be destroyed, and these variables would be gone.
+        '''
         view_settings = self.app.settings.get_child('view')
         view_settings.set_value('size', GLib.Variant('q', self.view_size))
         view_settings.set_string('mode', self.view_mode)
