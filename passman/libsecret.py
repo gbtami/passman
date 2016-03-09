@@ -19,6 +19,10 @@ class LibSecret:
         self.get_collection()
     
     def make_schema(self, name):
+        '''
+        This method creates an instance variable to store the schema
+        that will be used to store items in the collection.
+        '''
         args = [name + '.schema']
         args += [Secret.SchemaFlags.NONE]
         args += [{'logo': Secret.SchemaAttributeType.STRING,
@@ -27,6 +31,10 @@ class LibSecret:
         self.schema = Secret.Schema.new(*args)
     
     def get_collection(self):
+        '''
+        This method finds the collection we need to store items, or
+        if that collection doesn't exist yet, it creates it.
+        '''
         flags = Secret.ServiceFlags.LOAD_COLLECTIONS
         self.service = Secret.Service.get_sync(flags)
         for c in self.service.get_collections():
@@ -42,10 +50,14 @@ class LibSecret:
                 self.collection = None
         
     def load_collection(self):
-        # This is a bug in libsecret, unlock doesn't trigger an item
-        # update and so it keeps using a cached version. We need to
-        # either notify dbus manually, or reconnect the service and
-        # get_collections() again. Reconnecting is easier and cleaner.
+        '''
+        This method loads the collections items in a reliable way.
+        Ideally just doing the get_collection() method call would be enough,
+        however if the collection is initially locked the item attributes,
+        label and secret, at least, aren't updated. So we need to either
+        go into dbus to do it manually, or just reconnect the service.
+        We do the later here for convenience.
+        '''
         self.service.disconnect()
         flags = Secret.ServiceFlags.LOAD_COLLECTIONS
         self.service = Secret.Service.get_sync(flags)
