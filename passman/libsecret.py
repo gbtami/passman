@@ -67,6 +67,10 @@ class LibSecret:
                 break
     
     def create_item(self, logo, service, username, password, notes):
+        '''
+        This method creates an item on the collection
+        currently in use, and returns that item.
+        '''
         attributes = {'logo': logo, 'service': service, 'username': username}
         secret = repr((password, notes))
         value = Secret.Value(secret, len(secret), 'text/plain')
@@ -77,6 +81,10 @@ class LibSecret:
         return item
     
     def edit_item(self, item, logo, service, username, password, notes):
+        '''
+        This method can edit the attributes, the secret value
+        and the label of the item in question.
+        '''
         secret = repr((password, notes))
         value = Secret.Value(secret, len(secret), 'text/plain')
         item.set_secret_sync(value)
@@ -85,9 +93,16 @@ class LibSecret:
         item.set_label_sync(service + ': ' + username)
     
     def delete_item(self, item):
+        '''
+        This method deletes the item referenced.
+        '''
         item.delete_sync()
     
     def get_secret(self, item):
+        '''
+        This method returns the secret associated with the item provided.
+        It needs to eval() before returning since it's stored with repr().
+        '''
         item.load_secret_sync()
         return eval(item.get_secret().get_text())
     
