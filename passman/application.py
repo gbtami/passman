@@ -5,7 +5,6 @@ Module for the Application class
 '''
 
 import logging
-import os
 import platform
 import pathlib
 
