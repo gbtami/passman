@@ -18,7 +18,7 @@ from gi import require_version
 require_version('Gtk', '3.0')
 require_version('GdkPixbuf', '2.0')
 require_version('Pango', '1.0')
-from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Pango
+from gi.repository import Gtk, GdkPixbuf, GLib, Pango
 
 
 class LogoHeader:
