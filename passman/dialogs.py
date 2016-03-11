@@ -9,11 +9,8 @@ import platform
 
 from gi import require_version
 require_version('Gtk', '3.0')
-require_version('GdkPixbuf', '2.0')
-from gi.repository import Gtk, GdkPixbuf, GLib, Gio
-if platform.system() == 'Windows':
-    import pyHook
-else:
+from gi.repository import Gtk, GLib, Gio
+if platform.system() != 'Windows':
     require_version('Keybinder', '3.0')
     from gi.repository import Keybinder
 
