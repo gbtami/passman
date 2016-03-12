@@ -13,7 +13,7 @@ gui_dir = str(app_data_dir / 'gui')
 cache_dir = str(app_data_dir / 'cache')
 help_dir = str(sys_data_dir / 'help' / 'C' / 'passman')
 help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
-locale_dir = sys_data_dir / 'locale'
+locale_dir = str(sys_data_dir / 'locale')
 
 help_walk = os.walk('help')
 dirpath, dirnames, filenames = next(help_walk)
@@ -26,7 +26,13 @@ help_media_files = [str(dirpath / filename) for filename in filenames]
 locale_walk = os.walk('locale')
 dirpath, dirnames, filenames = next(locale_walk)
 dirpath = Path(dirpath)
-locale_files = [str(dirpath / dirname) for dirname in dirnames]
+dir_list = [str(dirpath / dirname) for dirname in dirnames]
+locale_files = []
+for directory in dir_list:
+    directory_walk = os.walk(directory)
+    for dirpath, dirnames, filenames in directory_walk:
+        dirpath = Path(dirpath)
+        locale_files.extend([str(dirpath / file) for file in filenames])
 
 with open('README.rst', encoding='utf-8') as f:
     f.readline()
