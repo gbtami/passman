@@ -11,10 +11,9 @@ app_dir = str(sys_data_dir / 'applications')
 app_data_dir = sys_data_dir / 'passman'
 gui_dir = str(app_data_dir / 'gui')
 cache_dir = str(app_data_dir / 'cache')
+
 help_dir = str(sys_data_dir / 'help' / 'C' / 'passman')
 help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
-locale_dir = str(sys_data_dir / 'locale')
-
 help_walk = os.walk('help')
 dirpath, dirnames, filenames = next(help_walk)
 dirpath = Path(dirpath)
@@ -25,20 +24,25 @@ help_media_files = [str(dirpath / filename) for filename in filenames]
 
 locale_walk = os.walk('locale')
 dirpath, dirnames, filenames = next(locale_walk)
-dirpath = Path(dirpath)
-dir_list = [str(dirpath / dirname) for dirname in dirnames]
-locale_files = []
-for directory in dir_list:
-    directory_walk = os.walk(directory)
-    for dirpath, dirnames, filenames in directory_walk:
-        dirpath = Path(dirpath)
-        locale_files.extend([str(dirpath / file) for file in filenames])
+locale_dirs = [Path('locale') / name / 'LC_MESSAGES' for name in dirnames]
+locale_files = [[str(name / 'passman.mo')] for name in locale_dirs]
+locale_dirs = [str(sys_data_dir / name) for name in locale_dirs]
+
+data_files = [(app_dir, ['freedesktop/passman.desktop']),
+              (autostart_dir, ['freedesktop/passman-autostart.desktop']),
+              (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
+              (help_dir, help_files),
+              (help_media_dir, help_media_files),
+              (gui_dir, ['gui/glade', 'gui/ui']),
+              (cache_dir, ['cache/logo_name_cache.bz2'])]
+data_files.extend(zip(locale_dirs, locale_files))
 
 with open('README.rst', encoding='utf-8') as f:
     f.readline()
     f.readline()
     f.readline()
     long_description = f.read()
+
 
 setup(
     name='PassMan',
@@ -122,14 +126,7 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
     # data_files=[('my_data', ['data/data_file'])],
-    data_files=[(app_dir, ['freedesktop/passman.desktop']),
-                (autostart_dir, ['freedesktop/passman-autostart.desktop']),
-                (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
-                (help_dir, help_files),
-                (help_media_dir, help_media_files),
-                (gui_dir, ['gui/glade', 'gui/ui']),
-                (cache_dir, ['cache/logo_name_cache.bz2']),
-                (locale_dir, locale_files)],
+    data_files=data_files,
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow

@@ -19,6 +19,9 @@ recursive-include help *
 # Include logo names cache file
 include cache/logo_name_cache.bz2
 
+# Include locale files
+recursive-include locale *
+
 # Exclude files that aren't required
 # Glade keeps some backups and temporary files in this format
 global-exclude *~ #*#

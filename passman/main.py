@@ -13,7 +13,7 @@ import pathlib
 # We need to install gettext now because the _() function will be added
 # to the built-ins, and it will be used in the Application class.
 if platform.system() == 'Windows':
-    locale_dir = (pathlib.Path() / 'locale').absolute()
+    locale_dir = pathlib.Path('locale').absolute()
     gettext.install('passman', locale_dir)
 else:
     # https://docs.python.org/dev/library/locale.html#access-to-message-catalogs
@@ -23,7 +23,7 @@ else:
     # internally invoke gettext() or dcgettext(). For these applications,
     # it may be necessary to bind the text domain, so that the libraries
     # can properly locate their message catalogs.
-    locale.bindtextdomain('passman')
+    locale.bindtextdomain('passman', None)
     gettext.install('passman')
 
 import sys
