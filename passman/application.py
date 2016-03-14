@@ -116,13 +116,13 @@ class Application(Gtk.Application):
         '''
         shortcuts = self.settings.get_child('shortcuts')
         if platform.system() == 'Windows':
-            self.modifiers = {Gdk.ModifierType.GDK_SHIFT_MASK:
+            self.modifiers = {Gdk.ModifierType.SHIFT_MASK:
                                   ['VK_SHIFT'],
-                              Gdk.ModifierType.GDK_CONTROL_MASK:
+                              Gdk.ModifierType.CONTROL_MASK:
                                   ['VK_CONTROL'],
-                              Gdk.ModifierType.GDK_MOD1_MASK:
+                              Gdk.ModifierType.MOD1_MASK:
                                   ['VK_MENU'],
-                              Gdk.ModifierType.GDK_SUPER_MASK:
+                              Gdk.ModifierType.SUPER_MASK:
                                   ['VK_LWIN', 'VK_RWIN']}
             hook_manager = pyHook.HookManager()
             hook_manager.KeyDown = self.on_keyboard_event
