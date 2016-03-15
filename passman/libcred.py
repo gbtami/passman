@@ -91,13 +91,15 @@ class LibCred:
     
     def __init__(self, app):
         self.app = app
+        self.get_collection()
     
     def get_collection(self):
         self.collection = CredCollection()
         
     def load_collection(self):
-        CredEnumerateW(None, CRED_ENUMERATE_ALL_CREDENTIALS,
-                       ctypes.byref(DWORD()), ctypes.POINTER())
+        count = DWORD(0)
+        self.advapi32.CredEnumerateW(None, CRED_ENUMERATE_ALL_CREDENTIALS,
+                                     ctypes.byref(count), ctypes.POINTER())
     
     def create_item(self, logo, service, username, password, notes):
         # If I add more attributes later, I need to increment this.
