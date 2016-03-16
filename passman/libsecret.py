@@ -107,12 +107,23 @@ class LibSecret:
         return eval(item.get_secret().get_text())
     
     def lock(self):
+        '''
+        This method locks the currently used collection.
+        '''
         return self.service.lock_sync([self.collection])[0] == 1
     
     def unlock(self):
+        '''
+        This method unlocks the currently used collection.
+        '''
         return self.service.unlock_sync([self.collection])[0] == 1
     
     def change_password(self):
+        '''
+        This method changes the password of the currently used collection
+        by using the dbus insterface, since the library doesn't include
+        a method call to perform the same task.
+        '''
         bus = Gio.bus_get_sync(Gio.BusType.SESSION)
         bus_name = 'org.freedesktop.secrets'
         object_path = '/org/freedesktop/secrets'
@@ -131,9 +142,16 @@ class LibSecret:
                       parameters, None, flags, -1, None)
     
     def set_default(self):
+        '''
+        This method sets the default collection by changing
+        the value of the 'default' alias.
+        '''
         self.service.set_alias_sync('default', self.collection)
     
     def is_default(self):
+        '''
+        This method checks if the currently used collection is the default one.
+        '''
         flags = Secret.CollectionFlags.NONE
         args = (self.service, 'default', flags)
         default = self.collection.for_alias_sync(*args)
