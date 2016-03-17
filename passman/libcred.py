@@ -38,7 +38,7 @@ class Credential(ctypes.Structure):
                 ('CredentialBlob', LPBYTE),
                 ('Persist', DWORD),
                 ('AttributeCount', DWORD),
-                ('Attributes', CredAttributes),
+                ('Attributes', ctypes.POINTER(CredAttributes)),
                 ('TargetAlias', LPWSTR),
                 ('UserName', LPWSTR)]
 
@@ -57,11 +57,24 @@ class CredItem:
         self.service = service
         self.username = username
     
+    def get_cred(self):
+        target = LPSTR(repr((self.service, self.username)))
+        cred = ctypes.byref(Credential())
+        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0, cred)
+        return cred
+    
+    def get_secret(self):
+        cred = self.get_cred()
+        return (cred.CredentialBlob.password, cred.CredentialBlob.notes)
+    
     def get_attributes(self):
-        pass
+        cred = self.get_cred()
+        return {'logo': cred.Attributes.logo,
+                'service': self.service,
+                'username': self.username}
     
     def get_label(self):
-        pass
+        return '{}: {}'.format(self.service, self.username)
 
 
 class CredCollection:
@@ -98,28 +111,29 @@ class LibCred:
         
     def load_collection(self):
         count = DWORD(0)
-        self.advapi32.CredEnumerateW(None, CRED_ENUMERATE_ALL_CREDENTIALS,
-                                     ctypes.byref(count), ctypes.POINTER())
+        result = ctypes.POINTER(ctypes.POINTER(Credential))()
+        self.advapi32.CredEnumerateW(None, 0, ctypes.byref(count),
+                                     ctypes.byref(result))
+        for cred in result:
+            service, username = eval(cred.contents.TargetName)
+            self.collection.items.append(CredItem(service, username))
     
     def create_item(self, logo, service, username, password, notes):
-        # If I add more attributes later, I need to increment this.
-        cred_attributes_type = CredAttributes * 1
-        attributes = cred_attributes_type(logo)
-        blob = CredBlob(password, notes)
         cred_flags = DWORD(0)
         cred_type = self.CRED_TYPE_GENERIC
         # I make this the target_name because otherwise users with multiple
         # accounts on the same service won't be able to create those
         # credentials. They would end up just overwriting the same
         # credential for the service each time a new account is added.
-        cred_target_name = LPWSTR(repr(service, username))
+        cred_target_name = LPWSTR(repr((service, username)))
         cred_comment = LPWSTR('')
         cred_last_written = FILETIME(0, 0)
+        blob = CredBlob(password, notes)
         cred_credential_blob_size = ctypes.sizeof(blob)
-        cred_credential_blob = ctypes.byref(blob)
+        cred_credential_blob = LPBYTE(blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
-        cred_attribute_count = DWORD(len(attributes))
-        cred_attributes = ctypes.byref(attributes)
+        cred_attribute_count = DWORD(1)
+        cred_attributes = ctypes.pointer(CredAttributes(logo))
         # I keep this alias to mark which credentials are created using
         # PassMan, the ones that aren't, won't be displayed.
         cred_target_alias = LPWSTR('passman')
@@ -130,20 +144,21 @@ class LibCred:
                           cred_persist, cred_attribute_count, cred_attributes,
                           cred_target_alias, cred_username)
         self.advapi32.CredWriteW(ctypes.byref(cred), 0)
-        return CredItem(service, username)
+        item = CredItem(service, username)
+        self.collection.items.append(item)
+        return item
     
     def edit_item(self, item, logo, service, username, password, notes):
+        self.collection.items.remove(item)
         self.create_item(logo, service, username, password, notes)
     
     def delete_item(self, item):
         target = LPSTR(repr((item.service, item.username)))
         self.advapi32.CredDeleteW(target, self.CRED_TYPE_GENERIC, 0)
+        self.collection.items.remove(item)
     
     def get_secret(self, item):
-        target = LPSTR(repr((item.service, item.username)))
-        out = ctypes.byref(Credential())
-        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0, out)
-        return (out.CredentialBlob.password, out.CredentialBlob.notes)
+        return item.get_secret()
     
     def lock(self):
         '''
