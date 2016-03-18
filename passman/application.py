@@ -303,7 +303,11 @@ class Application(Gtk.Application):
             # is activated without using the keyboard shortcut.
             # This happens because Gtk doesn't set this as the current event,
             # and so we have no object to get the time from.
-            self.window.get_window().focus(Keybinder.get_current_event_time())
+            if platform.system() == 'Windows':
+                current_event_time = 0
+            else:
+                current_event_time = Keybinder.get_current_event_time()
+            self.window.get_window().focus(current_event_time)
         else:
             # If the application starts hidden, I prefer to return the app to
             # the previous state, hidden, instead of quitting.
@@ -443,4 +447,5 @@ class Application(Gtk.Application):
         Quit the application
         '''
         self.quit()
+
 
