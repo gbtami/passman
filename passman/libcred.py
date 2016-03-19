@@ -13,7 +13,10 @@ class CredAttributes(ctypes.Structure):
     Credential Attributes ctypes structure
     '''
     
-    _fields_ = [('logo', LPWSTR)]
+    _fields_ = [('Keyword', LPWSTR),
+                ('Flags', DWORD),
+                ('ValueSize', DWORD),
+                ('Value', LPBYTE)]
 
 
 class CredBlob(ctypes.Structure):
@@ -43,7 +46,21 @@ class Credential(ctypes.Structure):
                 ('UserName', LPWSTR)]
 
 
-class CredItem:
+class BaseCred:
+    '''
+    A base class to load the advapi32 lib and define a few constants.
+    '''
+    
+    advapi32 = ctypes.CDLL('Advapi32.dll')
+    CRED_TYPE_GENERIC = DWORD(1)
+    # Windows Vista Home Basic, Windows Vista Home Premium, Windows Vista
+    # Starter, and Windows XP Home Edition:  This value is not supported.
+    CRED_PERSIST_LOCAL_MACHINE = DWORD(2)
+    # Windows Server 2003 and Windows XP:  This flag is not supported.
+    CRED_ENUMERATE_ALL_CREDENTIALS = DWORD(1)
+
+
+class CredItem(BaseCred):
     '''
     Credential Virtual Item class.
     This class is used to implement methods that are present in the
@@ -52,24 +69,25 @@ class CredItem:
     adding a bunch of platform checks everywhere in the code, I use
     the same method calls and just change the class that handles them.
     '''
-    
+
     def __init__(self, service, username):
         self.service = service
         self.username = username
     
     def get_cred(self):
-        target = LPSTR(repr((self.service, self.username)))
-        cred = ctypes.byref(Credential())
-        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0, cred)
+        target = LPWSTR(repr((self.service, self.username)))
+        cred = Credential()
+        cred.Attributes = ctypes.pointer(CredAttributes())
+        cred = ctypes.pointer(cred)
         return cred
     
     def get_secret(self):
-        cred = self.get_cred()
+        cred = self.get_cred().contents
         return (cred.CredentialBlob.password, cred.CredentialBlob.notes)
     
     def get_attributes(self):
-        cred = self.get_cred()
-        return {'logo': cred.Attributes.logo,
+        cred = self.get_cred().contents
+        return {'logo': cred.Attributes.contents.logo,
                 'service': self.service,
                 'username': self.username}
     
@@ -89,21 +107,14 @@ class CredCollection:
         return self.items
 
 
-class LibCred:
+class LibCred(BaseCred):
     '''
     LibCred class
     '''
     
-    advapi32 = ctypes.CDLL('Advapi32.dll')
-    CRED_TYPE_GENERIC = DWORD(1)
-    # Windows Vista Home Basic, Windows Vista Home Premium, Windows Vista
-    # Starter, and Windows XP Home Edition:  This value is not supported.
-    CRED_PERSIST_LOCAL_MACHINE = DWORD(2)
-    # Windows Server 2003 and Windows XP:  This flag is not supported.
-    CRED_ENUMERATE_ALL_CREDENTIALS = DWORD(1)
-    
     def __init__(self, app):
         self.app = app
+        self.alias = app.name
         self.get_collection()
     
     def get_collection(self):
@@ -114,9 +125,11 @@ class LibCred:
         result = ctypes.POINTER(ctypes.POINTER(Credential))()
         self.advapi32.CredEnumerateW(None, 0, ctypes.byref(count),
                                      ctypes.byref(result))
-        for cred in result:
-            service, username = eval(cred.contents.TargetName)
-            self.collection.items.append(CredItem(service, username))
+        for i in range(count.value):
+            cred = result[i].contents
+            if cred.TargetAlias == self.alias:
+                service, username = eval(cred.TargetName)
+                self.collection.items.append(CredItem(service, username))
     
     def create_item(self, logo, service, username, password, notes):
         cred_flags = DWORD(0)
@@ -129,20 +142,23 @@ class LibCred:
         cred_comment = LPWSTR('')
         cred_last_written = FILETIME(0, 0)
         blob = CredBlob(password, notes)
-        cred_credential_blob_size = ctypes.sizeof(blob)
-        cred_credential_blob = LPBYTE(blob)
+        cred_blob_size = ctypes.sizeof(blob)
+        cred_blob = LPBYTE(blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
         cred_attribute_count = DWORD(1)
-        cred_attributes = ctypes.pointer(CredAttributes(logo))
+        cred_attributes = CredAttributes(LPWSTR('logo'),
+                                         DWORD(0),
+                                         ctypes.sizeof(LPBYTE(logo)),
+                                         LPBYTE(logo))
+        cred_attributes = ctypes.pointer(cred_attributes)
         # I keep this alias to mark which credentials are created using
         # PassMan, the ones that aren't, won't be displayed.
-        cred_target_alias = LPWSTR('passman')
+        cred_target_alias = LPWSTR(self.alias)
         cred_username = LPWSTR(username)
         cred = Credential(cred_flags, cred_type, cred_target_name,
-                          cred_comment, cred_last_written,
-                          cred_credential_blob_size, cred_credential_blob,
-                          cred_persist, cred_attribute_count, cred_attributes,
-                          cred_target_alias, cred_username)
+                          cred_comment, cred_last_written, cred_blob_size,
+                          cred_blob, cred_persist, cred_attribute_count,
+                          cred_attributes, cred_target_alias, cred_username)
         self.advapi32.CredWriteW(ctypes.byref(cred), 0)
         item = CredItem(service, username)
         self.collection.items.append(item)
@@ -189,4 +205,5 @@ class LibCred:
         Not implemented on Windows
         '''
         pass
+
 
