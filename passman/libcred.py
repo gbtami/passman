@@ -87,7 +87,9 @@ class CredItem(BaseCred):
     
     def get_attributes(self):
         cred = self.get_cred().contents
-        return {'logo': cred.Attributes.contents.logo,
+        logo = ctypes.cast(cred.Attributes.contents.Value,
+                           ctypes.POINTER(LPWSTR))
+        return {'logo': logo.contents.value,
                 'service': self.service,
                 'username': self.username}
     
@@ -146,10 +148,10 @@ class LibCred(BaseCred):
         cred_blob = LPBYTE(blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
         cred_attribute_count = DWORD(1)
-        cred_attributes = CredAttributes(LPWSTR('logo'),
+        cred_attributes = CredAttributes(LPWSTR(service + '_logo'),
                                          DWORD(0),
-                                         ctypes.sizeof(LPBYTE(logo)),
-                                         LPBYTE(logo))
+                                         ctypes.sizeof(LPWSTR(logo)),
+                                         ctypes.cast(LPWSTR(logo), LPBYTE))
         cred_attributes = ctypes.pointer(cred_attributes)
         # I keep this alias to mark which credentials are created using
         # PassMan, the ones that aren't, won't be displayed.
@@ -205,5 +207,6 @@ class LibCred(BaseCred):
         Not implemented on Windows
         '''
         pass
+
 
 
