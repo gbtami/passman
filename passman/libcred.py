@@ -5,10 +5,10 @@ Module for the Windows Credentials util library
 '''
 
 import ctypes
-from ctypes.wintypes import DWORD, LPWSTR, FILETIME, LPBYTE
+from ctypes.wintypes import DWORD, LPWSTR, LPCWSTR, FILETIME, LPBYTE
 
 
-class CredAttributes(ctypes.Structure):
+class CredAttribute(ctypes.Structure):
     '''
     Credential Attributes ctypes structure
     '''
@@ -41,7 +41,7 @@ class Credential(ctypes.Structure):
                 ('CredentialBlob', LPBYTE),
                 ('Persist', DWORD),
                 ('AttributeCount', DWORD),
-                ('Attributes', ctypes.POINTER(CredAttributes)),
+                ('Attributes', ctypes.POINTER(CredAttribute)),
                 ('TargetAlias', LPWSTR),
                 ('UserName', LPWSTR)]
 
@@ -75,11 +75,12 @@ class CredItem(BaseCred):
         self.username = username
     
     def get_cred(self):
-        target = LPWSTR(repr((self.service, self.username)))
+        target = LPCWSTR(repr((self.service, self.username)))
         cred = Credential()
-        cred.Attributes = ctypes.pointer(CredAttributes())
-        cred = ctypes.pointer(cred)
-        return cred
+        cred.Attributes = ctypes.pointer(CredAttribute())
+        cred = ctypes.pointer(ctypes.pointer(cred))
+        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0, cred)
+        return cred.contents
     
     def get_secret(self):
         cred = self.get_cred().contents
@@ -148,10 +149,11 @@ class LibCred(BaseCred):
         cred_blob = LPBYTE(blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
         cred_attribute_count = DWORD(1)
-        cred_attributes = CredAttributes(LPWSTR(service + '_logo'),
-                                         DWORD(0),
-                                         ctypes.sizeof(LPWSTR(logo)),
-                                         ctypes.cast(LPWSTR(logo), LPBYTE))
+        logo_value = ctypes.cast(LPWSTR(logo), LPBYTE)
+        cred_attributes = CredAttribute(LPWSTR(service + '_logo'),
+                                        DWORD(0),
+                                        ctypes.sizeof(logo_value),
+                                        logo_value)
         cred_attributes = ctypes.pointer(cred_attributes)
         # I keep this alias to mark which credentials are created using
         # PassMan, the ones that aren't, won't be displayed.
@@ -207,6 +209,4 @@ class LibCred(BaseCred):
         Not implemented on Windows
         '''
         pass
-
-
 
