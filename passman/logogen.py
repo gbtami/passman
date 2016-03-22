@@ -40,15 +40,26 @@ class LogoHeader:
         self.set_image()
     
     def set_default_image(self):
+        '''
+        This method sets the logo image to the default one.
+        '''
         icon_theme = Gtk.IconTheme.get_default()
         default_image = icon_theme.load_icon('image-missing', self.size, 0)
         self.image.set_from_pixbuf(default_image)
         self.image.show()
     
     def set_service(self, service):
+        '''
+        This method sets the service name so it will later
+        be used when setting the logo image.
+        '''
         self.service = service
     
     def set_image(self, logo=''):
+        '''
+        This method will set the logo image based
+        on the current instance state.
+        '''
         self.logo = logo
         if logo:
             pixbuf = self.logo_server.get_custom(logo)
@@ -67,11 +78,19 @@ class LogoHeader:
                 self.set_default_image()
     
     def set_pixbuf(self, pixbuf):
+        '''
+        This method sets the logo image based on a particular pixbuf,
+        it's a lower level private method to be used by this class only.
+        '''
         pixbuf = pixbuf.scale_simple(self.size, self.size, self.interp)
         self.image.set_from_pixbuf(pixbuf)
         self.image.show()
     
     def callback(self, logo_name):
+        '''
+        This method is called when an asynchronous call to get_remote is done.
+        It's a private method that should only be called by this class.
+        '''
         self.spin.stop()
         pixbuf = self.logo_server.get_local(logo_name)
         if pixbuf:
@@ -80,6 +99,9 @@ class LogoHeader:
             self.set_default_image()
     
     def custom_logo_dialog(self, window):
+        '''
+        This method shows a dialog to let the user select a custom logo.
+        '''
         dialog = Gtk.FileChooserDialog()
         dialog.set_transient_for(window)
         dialog.set_action(Gtk.FileChooserAction.OPEN)
@@ -107,6 +129,9 @@ class LogoHeader:
         return logo_name
     
     def make_logo_tile(self, username, size, mode):
+        '''
+        This method is used to create a LogoTile from this current LogoHeader.
+        '''
         return LogoTile(self.app, self.logo, self.service,
                         username, size, mode)
 
