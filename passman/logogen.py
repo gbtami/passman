@@ -57,8 +57,12 @@ class LogoHeader:
     
     def set_image(self, logo=''):
         '''
-        This method will set the logo image based
-        on the current instance state.
+        This method will set the logo image based on a custom logo, or if that
+        isn't provided it will try getting one locally first and remotely
+        after, but only if the name is cached, this prevents remote calls to
+        logos that don't exist. Preventing these remote calls is important
+        because otherwise each letter input into the service field would
+        trigger one such call.
         '''
         self.logo = logo
         if logo:
@@ -172,6 +176,9 @@ class LogoTile:
         self.set_label()
     
     def set_default_image(self):
+        '''
+        This method sets the logo image to the default one.
+        '''
         icon_theme = Gtk.IconTheme.get_default()
         size = self.resolve_size()
         default_image = icon_theme.load_icon('image-missing', size, 0)
@@ -179,6 +186,11 @@ class LogoTile:
         self.image.show()
     
     def set_image(self, logo, remote=False):
+        '''
+        This method will set the logo image based on a custom logo, or if that
+        isn't provided it will try getting one locally first and remotely
+        later, but the remote call will only be performed if 'remote' is set.
+        '''
         self.logo = logo
         if logo:
             pixbuf = self.logo_server.get_custom(logo)
@@ -201,12 +213,20 @@ class LogoTile:
             self.set_default_image()
     
     def set_pixbuf(self, pixbuf):
+        '''
+        This method sets the logo image based on a particular pixbuf,
+        it's a lower level private method to be used by this class only.
+        '''
         size = self.resolve_size()
         pixbuf = pixbuf.scale_simple(size, size, self.interp)
         self.image.set_from_pixbuf(pixbuf)
         self.image.show()
     
     def callback(self, logo_name):
+        '''
+        This method is called when an asynchronous call to get_remote is done.
+        It's a private method that should only be called by this class.
+        '''
         self.spin.stop()
         pixbuf = self.logo_server.get_local(logo_name)
         if pixbuf:
@@ -215,6 +235,9 @@ class LogoTile:
             self.set_default_image()
     
     def set_mode(self, mode):
+        '''
+        This method updates logo size and text when the view mode is changed.
+        '''
         self.mode = mode
         self.grid.remove(self.label)
         if mode == 'grid':
@@ -229,11 +252,18 @@ class LogoTile:
         self.set_label()
     
     def set_size(self, size):
+        '''
+        This method updates logo size and text when the view size is changed.
+        '''
         self.size = size
         self.set_image(self.logo)
         self.set_label()
     
     def set_label(self):
+        '''
+        This method updates the label text based on instance state.
+        This is a private method that is used by the class only.
+        '''
         if not self.username:
             self.separator = ''
         text = '<b>{}</b>{}{}'.format(self.service,
@@ -260,12 +290,19 @@ class LogoTile:
         self.label.set_markup(text)
     
     def resolve_size(self):
+        '''
+        This method returns the pixel size corresponding to the index value
+        on the scale widget that is used to control the logo size.
+        '''
         if self.mode == 'grid':
             return self.size * 32
         else:   
             return self.size * 24
 
     def make_logo_header(self):
+        '''
+        This method is used to create a LogoHeader from this current LogoTile.
+        '''
         logo_header = LogoHeader(self.app)
         logo_header.set_service(self.service)
         logo_header.set_image(self.logo)
