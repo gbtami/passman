@@ -153,7 +153,7 @@ class Application(Gtk.Application):
         '''
         if event.Ascii == self.hotkey:
             for vk in self.virtual_keys:
-                if not HookManager.GetKeyState(HookConstants.VKeyToID(vk)):
+                if not pyHook.GetKeyState(pyHook.HookConstants.VKeyToID(vk)):
                     break
             else:
                 self.activate()
@@ -447,5 +447,4 @@ class Application(Gtk.Application):
         Quit the application
         '''
         self.quit()
-
 
