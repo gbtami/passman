@@ -84,13 +84,13 @@ class CredItem(BaseCred):
     
     def get_secret(self):
         cred = self.get_cred().contents
-        return (cred.CredentialBlob.password, cred.CredentialBlob.notes)
+        secret = ctypes.cast(cred.CredentialBlob, ctypes.POINTER(CredBlob))
+        return (secret.contents.password, secret.contents.notes)
     
     def get_attributes(self):
         cred = self.get_cred().contents
-        logo = ctypes.cast(cred.Attributes.contents.Value,
-                           ctypes.POINTER(LPWSTR))
-        return {'logo': logo.contents.value,
+        logo = ctypes.cast(cred.Attributes.contents.Value, LPWSTR)
+        return {'logo': logo.value,
                 'service': self.service,
                 'username': self.username}
     
@@ -144,9 +144,9 @@ class LibCred(BaseCred):
         cred_target_name = LPWSTR(repr((service, username)))
         cred_comment = LPWSTR('')
         cred_last_written = FILETIME(0, 0)
-        blob = CredBlob(password, notes)
+        blob = CredBlob(LPWSTR(password), LPWSTR(notes))
+        cred_blob = ctypes.cast(ctypes.pointer(blob), LPBYTE)
         cred_blob_size = ctypes.sizeof(blob)
-        cred_blob = LPBYTE(blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
         cred_attribute_count = DWORD(1)
         logo_value = ctypes.cast(LPWSTR(logo), LPBYTE)
@@ -173,7 +173,7 @@ class LibCred(BaseCred):
         self.create_item(logo, service, username, password, notes)
     
     def delete_item(self, item):
-        target = LPSTR(repr((item.service, item.username)))
+        target = LPCWSTR(repr((item.service, item.username)))
         self.advapi32.CredDeleteW(target, self.CRED_TYPE_GENERIC, 0)
         self.collection.items.remove(item)
     
