@@ -19,14 +19,6 @@ class CredAttribute(ctypes.Structure):
                 ('Value', LPBYTE)]
 
 
-class CredBlob(ctypes.Structure):
-    '''
-    Credential Blob ctypes structure
-    '''
-    
-    _fields_ = [('password', LPWSTR), ('notes', LPWSTR)]
-
-
 class Credential(ctypes.Structure):
     '''
     Credential ctypes structure
@@ -76,19 +68,18 @@ class CredItem(BaseCred):
     
     def get_cred(self):
         target = LPCWSTR(repr((self.service, self.username)))
-        cred = Credential()
-        cred.Attributes = ctypes.pointer(CredAttribute())
-        cred = ctypes.pointer(ctypes.pointer(cred))
-        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0, cred)
-        return cred.contents
+        pcred = ctypes.pointer(Credential())
+        self.advapi32.CredReadW(target, self.CRED_TYPE_GENERIC, 0,
+                                ctypes.byref(pcred))
+        return pcred.contents
     
     def get_secret(self):
-        cred = self.get_cred().contents
-        secret = ctypes.cast(cred.CredentialBlob, ctypes.POINTER(CredBlob))
-        return (secret.contents.password, secret.contents.notes)
+        cred = self.get_cred()
+        secret = ctypes.wstring_at(cred.CredentialBlob)
+        return eval(secret)
     
     def get_attributes(self):
-        cred = self.get_cred().contents
+        cred = self.get_cred()
         logo = ctypes.cast(cred.Attributes.contents.Value, LPWSTR)
         return {'logo': logo.value,
                 'service': self.service,
@@ -144,9 +135,10 @@ class LibCred(BaseCred):
         cred_target_name = LPWSTR(repr((service, username)))
         cred_comment = LPWSTR('')
         cred_last_written = FILETIME(0, 0)
-        blob = CredBlob(LPWSTR(password), LPWSTR(notes))
-        cred_blob = ctypes.cast(ctypes.pointer(blob), LPBYTE)
-        cred_blob_size = ctypes.sizeof(blob)
+        blob = repr((password, notes))
+        cred_blob = ctypes.create_unicode_buffer(blob)
+        cred_blob_size = ctypes.sizeof(cred_blob)
+        cred_blob = LPBYTE(cred_blob)
         cred_persist = self.CRED_PERSIST_LOCAL_MACHINE
         cred_attribute_count = DWORD(1)
         logo_value = ctypes.cast(LPWSTR(logo), LPBYTE)
