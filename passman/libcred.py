@@ -161,8 +161,12 @@ class LibCred(BaseCred):
         return item
     
     def edit_item(self, item, logo, service, username, password, notes):
-        self.collection.items.remove(item)
-        self.create_item(logo, service, username, password, notes)
+        target = LPCWSTR(repr((item.service, item.username)))
+        self.advapi32.CredDeleteW(target, self.CRED_TYPE_GENERIC, 0)
+        temp_item = self.create_item(logo, service, username, password, notes)
+        self.collection.items.remove(temp_item)
+        item.service = service
+        item.username = username
     
     def delete_item(self, item):
         target = LPCWSTR(repr((item.service, item.username)))
