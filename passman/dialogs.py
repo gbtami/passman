@@ -202,18 +202,21 @@ class PreferencesDialog(Gtk.Dialog):
         closehide = self.builder.get_object('closehide')
         closehide.set_active(self.general['closehide'])
         
-        self.collection = app.settings.get_child('collection')
-        default_button = self.builder.get_object('default_button')
-        default_label = self.builder.get_object('default_label')
-        is_default = self.app.main_view.secret.is_default()
-        default_button.set_sensitive(not is_default)
-        text = ''
-        if not is_default:
-            text = '<b>not</b> '
-        label = 'This collection is {}the system\'s default.'.format(text)
-        default_label.set_markup(label)
-        autolock = self.builder.get_object('autolock')
-        autolock.set_active(self.collection['autolock'])
+        if platform.system() == 'Windows':
+            notebook.remove(1)
+        else:
+            self.collection = app.settings.get_child('collection')
+            default_button = self.builder.get_object('default_button')
+            default_label = self.builder.get_object('default_label')
+            is_default = self.app.main_view.secret.is_default()
+            default_button.set_sensitive(not is_default)
+            text = ''
+            if not is_default:
+                text = '<b>not</b> '
+            label = 'This collection is {}the system\'s default.'.format(text)
+            default_label.set_markup(label)
+            autolock = self.builder.get_object('autolock')
+            autolock.set_active(self.collection['autolock'])
         
         self.passwords = app.settings.get_child('passwords')
         size = self.builder.get_object('size')
