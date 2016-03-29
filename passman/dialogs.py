@@ -203,7 +203,7 @@ class PreferencesDialog(Gtk.Dialog):
         closehide.set_active(self.general['closehide'])
         
         if platform.system() == 'Windows':
-            notebook.remove(1)
+            notebook.remove_page(1)
         else:
             self.collection = app.settings.get_child('collection')
             default_button = self.builder.get_object('default_button')
@@ -344,12 +344,13 @@ class PreferencesDialog(Gtk.Dialog):
         This method will reset all preferences on all pages.
         '''
         reset_general = self.builder.get_object('reset_general')
-        reset_collection = self.builder.get_object('reset_collection')
-        reset_passwords = self.builder.get_object('reset_passwords')
-        reset_shortcuts = self.builder.get_object('reset_shortcuts')
         reset_general.clicked()
-        reset_collection.clicked()
+        if platform.system() != 'Windows':
+            reset_collection = self.builder.get_object('reset_collection')
+            reset_collection.clicked()
+        reset_passwords = self.builder.get_object('reset_passwords')
         reset_passwords.clicked()
+        reset_shortcuts = self.builder.get_object('reset_shortcuts')
         reset_shortcuts.clicked()
     
     def on_default_button_clicked(self, button):
