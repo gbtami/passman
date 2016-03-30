@@ -21,6 +21,8 @@ class HeaderBar(Gtk.HeaderBar):
         self.app = app
         self.set_title(app.title)
         self.set_show_close_button(True)
+        # This is necessary for Windows
+        self.set_decoration_layout('menu:close')
         self.connect('unrealize', self.on_unrealize)
         
         button = Gtk.Button()
