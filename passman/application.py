@@ -358,7 +358,11 @@ class Application(Gtk.Application):
         This method will launch the system's default
         application to read help files.
         '''
-        Gio.AppInfo.launch_default_for_uri('help:' + self.name.lower())
+        if platform.system() == 'Windows':
+            help_index = (pathlib.Path() / 'help' / 'index.html').resolve()
+            Gio.AppInfo.launch_default_for_uri(str(help_index))
+        else:
+            Gio.AppInfo.launch_default_for_uri('help:' + self.name.lower())
     
     def on_about(self, obj, param):
         '''

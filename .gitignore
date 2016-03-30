@@ -72,3 +72,6 @@ python-3.4.4
 windows/
 windows/pyHook*
 windows/python*
+help/*.html
+help/*.css
+help/*.js

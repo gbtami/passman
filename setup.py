@@ -17,6 +17,7 @@ help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
 help_walk = os.walk('help')
 dirpath, dirnames, filenames = next(help_walk)
 dirpath = Path(dirpath)
+filenames = [filename for filename in filenames if filename.endswith('.page')]
 help_files = [str(dirpath / filename) for filename in filenames]
 dirpath, dirnames, filenames = next(help_walk)
 dirpath = Path(dirpath)

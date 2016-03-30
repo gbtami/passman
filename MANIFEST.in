@@ -14,7 +14,7 @@ include schema/com.idlecore.passman.gschema.xml
 recursive-include gui *
 
 # Include help files
-recursive-include help *
+recursive-include help *.page *.png
 
 # Include logo names cache file
 include cache/logo_name_cache.bz2
