@@ -1,16 +1,16 @@
-# Extracts all dependencies and places them in the pynsist_pkgs folder
+# Extracts all dependencies and places them in the pynsist_pkgs folder.
 
 mkdir pynsist_pkgs
 
-# Unzip the bindings
+# Unzip the bindings.
 7z x pygi.exe -opygi
 
-# Copy the PyGI packages into the pynsist_pkgs folder
+# Copy the PyGI packages into the pynsist_pkgs folder.
 7z x pygi/binding/py3.4-64/py3.4-64.7z -obindings
 cp -r bindings/* pynsist_pkgs
 rm -r bindings
 
-# Copy the noarch and specified architecture dependencies into the gnome folder
+# Copy the noarch and specified arch dependencies into the gnome folder.
 array=( ATK Base GDK GDKPixbuf GTK JPEG Pango WebP TIFF HarfBuzz GnuTLS \
         Secret GCrypt )
 
@@ -26,11 +26,20 @@ do
     rm -r $i-arch
 done
 
-# Remove pygi Folder
+# Remove pygi Folder.
 rm -r pygi
 
-# Compile glib schemas
+# Compile glib schemas.
 glib-compile-schemas pynsist_pkgs/gnome/share/glib-2.0/schemas/
 
-# Copy pyHook
+# Copy pyHook.
 7z x pyHook-1.5.1-cp34-none-win_amd64.whl -opynsist_pkgs
+
+# Add high resolution icons that aren't included in pygi.
+mkdir pynsist_pkgs/gnome/share/icons/Adwaita/256x256
+mkdir pynsist_pkgs/gnome/share/icons/Adwaita/256x256/status
+cp /usr/share/icons/Adwaita/256x256/status/image-missing.png \
+   pynsist_pkgs/gnome/share/icons/Adwaita/256x256/status
+
+# Move the pynsist_pkgs directory outside.
+mv pynsist_pkgs ..
