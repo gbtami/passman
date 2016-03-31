@@ -42,7 +42,7 @@ class HeaderBar(Gtk.HeaderBar):
         action.connect('activate', self.on_view_mode)
         
         button = Gtk.MenuButton()
-        builder = Gtk.Builder.new_from_file(self.app.gui_ui)
+        builder = Gtk.Builder.new_from_file(self.app.gui_custom)
         bar_menu = builder.get_object('bar_menu')
         button.set_popover(bar_menu)
         icon = Gio.ThemedIcon(name='open-menu-symbolic')
@@ -101,7 +101,7 @@ class HeaderBar(Gtk.HeaderBar):
                                       message_type=Gtk.MessageType.ERROR)
             error.add_buttons(_('OK'), Gtk.ResponseType.OK)
             message = _('The {} and {} fields must be filled.')
-            message = message.format('<b>Service</b>', '<b>Password</b>')
+            message = message.format(_('<b>Service</b>'), _('<b>Password</b>'))
             error.set_markup(message)
             error.run()
             error.destroy()

@@ -33,7 +33,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     <property name="column_homogeneous">True</property>
     <child>
       <object class="GtkToggleButton" id="33">
-        <property name="label" translatable="yes">!</property>
+        <property name="label">!</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -45,7 +45,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="34">
-        <property name="label" translatable="yes">"</property>
+        <property name="label">"</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -57,7 +57,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="35">
-        <property name="label" translatable="yes">#</property>
+        <property name="label">#</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -69,7 +69,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="36">
-        <property name="label" translatable="yes">$</property>
+        <property name="label">$</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -81,7 +81,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="37">
-        <property name="label" translatable="yes">%</property>
+        <property name="label">%</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -93,7 +93,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="38">
-        <property name="label" translatable="yes">&amp;</property>
+        <property name="label">&amp;</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -105,7 +105,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="39">
-        <property name="label" translatable="yes">'</property>
+        <property name="label">'</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -117,7 +117,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="40">
-        <property name="label" translatable="yes">(</property>
+        <property name="label">(</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -129,7 +129,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="41">
-        <property name="label" translatable="yes">)</property>
+        <property name="label">)</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -141,7 +141,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="42">
-        <property name="label" translatable="yes">*</property>
+        <property name="label">*</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -153,7 +153,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="43">
-        <property name="label" translatable="yes">+</property>
+        <property name="label">+</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -165,7 +165,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="44">
-        <property name="label" translatable="yes">,</property>
+        <property name="label">,</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -177,7 +177,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="45">
-        <property name="label" translatable="yes">-</property>
+        <property name="label">-</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -189,7 +189,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="46">
-        <property name="label" translatable="yes">.</property>
+        <property name="label">.</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -201,7 +201,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="47">
-        <property name="label" translatable="yes">/</property>
+        <property name="label">/</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -213,7 +213,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="58">
-        <property name="label" translatable="yes">:</property>
+        <property name="label">:</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -225,7 +225,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="59">
-        <property name="label" translatable="yes">;</property>
+        <property name="label">;</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -237,7 +237,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="60">
-        <property name="label" translatable="yes">&lt;</property>
+        <property name="label">&lt;</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -249,7 +249,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="61">
-        <property name="label" translatable="yes">=</property>
+        <property name="label">=</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -261,7 +261,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="62">
-        <property name="label" translatable="yes">&gt;</property>
+        <property name="label">&gt;</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -273,7 +273,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="63">
-        <property name="label" translatable="yes">?</property>
+        <property name="label">?</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -285,7 +285,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="64">
-        <property name="label" translatable="yes">@</property>
+        <property name="label">@</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -297,7 +297,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="91">
-        <property name="label" translatable="yes">[</property>
+        <property name="label">[</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -309,7 +309,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="92">
-        <property name="label" translatable="yes">\</property>
+        <property name="label">\</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -321,7 +321,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="93">
-        <property name="label" translatable="yes">]</property>
+        <property name="label">]</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -333,7 +333,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="94">
-        <property name="label" translatable="yes">^</property>
+        <property name="label">^</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -345,7 +345,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="95">
-        <property name="label" translatable="yes">_</property>
+        <property name="label">_</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -357,7 +357,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="96">
-        <property name="label" translatable="yes">`</property>
+        <property name="label">`</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -369,7 +369,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="123">
-        <property name="label" translatable="yes">{</property>
+        <property name="label">{</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -381,7 +381,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="124">
-        <property name="label" translatable="yes">|</property>
+        <property name="label">|</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -393,7 +393,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="125">
-        <property name="label" translatable="yes">}</property>
+        <property name="label">}</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -405,7 +405,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
     </child>
     <child>
       <object class="GtkToggleButton" id="126">
-        <property name="label" translatable="yes">~</property>
+        <property name="label">~</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -581,7 +581,7 @@ along with Passman.  If not, see <http://www.gnu.org/licenses/>.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label19">
+                  <object class="GtkLabel" id="reset_all_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Reset all preferences:

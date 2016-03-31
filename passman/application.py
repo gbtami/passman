@@ -45,8 +45,8 @@ class Application(Gtk.Application):
     log_dir = user_data_dir / 'logs'
     log_file = str(log_dir / (name.lower() + '.log'))
     img_dir = user_data_dir / 'images'
-    gui_glade = str(sys_data_dir / 'gui' / 'glade')
-    gui_ui = str(sys_data_dir / 'gui' / 'ui')
+    gui_glade = str(sys_data_dir / 'gui' / 'glade.ui')
+    gui_custom = str(sys_data_dir / 'gui' / 'custom.ui')
     schema_id = app_id
     
     def __init__(self):
@@ -54,11 +54,11 @@ class Application(Gtk.Application):
         # argument flags=Gio.ApplicationFlags.FLAGS_NONE, this is the
         # default behaviour already, so it's not required.
         super().__init__(application_id=self.app_id)
-        description = ('Start the application hidden. '
-                       'Useful when you start the application at login.')
+        description = _('Start the application hidden. '
+                        'Useful when you start the application at login.')
         self.add_main_option('hide', 0, GLib.OptionFlags.NONE,
                              GLib.OptionArg.NONE, description, None)
-        description = ('Autostart the application on login.')
+        description = _('Autostart the application on login.')
         self.add_main_option('autostart', 0, GLib.OptionFlags.NONE,
                              GLib.OptionArg.NONE, description, None)
         self.hide_flag = False
@@ -103,7 +103,7 @@ class Application(Gtk.Application):
         self.window.add(self.main_view)
         
         self.add_actions()
-        builder = Gtk.Builder.new_from_file(self.gui_ui)
+        builder = Gtk.Builder.new_from_file(self.gui_custom)
         app_menu = builder.get_object('app_menu')
         self.set_app_menu(app_menu)
         
@@ -299,14 +299,14 @@ class Application(Gtk.Application):
                 self.started_hidden = True
                 self.main_view.init_buttons()
             self.window.show()
-            # This line will produce warnings on journalctl when passman
-            # is activated without using the keyboard shortcut.
-            # This happens because Gtk doesn't set this as the current event,
-            # and so we have no object to get the time from.
             if platform.system() == 'Windows':
                 current_event_time = 0
             else:
                 current_event_time = Keybinder.get_current_event_time()
+            # This line will produce warnings on journalctl when passman
+            # is activated without using the keyboard shortcut.
+            # This happens because Gtk doesn't set this as the current event,
+            # and so we have no object to get the time from.
             self.window.get_window().focus(current_event_time)
         else:
             # If the application starts hidden, I prefer to return the app to
@@ -388,7 +388,7 @@ class Application(Gtk.Application):
         #dialog.props.translator_credits = 'translator_credits'
         dialog.props.version = self.version
         dialog.props.website = self.website
-        dialog.props.website_label = 'Website'
+        dialog.props.website_label = _('Website')
         #dialog.props.wrap_license = False
         self.about_dialog = dialog
         response = dialog.run()

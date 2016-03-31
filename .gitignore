@@ -61,7 +61,7 @@ passman/test.py
 TODO
 version
 gui/#glade#
-gui/glade~
+gui/glade.ui~
 
 #pynsist
 pynsist_pkgs

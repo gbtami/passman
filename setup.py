@@ -34,7 +34,7 @@ data_files = [(app_dir, ['freedesktop/passman.desktop']),
               (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
               (help_dir, help_files),
               (help_media_dir, help_media_files),
-              (gui_dir, ['gui/glade', 'gui/ui']),
+              (gui_dir, ['gui/glade.ui', 'gui/custom.ui']),
               (cache_dir, ['cache/logo_name_cache.bz2'])]
 data_files.extend(zip(locale_dirs, locale_files))
 
