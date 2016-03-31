@@ -28,8 +28,8 @@ class AddDialog(Gtk.Dialog):
         self.app = app
         properties = {'use_header_bar': True}
         super().__init__(transient_for=app.window, **properties)
-        self.add_buttons('_OK', Gtk.ResponseType.OK,
-                         '_Cancel', Gtk.ResponseType.CANCEL)
+        self.add_buttons(_('_OK'), Gtk.ResponseType.OK,
+                         _('_Cancel'), Gtk.ResponseType.CANCEL)
         # I set the title on the next line instead of the constructor because
         # this way the window width is recalculated to show the entire title.
         self.get_header_bar().set_custom_title(Gtk.Label(label=self.title))
@@ -203,17 +203,20 @@ class PreferencesDialog(Gtk.Dialog):
         closehide.set_active(self.general['closehide'])
         
         if platform.system() == 'Windows':
-            notebook.remove_page(1)
+            notebook.get_nth_page(1).set_sensitivity(False)
         else:
             self.collection = app.settings.get_child('collection')
             default_button = self.builder.get_object('default_button')
             default_label = self.builder.get_object('default_label')
             is_default = self.app.main_view.secret.is_default()
             default_button.set_sensitive(not is_default)
-            text = ''
-            if not is_default:
-                text = '<b>not</b> '
-            label = 'This collection is {}the system\'s default.'.format(text)
+            # If you ever change this label, also change the one on
+            # def on_default_button_clicked(self, button):
+            if is_default:
+                label = _('This collection is the system\'s default.')
+            else:
+                label = _('This collection is <b>not</b> '
+                          'the system\'s default.')
             default_label.set_markup(label)
             autolock = self.builder.get_object('autolock')
             autolock.set_active(self.collection['autolock'])
@@ -251,16 +254,16 @@ class PreferencesDialog(Gtk.Dialog):
         
         self.shortcuts = app.settings.get_child('shortcuts')
         self.store = Gtk.TreeStore(str, str, str, bool, str)
-        values = [('Account', '', False, ''),
-                  ('New', 'account-new', True, 'app.new'),
-                  ('Edit', 'account-edit', True, 'app.edit'),
-                  ('Delete', 'account-delete', True, 'app.delete'),
-                  ('View', '', False, ''),
-                  ('Tile/List', 'view-mode', True, 'app.view_mode'),
-                  ('Size', 'view-size', True, 'app.view_size'),
-                  ('Application', '', False, ''),
-                  ('Show', 'app-show', True, 'app.show'),
-                  ('Quit', 'app-quit',  True, 'app.quit')]
+        values = [(_('Account'), '', False, ''),
+                  (_('New'), 'account-new', True, 'app.new'),
+                  (_('Edit'), 'account-edit', True, 'app.edit'),
+                  (_('Delete'), 'account-delete', True, 'app.delete'),
+                  (_('View'), '', False, ''),
+                  (_('Tile/List'), 'view-mode', True, 'app.view_mode'),
+                  (_('Size'), 'view-size', True, 'app.view_size'),
+                  (_('Application'), '', False, ''),
+                  (_('Show'), 'app-show', True, 'app.show'),
+                  (_('Quit'), 'app-quit',  True, 'app.quit')]
         for tree_label, schema_key, edit, action in values:
             if edit:
                 accel_name = self.shortcuts[schema_key]
@@ -272,7 +275,7 @@ class PreferencesDialog(Gtk.Dialog):
                 node = self.store.append(None, [tree_label, '', '', False, ''])
         tree = Gtk.TreeView(model=self.store)
         renderer = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn('Action', renderer, text=0)
+        column = Gtk.TreeViewColumn(_('Action'), renderer, text=0)
         column.set_expand(True)
         column.set_alignment(0.5)
         tree.append_column(column)
@@ -281,7 +284,7 @@ class PreferencesDialog(Gtk.Dialog):
         renderer.set_alignment(0.5, 0.5)
         renderer.connect('accel-edited', self.on_accel_edited)
         renderer.connect('accel-cleared', self.on_accel_cleared)
-        column = Gtk.TreeViewColumn('Shortcut key', renderer,
+        column = Gtk.TreeViewColumn(_('Shortcut key'), renderer,
                                     text=1, editable=3)
         column.set_expand(True)
         column.set_alignment(0.5)
@@ -359,7 +362,8 @@ class PreferencesDialog(Gtk.Dialog):
         '''
         button.set_sensitive(False)
         self.app.main_view.secret.set_default()
-        label = 'This collection is the system\'s default.'
+        # If you ever change this label, also change the one on __init__()
+        label = _('This collection is the system\'s default.')
         default_label = self.builder.get_object('default_label')
         default_label.set_markup(label)
     
@@ -446,8 +450,8 @@ class PreferencesDialog(Gtk.Dialog):
         '''
         properties = {'use_header_bar': True}
         dialog = Gtk.Dialog(transient_for=self, **properties)
-        dialog.add_buttons('_OK', Gtk.ResponseType.OK,
-                           '_Cancel', Gtk.ResponseType.CANCEL)
+        dialog.add_buttons(_('_OK'), Gtk.ResponseType.OK,
+                           _('_Cancel'), Gtk.ResponseType.CANCEL)
         # I set the title on the next line instead of the constructor because
         # this way the window width is recalculated to show the entire title.
         label = Gtk.Label(label=_('Punctuation'))

@@ -109,18 +109,18 @@ class LogoHeader:
         dialog = Gtk.FileChooserDialog()
         dialog.set_transient_for(window)
         dialog.set_action(Gtk.FileChooserAction.OPEN)
-        dialog.set_title('Select an image')
-        dialog.add_button('Open', Gtk.ResponseType.OK)
+        dialog.set_title(_('Select an image'))
+        dialog.add_button(_('Open'), Gtk.ResponseType.OK)
         dialog.set_default_response(Gtk.ResponseType.OK)
-        dialog.add_button('Cancel', Gtk.ResponseType.CANCEL)
+        dialog.add_button(_('Cancel'), Gtk.ResponseType.CANCEL)
         image_filter = Gtk.FileFilter()
-        image_filter.set_name('Images')
+        image_filter.set_name(_('Images'))
         for f in GdkPixbuf.Pixbuf.get_formats():
             for mime_type in f.get_mime_types():
                 image_filter.add_mime_type(mime_type)
         dialog.add_filter(image_filter)
         all_filter = Gtk.FileFilter()
-        all_filter.set_name('All Files')
+        all_filter.set_name(_('All Files'))
         all_filter.add_pattern('*')
         dialog.add_filter(all_filter)
         dialog.set_current_folder(str(self.app.img_dir))
@@ -314,7 +314,7 @@ class LogoServer:
     LogoImage class
     '''
     
-    logo_server = 'http://localhost:8080/logo_server'
+    logo_server = 'http://idlecore.com/logo_server'
     timeout = 2
     
     def __init__(self, app):
