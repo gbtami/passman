@@ -13,6 +13,10 @@
   
   <section>
     <title>First run</title>
+    <subtitle>
+      This is required on Linux only,
+      Windows systems don't require this first step.
+    </subtitle>
     <p>
       <app>Passman</app> needs to create a collection to store all the accounts
       you will create. So when it runs for the first time, it tries to create
