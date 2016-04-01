@@ -3,272 +3,390 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-05 17:03+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2016-03-31 11:24+0100\n"
+"PO-Revision-Date: 2016-03-31 13:25+0100\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: application.py:137 ../application.py:124
-msgid "Easy to use password manager."
-msgstr ""
-
-#: ../application.py:125
-msgid "Copyright © 2015 - {} authors"
-msgstr ""
-
-#: dialogs.py:17
-msgid "New Account"
-msgstr ""
-
-#: dialogs.py:43
-msgid "<b>Service</b>"
-msgstr ""
-
-#: dialogs.py:53
-msgid "<b>Username</b>"
-msgstr ""
-
-#: dialogs.py:63
-msgid "<b>Password</b>"
-msgstr ""
-
-#: dialogs.py:86
-msgid "<b>Notes</b>"
-msgstr ""
-
-#: dialogs.py:120
-msgid "Edit Account"
-msgstr ""
-
-#: data/menus.ui:6 ../data/menus.ui:6
+#: ../gui/custom.ui:8 ../passman/dialogs.py:183
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
-#: data/menus.ui:12 ../data/menus.ui:12
+#: ../gui/custom.ui:14
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
-#: data/menus.ui:16 ../data/menus.ui:16
+#: ../gui/custom.ui:18
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
-#: data/menus.ui:22 data/preferences.glade:593 ../data/menus.ui:22
+#: ../gui/custom.ui:22 ../passman/dialogs.py:267
 msgid "Quit"
-msgstr ""
+msgstr "Sair"
 
-#: data/menus.ui:38 data/preferences.glade:581 ../data/menus.ui:38
+#: ../gui/custom.ui:38 ../passman/dialogs.py:260
 msgid "Edit"
-msgstr ""
+msgstr "Alterar"
 
-#: data/menus.ui:45 data/preferences.glade:585 data/preferences.glade:586
-#: main_view.py:137 ../data/menus.ui:45
+#: ../gui/custom.ui:45 ../passman/dialogs.py:261 ../passman/main_view.py:184
 msgid "Delete"
-msgstr ""
+msgstr "Apagar"
 
-#: data/preferences.glade:477
+#: ../gui/glade.ui:420
 msgid "Space"
-msgstr ""
+msgstr "Espaço"
 
-#: data/preferences.glade:496
+# Refers to buttons.
+#: ../gui/glade.ui:438
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
-#: data/preferences.glade:508
+# Refers to buttons.
+#: ../gui/glade.ui:451
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
-#: data/preferences.glade:577
-msgid "New"
-msgstr ""
-
-#: data/preferences.glade:589
-msgid "Start"
-msgstr ""
-
-#: data/preferences.glade:662
-msgid "Change language for this application:"
-msgstr ""
-
-#: data/preferences.glade:685
-msgid "<b>Language</b>"
-msgstr ""
-
-#: data/preferences.glade:710
-msgid "Run this application as soon as you login."
-msgstr ""
-
-#: data/preferences.glade:729
-msgid "<b>Autorun</b>"
-msgstr ""
-
-#: data/preferences.glade:754
+# Refers to preferences.
+#: ../gui/glade.ui:545
 msgid "Reset All"
-msgstr ""
+msgstr "Repor Todas"
 
-#: data/preferences.glade:766 data/preferences.glade:982
-#: data/preferences.glade:1308 data/preferences.glade:1440
+#: ../gui/glade.ui:558 ../gui/glade.ui:806 ../gui/glade.ui:1234
+#: ../gui/glade.ui:1346
 msgid "Reset"
-msgstr ""
+msgstr "Repor"
 
-#: data/preferences.glade:780
+# Leave the <small> tags as they are.
+#: ../gui/glade.ui:573
 msgid ""
 "Reset these preferences:\n"
 "<small>General</small>"
 msgstr ""
+"Repor estas preferências:\n"
+"<small>Geral</small>"
 
-#: data/preferences.glade:794
+# Leave the <small> tags as they are.
+#: ../gui/glade.ui:587
 msgid ""
 "Reset all preferences:\n"
-"<small>General, Collections, Passwords and Shortcuts</small>"
+"<small>General, Collection, Passwords and Shortcuts</small>"
 msgstr ""
+"Repor todas as preferências:\n"
+"<small>Geral, Coleção, Senhas, Atalhos</small>"
 
-#: data/preferences.glade:809 data/preferences.glade:1470
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:602
 msgid "<b>Resets</b>"
-msgstr ""
+msgstr "<b>Reposições</b>"
 
-#: data/preferences.glade:825
+# It's the application window that will be hidden. This text will already be inside a section that informs the user this operation will be performed on the application window so there is no need to explicitly refer to it.
+#: ../gui/glade.ui:627
+msgid "Automatically hide after choosing a password."
+msgstr "Esconde automaticamente depois de escolher uma senha."
+
+#: ../gui/glade.ui:643
+msgid "When closing window, just hide, don't quit."
+msgstr "Ao fechar a janela, esconde apenas, não sai."
+
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:663
+msgid "<b>Window</b>"
+msgstr "<b>Janela</b>"
+
+#: ../gui/glade.ui:688
+msgid "Run this application as soon as you login."
+msgstr "Inicie esta aplicação assim que fizer login."
+
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:708
+msgid "<b>Autostart</b>"
+msgstr "<b>Auto-iniciar</b>"
+
+#: ../gui/glade.ui:724
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
-#: data/preferences.glade:854
-msgid "Set this collection as the system's default."
-msgstr ""
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:754 ../passman/dialogs.py:219
+msgid "This collection is <b>not</b> the system's default."
+msgstr "Esta <b>não é</b> a coleção padrão do sistema."
 
-#: data/preferences.glade:872
+# Refers to a password collection that will be made the system's default collection.
+#: ../gui/glade.ui:764
+msgid "Make Default"
+msgstr "Faça Padrão"
+
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:781
 msgid "<b>Default</b>"
-msgstr ""
+msgstr "<b>Padrão</b>"
 
-#: data/preferences.glade:897
-msgid "Unlock this collection with your login password."
-msgstr ""
-
-#: data/preferences.glade:916
-msgid "Automatically lock the collection after each use."
-msgstr ""
-
-#: data/preferences.glade:934
+# Leave the <small> tags as they are.
+#: ../gui/glade.ui:821
 msgid ""
-"<small>This option requires <b>password timeout</b> to be enabled.</small>"
+"Reset these preferences:\n"
+"<small>Collection</small>"
 msgstr ""
+"Repor estas preferências:\n"
+"<small>Coleção</small>"
 
-#: data/preferences.glade:957
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:837 ../gui/glade.ui:1265 ../gui/glade.ui:1377
+msgid "<b>Reset</b>"
+msgstr "<b>Repor</b>"
+
+#: ../gui/glade.ui:860
+msgid "Automatically lock the collection after each use."
+msgstr "Bloqueie automaticamente a coleção depois de cada uso."
+
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:879
 msgid "<b>Locking</b>"
 msgstr ""
 
-#: data/preferences.glade:996
-msgid ""
-"Reset these preferences:\n"
-"<small>Collections</small>"
+#: ../gui/glade.ui:906
+msgid "Change the password for this collection:"
 msgstr ""
 
-#: data/preferences.glade:1012 data/preferences.glade:1338
-msgid "<b>Reset</b>"
+#: ../gui/glade.ui:916
+msgid "Change Password"
 msgstr ""
 
-#: data/preferences.glade:1031
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:933 ../passman/dialogs.py:77 ../passman/header_bar.py:104
+#: ../passman/main_view.py:210
+msgid "<b>Password</b>"
+msgstr ""
+
+#: ../gui/glade.ui:952
 msgid "Collection"
 msgstr ""
 
-#: data/preferences.glade:1063
+#: ../gui/glade.ui:984
 msgid "Password size:"
 msgstr ""
 
-#: data/preferences.glade:1088
+#: ../gui/glade.ui:1010
 msgid "characters"
 msgstr ""
 
-#: data/preferences.glade:1101
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:1023
 msgid "<b>Size</b>"
 msgstr ""
 
-#: data/preferences.glade:1131
+#: ../gui/glade.ui:1053
 msgid "Lowercase"
 msgstr ""
 
-#: data/preferences.glade:1144
+#: ../gui/glade.ui:1067
 msgid "Uppercase"
 msgstr ""
 
-#: data/preferences.glade:1157
+#: ../gui/glade.ui:1081
 msgid "Digits"
 msgstr ""
 
-#: data/preferences.glade:1170
+#: ../gui/glade.ui:1095 ../passman/dialogs.py:458
 msgid "Punctuation"
 msgstr ""
 
-#: data/preferences.glade:1197
+# Leave the <small> tags as they are.
+#: ../gui/glade.ui:1121
 msgid ""
 "<small>Choose the type of characters to use on your randomly generated "
 "passwords.</small>"
 msgstr ""
 
-#: data/preferences.glade:1213
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:1137
 msgid "<b>Alphabet</b>"
 msgstr ""
 
-#: data/preferences.glade:1238
+#: ../gui/glade.ui:1162
 msgid "Set password timeout:"
 msgstr ""
 
-#: data/preferences.glade:1270
+#: ../gui/glade.ui:1196
 msgid "seconds"
 msgstr ""
 
-#: data/preferences.glade:1283
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:1209
 msgid "<b>Timeout</b>"
 msgstr ""
 
-#: data/preferences.glade:1322
+# Leave the <small> tags as they are.
+#: ../gui/glade.ui:1249
 msgid ""
 "Reset these preferences:\n"
 "<small>Passwords</small>"
 msgstr ""
 
-#: data/preferences.glade:1357
+#: ../gui/glade.ui:1284
 msgid "Passwords"
 msgstr ""
 
-#: data/preferences.glade:1393
-msgid "Action"
-msgstr ""
-
-#: data/preferences.glade:1399
-msgid "Shortcut key"
-msgstr ""
-
-#: data/preferences.glade:1415
+# Leave the <b> tags as they are.
+#: ../gui/glade.ui:1321
 msgid "<b>Shortcuts</b>"
 msgstr ""
 
-#: data/preferences.glade:1454
+# Leave the <small> tags as they are.
+#: ../gui/glade.ui:1361
 msgid ""
 "Reset these preferences:\n"
 "<small>Shortcuts</small>"
 msgstr ""
 
-#: data/preferences.glade:1489
+#: ../gui/glade.ui:1396
 msgid "Shortcuts"
 msgstr ""
 
-#: main_view.py:132
-msgid "Are you sure you want to delete account {}?"
+#: ../passman/application.py:57
+msgid ""
+"Start the application hidden. Useful when you start the application at login."
 msgstr ""
 
-#: main_view.py:136
+#: ../passman/application.py:61
+msgid "Autostart the application on login."
+msgstr ""
+
+#: ../passman/application.py:379
+msgid "Easy to use password manager."
+msgstr ""
+
+# The application name will be placed between the curly braces.
+# {} = PassMan
+#: ../passman/application.py:380
+msgid "Copyright © 2015 - {} authors"
+msgstr "Copyright © 2015 - Autores da aplicação {}"
+
+#: ../passman/application.py:391
+msgid "Website"
+msgstr "Website"
+
+#: ../passman/dialogs.py:25
+msgid "New Account"
+msgstr "Conta Nova"
+
+# The letter after the '_' character will be turned into a quick access key.
+#: ../passman/dialogs.py:31 ../passman/dialogs.py:454
+msgid "_OK"
+msgstr "_OK"
+
+# The letter after the '_' character will be turned into a quick access key.
+#: ../passman/dialogs.py:32 ../passman/dialogs.py:455
+msgid "_Cancel"
+msgstr ""
+
+# Leave the <b> tags as they are.
+#: ../passman/dialogs.py:56 ../passman/header_bar.py:104
+#: ../passman/main_view.py:210
+msgid "<b>Service</b>"
+msgstr ""
+
+# Leave the <b> tags as they are.
+#: ../passman/dialogs.py:67
+msgid "<b>Username</b>"
+msgstr ""
+
+# Leave the <b> tags as they are.
+#: ../passman/dialogs.py:100
+msgid "<b>Notes</b>"
+msgstr ""
+
+#: ../passman/dialogs.py:164
+msgid "Edit Account"
+msgstr ""
+
+#: ../passman/dialogs.py:217 ../passman/dialogs.py:367
+msgid "This collection is the system's default."
+msgstr ""
+
+#: ../passman/dialogs.py:258
+msgid "Account"
+msgstr ""
+
+#: ../passman/dialogs.py:259
+msgid "New"
+msgstr ""
+
+#: ../passman/dialogs.py:262
+msgid "View"
+msgstr ""
+
+#: ../passman/dialogs.py:263
+msgid "Tile/List"
+msgstr ""
+
+#: ../passman/dialogs.py:264
+msgid "Size"
+msgstr ""
+
+#: ../passman/dialogs.py:265
+msgid "Application"
+msgstr ""
+
+#: ../passman/dialogs.py:266
+msgid "Show"
+msgstr ""
+
+#: ../passman/dialogs.py:279
+msgid "Action"
+msgstr ""
+
+#: ../passman/dialogs.py:288
+msgid "Shortcut key"
+msgstr ""
+
+#: ../passman/dialogs.py:572
+msgid "The shortcut {} is already assigned to another action."
+msgstr ""
+
+#: ../passman/dialogs.py:575 ../passman/header_bar.py:102
+#: ../passman/main_view.py:208
+msgid "OK"
+msgstr ""
+
+#: ../passman/header_bar.py:103 ../passman/main_view.py:209
+msgid "The {} and {} fields must be filled."
+msgstr ""
+
+#: ../passman/logogen.py:112
+msgid "Select an image"
+msgstr ""
+
+#: ../passman/logogen.py:113
+msgid "Open"
+msgstr ""
+
+#: ../passman/logogen.py:115 ../passman/main_view.py:183
 msgid "Cancel"
 msgstr ""
 
-#: main_view.py:142
-msgid "This operation will be permanent and irreversible."
+#: ../passman/logogen.py:117
+msgid "Images"
 msgstr ""
 
+#: ../passman/logogen.py:123
+msgid "All Files"
+msgstr ""
+
+#: ../passman/main_view.py:179
+msgid "Are you sure you want to delete account {}?"
+msgstr ""
+
+#: ../passman/main_view.py:189
+msgid "This operation will be permanent and irreversible."
+msgstr ""
