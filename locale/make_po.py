@@ -5,7 +5,7 @@ import os
 
 
 os.system('xgettext -o passman.po --join-existing --language glade '
-          '../gui/*.ui')
+          '--no-location ../gui/*.ui')
 os.system('xgettext -o passman.po --join-existing --language python '
-          '../passman/*.py')
+          '--no-location ../passman/*.py')
 
