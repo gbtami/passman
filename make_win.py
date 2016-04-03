@@ -9,6 +9,11 @@ os.system('cp schema/com.idlecore.passman.gschema.xml '
 os.system('glib-compile-schemas '
           'pynsist_pkgs/gnome/share/glib-2.0/schemas/')
 
-os.system('yelp-build html -o help help/*.page')
+# Build all except collection.page, it's not necessary on Windows.
+# It's essential the collection.page file isn't built. Removing the file
+# after a full build still leaves links to that file on index.html.
+os.system('ls help/*.page | '
+          'grep -v collection.page | '
+          'xargs yelp-build html -o help')
 
 os.system('pynsist installer.cfg')

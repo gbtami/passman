@@ -203,7 +203,12 @@ class PreferencesDialog(Gtk.Dialog):
         closehide.set_active(self.general['closehide'])
         
         if platform.system() == 'Windows':
-            notebook.get_nth_page(1).set_sensitivity(False)
+            notebook.remove_page(1)
+            box = self.builder.get_object('reset_all_box')
+            label = self.builder.get_object('reset_all_label_windows')
+            old = box.get_children()
+            box.remove(old[0])
+            box.add(label)
         else:
             self.collection = app.settings.get_child('collection')
             default_button = self.builder.get_object('default_button')
