@@ -1,0 +1,55 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="mode">
+  
+  <info>
+    <link type="guide" xref="index#appearance" group="first"/>
+    <desc>
+      Learn about the different ways your account buttons can be displayed.
+    </desc>
+  </info>
+  
+  <title>Change View Mode</title>
+  
+  <section>
+    <title>Open the <gui>View</gui> menu</title>
+    <p>
+      To open the <gui>View</gui> menu you need to click on it in the titlebar.
+    </p>
+    <figure>
+      <desc>
+        The <gui>View</gui> menu on the titlebar.
+      </desc>
+      <media src="media/view_menu.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Change the view mode of your account buttons</title>
+    <p>
+      After opening the <gui>View</gui> menu you will find inside a switch that
+      will let you choose between grid view mode and list view mode. The grid
+      view mode is the one chosen by default, it organizes the buttons in
+      columns and rows. The list view mode organizes the buttons in rows only.
+    </p>
+    <figure>
+      <desc>
+        The opened <gui>View</gui> menu highlighting the view mode switch.
+        Showing the grid mode currently selected, and the list mode under the
+        mouse pointer.
+      </desc>
+      <media src="media/view_mode.png"/>
+    </figure>
+    <p>
+      This is what your account buttons will look like when you activate the
+      list view mode.
+    </p>
+    <figure>
+      <desc>
+        Account buttons organized according to the list view mode.
+      </desc>
+      <media src="media/list_view.png"/>
+    </figure>
+  </section>
+
+</page>

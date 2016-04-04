@@ -1,0 +1,161 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="tutorial">
+  
+  <info>
+    <link type="guide" xref="index"/>
+    <desc>
+      A quick tutorial that will show you the basics of using this application.
+    </desc>
+  </info>
+  
+  <title>Getting Started</title>
+  
+  <section>
+    <title>First run</title>
+    <subtitle>
+      This is required on Linux only,
+      Windows systems don't require this first step.
+    </subtitle>
+    <p>
+      <app>Passman</app> needs to create a collection to store all the accounts
+      you will create. So when it runs for the first time, it tries to create
+      that collection and asks you for a password to protect it.
+      <em style="strong">This password is very important, it's the one password
+      you must always remember and it must be strong. A strong password should
+      have at least 16 characters, should use lower and uppercase letters,
+      digits, and punctuation.</em> If you can't think of a good one, just use
+      a password you can remember, and you can change it later on the
+      <gui>Preferences</gui>. You can also generate a random password, by
+      creating a new account, and taking the password that was randomly
+      generated for it.
+    </p>
+  </section>
+  
+  <section>
+    <title>Creating your first account</title>
+    <p>
+      You can create an account in two different ways. You can press the
+      <gui style="button">New Account</gui> button on the title bar, or you
+      can use the <gui>New</gui> keyboard shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>N</key></keyseq>.
+    </p>
+    <figure>
+      <desc>
+        The <gui style="button">New Account</gui> button on the title bar.
+      </desc>
+      <media src="media/new_button.png"/>
+    </figure>
+    <p>
+      This will open the <gui>New Account</gui> dialog.
+    </p>
+    <figure>
+      <desc>
+        The <gui>New Account</gui> dialog.
+      </desc>
+      <media src="media/new_account.png"/>
+    </figure>
+    <p>
+      Here you only need to fill the <gui>Service</gui> field. The
+      <gui>Password</gui> field also needs to be filled, but <app>PassMan</app>
+      does that automatically for you with a random password. The
+      <gui>Username</gui> field isn't required, but if you have several
+      accounts on the same service, you'll probably want to fill it so you
+      can tell the accounts apart.
+    </p>
+    <figure>
+      <desc>
+        A filled <gui>New Account</gui> dialog.
+      </desc>
+      <media src="media/sample_account.png"/>
+    </figure>
+    <p>
+      You can just press <gui style="button">OK</gui> and the account will
+      be created for you.
+    </p>
+    <figure>
+      <desc>
+        A newly created account being displayed on the main window.
+      </desc>
+      <media src="media/account_created.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Showing and hiding</title>
+    <p>
+      You just created a new account, but you don't need it quite just yet, so
+      you want to close this window. You can do it by pressing the
+      <gui style="button">Close</gui> button on the title bar or by using
+      the system's keyboard shortcut to close a window, which by default is
+      <keyseq><key>Alt</key><key>F4</key></keyseq>.
+    </p>
+    <figure>
+      <desc>
+        The <gui style="button">Close</gui> button on the title bar.
+      </desc>
+      <media src="media/close_button.png"/>
+    </figure>
+    <p>
+      <app>PassMan</app> however doesn't like being closed, it likes to stay
+      hidden so that when it's needed it can show up quicker. So whenever you
+      close this window, you are actually just hiding it. To show the window
+      again you can just run <app>PassMan</app> again, or, and this is the
+      <em style="strong">best way</em>, you can use the <gui>Show</gui>
+      keyboard shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>Space</key></keyseq>.
+    </p>
+    <p>  
+      If you ever want to actually close <app>PassMan</app>, you can also
+      do it either by choosing the <gui>Quit</gui> option from the
+      <gui>Application Menu</gui>, or using the <gui>Quit</gui> keyboard
+      shortcut, which by default is
+      <keyseq><key>Ctrl</key><key>Q</key></keyseq>.
+      Keep in mind however that if <app>PassMan</app> isn't running, the
+      <gui>Show</gui> keyboard shortcut won't work.
+    </p>
+    <figure>
+      <desc>
+        The <gui>Application Menu</gui> with the <gui>Quit</gui> option
+        highlighted.
+      </desc>
+      <media src="media/quit.png"/>
+    </figure>
+  </section>
+  <section>
+    <title>Using your account</title>
+    <p>
+      The time as come that you need the password you stored previously. So
+      first you need to show <app>PassMan</app> using the steps mentioned in
+      the previous section. Then, you need to find the account that has the
+      password you are looking for. And when you find it, you can either just
+      click on it, or you can use the arrow keys on your keyboard to select it
+      and then press <key>Space</key> or <key>Enter</key>.
+    </p>
+    <figure>
+      <desc>
+        Just click the button to copy the password.
+      </desc>
+      <media src="media/click.png"/>
+    </figure>
+    <p>
+      This action hides the window away, and takes the password from that
+      account and copies it. Now you can just <gui>Paste</gui> it on any field
+      you need using either the system's keyboard shortcut
+      <keyseq><key>Ctrl</key><key>V</key></keyseq>, which is the fastest way,
+      or by pressing the right mouse button, to access the
+      <gui>context menu</gui>, and select the <gui>Paste</gui> option.
+    </p>
+    <figure>
+      <desc>
+        Clicking the right mouse button to show the <gui>context menu</gui>, highlighting
+        the <gui>Paste</gui> option.
+      </desc>
+      <media src="media/login.png"/>
+    </figure>
+    <p>
+      And that is all, congratulations, you are now using a password manager.
+    </p>
+  </section>
+
+</page>

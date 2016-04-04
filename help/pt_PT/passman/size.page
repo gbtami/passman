@@ -1,0 +1,43 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="size">
+
+  <info>
+    <link type="guide" xref="index#appearance" group="second"/>
+    <desc>
+      Learn how to change the size of the account buttons on your application.
+    </desc>
+  </info>
+  
+  <title>Change Button Size</title>
+  
+  <section>
+    <title>Open the <gui>View</gui> menu</title>
+    <p>
+      To open the <gui>View</gui> menu you need to click on it in the titlebar.
+    </p>
+    <figure>
+      <desc>
+        The <gui>View</gui> menu on the titlebar.
+      </desc>
+      <media src="media/view_menu.png"/>
+    </figure>
+  </section>
+  
+  <section>
+    <title>Change the size of your account buttons</title>
+    <p>
+      After opening the <gui>View</gui> menu you will find inside a scale, that
+      you can move from left to right at specific intervals. That scale will
+      adjust the size of the buttons on the main widnow.
+    </p>
+    <figure>
+      <desc>
+        The opened <gui>View</gui> menu highlighting the scale to adjust the
+        button size.
+      </desc>
+      <media src="media/view_scale.png"/>
+    </figure>
+  </section>
+
+</page>

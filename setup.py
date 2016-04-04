@@ -12,16 +12,14 @@ app_data_dir = sys_data_dir / 'passman'
 gui_dir = str(app_data_dir / 'gui')
 cache_dir = str(app_data_dir / 'cache')
 
-help_dir = str(sys_data_dir / 'help' / 'C' / 'passman')
-help_media_dir = str(sys_data_dir / 'help' / 'C' / 'passman' / 'media')
 help_walk = os.walk('help')
-dirpath, dirnames, filenames = next(help_walk)
-dirpath = Path(dirpath)
-filenames = [filename for filename in filenames if filename.endswith('.page')]
-help_files = [str(dirpath / filename) for filename in filenames]
-dirpath, dirnames, filenames = next(help_walk)
-dirpath = Path(dirpath)
-help_media_files = [str(dirpath / filename) for filename in filenames]
+help_dirs = []
+help_files = []
+for dirpath, dirnames, filenames in help_walk:
+    if filenames:
+        dirpath = Path(dirpath)
+        help_dirs.append(str(sys_data_dir / dirpath))
+        help_files.append([str(dirpath / filename) for filename in filenames])
 
 locale_walk = os.walk('locale')
 dirpath, dirnames, filenames = next(locale_walk)
@@ -32,10 +30,9 @@ locale_dirs = [str(sys_data_dir / name) for name in locale_dirs]
 data_files = [(app_dir, ['freedesktop/passman.desktop']),
               (autostart_dir, ['freedesktop/passman-autostart.desktop']),
               (schema_dir, ['schema/com.idlecore.passman.gschema.xml']),
-              (help_dir, help_files),
-              (help_media_dir, help_media_files),
               (gui_dir, ['gui/glade.ui', 'gui/custom.ui']),
               (cache_dir, ['cache/logo_name_cache.bz2'])]
+data_files.extend(zip(help_dirs, help_files))
 data_files.extend(zip(locale_dirs, locale_files))
 
 with open('README.rst', encoding='utf-8') as f:
