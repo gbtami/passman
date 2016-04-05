@@ -359,7 +359,12 @@ class Application(Gtk.Application):
         application to read help files.
         '''
         if platform.system() == 'Windows':
-            help_index = (pathlib.Path() / 'help' / 'index.html').resolve()
+            import locale
+            language, encoding = locale.getlocale()
+            help_path = pathlib.Path() / 'help' / language
+            if not help_path.exists():
+                help_path = pathlib.Path() / 'help' / 'C'
+            help_index = (help_path / 'passman' / 'index.html').resolve()
             Gio.AppInfo.launch_default_for_uri(str(help_index))
         else:
             Gio.AppInfo.launch_default_for_uri('help:' + self.name.lower())
