@@ -14,7 +14,7 @@
   
   <figure>
     <desc>
-      The <gui>General</gui> page on the <gui>Preferences</gui> dialog.
+      The <gui>Collection</gui> page on the <gui>Preferences</gui> dialog.
     </desc>
     <media src="media/collection_preferences.png"/>
   </figure>
@@ -26,14 +26,14 @@
         <title>Make Default:</title>
         <p>
           This is a setting you can mostly ignore. It turns the collection
-          <app>PassMan</app> creates into the default collection for your
-          system. This isn't required, may cause some problems with some
-          applications that expect the default collection to be another one
-          named 'Login'. And the only small advantage would be that any
-          application that natively supports the type of collections 
-          <app>PassMan</app> uses, would be able to automatically create
-          accounts on <app>PassMan</app> without the users having to do it
-          manually themselves. Very few applications do this though.
+          <app>PassMan</app> into the default collection for your system.
+          This isn't required, may cause some problems with some applications
+          that expect the default collection to be another one named 'Login',
+          and the only small advantage would be that any application that
+          natively supports the type of collections  <app>PassMan</app> uses,
+          would be able to automatically create accounts on <app>PassMan</app>
+          without the users having to do it manually themselves.
+          Very few applications do this though.
         </p>
       </item>
     </terms>
@@ -47,14 +47,14 @@
         <p>
           When you ran <app>PassMan</app> for the first time, it created a
           collection to keep your accounts in, and asked you for a password
-          to keep them safe. Well this button lets you change that password.
+          to keep them safe. Here you can change that password.
           <em style="strong">Please remember, this password is very important,
           it's the one password you must always remember and it must be strong.
           A strong password should have at least 16 characters, should use
           lower and uppercase letters, digits, and punctuation.</em> If you
-          can't think of a good one, you can generate a random password, by
-          creating a new account, and taking the password that was randomly
-          generated for it.
+          can't think of a good one, you can generate a password by creating
+          a new account and taking the password that was randomly generated
+          for it.
         </p>
       </item>
     </terms>
@@ -73,17 +73,16 @@
           If you turn this setting on, every time you hide or close
           <app>PassMan</app> your password collection will be locked, and every
           time you open or show <app>PassMan</app> your collection will need to
-          be unlocked, and so you will be asked for the collection's password.
+          be unlocked by inputting your collection's password.
           This is a safety feature because it's always better to keep your
-          collection locked as long as possible, however inputting your
-          password all those times can be a hassle as well, particularly if you
-          have many passwords you use every day.
+          collection locked, however inputting your password all those times
+          can be a hassle as well.
           Keep in mind though that when you unlock your collection, you may be
-          asked to remember that password, to automatically unlock your
-          collection next time, if you do this, activating this feature
+          given the option to remember that password, to automatically unlock
+          your collection next time, if you do this, activating this feature
           becomes essentially pointless. You can stop your system from
           automatically remembering your collection's password, by going to the
-          'Login' keyring and removing the <app>PassMan</app> password.
+          'Login' collection and removing the <app>PassMan</app> password.
         </p>
       </item>
     </terms>

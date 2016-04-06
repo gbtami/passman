@@ -24,7 +24,7 @@
     </figure>
     <p>
       You can also use the arrow keys on your keyboard to choose the account
-      you want to delete and press the <gui>Menu</gui> key to bring up the
+      you want to delete, and press the <gui>Menu</gui> key to bring up the
       popup seen above.
     </p>
   </section>
@@ -35,7 +35,7 @@
       After opening the <gui>Delete Account</gui> dialog you are presented with
       only two options, either <gui>Delete</gui> or <gui>Cancel</gui>. If you
       choose to delete the account, all the data associated with it will be
-      removed. This action is irreversible so please make sure you don't need
+      removed. This action is irreversible, so please make sure you don't need
       any of it before deleting. Make sure you don't need the password for
       another account, and make sure there is no useful information in the
       notes for that account.
