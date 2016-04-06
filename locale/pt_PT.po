@@ -7,212 +7,165 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-05 17:03+0000\n"
-"PO-Revision-Date: 2015-12-05 17:06+0000\n"
+"POT-Creation-Date: 2016-04-01 13:42+0100\n"
+"PO-Revision-Date: 2016-04-06 06:03+0100\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: application.py:137 ../application.py:124
-msgid "Easy to use password manager."
-msgstr "Gestor de passwords fácil de usar."
-
-#: ../application.py:125
-msgid "Copyright © 2015 - {} authors"
-msgstr "Copyright © 2015 - Autores da aplicação {}"
-
-#: dialogs.py:17
-msgid "New Account"
-msgstr "Conta Nova"
-
-#: dialogs.py:43
-msgid "<b>Service</b>"
-msgstr "<b>Serviço</b>"
-
-#: dialogs.py:53
-msgid "<b>Username</b>"
-msgstr "<b>Utilizador</b>"
-
-#: dialogs.py:63
-msgid "<b>Password</b>"
-msgstr "<b>Senha</b>"
-
-#: dialogs.py:86
-msgid "<b>Notes</b>"
-msgstr "<b>Notas</b>"
-
-#: dialogs.py:120
-msgid "Edit Account"
-msgstr "Alterar Conta"
-
-#: data/menus.ui:6 ../data/menus.ui:6
 msgid "Preferences"
 msgstr "Preferências"
 
-#: data/menus.ui:12 ../data/menus.ui:12
 msgid "Help"
 msgstr "Ajuda"
 
-#: data/menus.ui:16 ../data/menus.ui:16
 msgid "About"
 msgstr "Sobre"
 
-#: data/menus.ui:22 data/preferences.glade:593 ../data/menus.ui:22
 msgid "Quit"
 msgstr "Sair"
 
-#: data/menus.ui:38 data/preferences.glade:581 ../data/menus.ui:38
 msgid "Edit"
 msgstr "Alterar"
 
-#: data/menus.ui:45 data/preferences.glade:585 data/preferences.glade:586
-#: main_view.py:137 ../data/menus.ui:45
 msgid "Delete"
 msgstr "Apagar"
 
-#: data/preferences.glade:477
 msgid "Space"
 msgstr "Espaço"
 
-#: data/preferences.glade:496
+# Refers to buttons.
 msgid "All"
 msgstr "Todos"
 
-#: data/preferences.glade:508
+# Refers to buttons.
 msgid "None"
 msgstr "Nenhum"
 
-#: data/preferences.glade:577
-msgid "New"
-msgstr "Nova"
-
-#: data/preferences.glade:589
-msgid "Start"
-msgstr "Iniciar"
-
-#: data/preferences.glade:662
-msgid "Change language for this application:"
-msgstr "Altere o idioma desta aplicação:"
-
-#: data/preferences.glade:685
-msgid "<b>Language</b>"
-msgstr "<b>Idioma</b>"
-
-#: data/preferences.glade:710
-msgid "Run this application as soon as you login."
-msgstr "Inicie esta aplicação assim que fizer login."
-
-#: data/preferences.glade:729
-msgid "<b>Autorun</b>"
-msgstr "<b>Auto-iniciar</b>"
-
-#: data/preferences.glade:754
+# Will appear on a button.
+# Refers to preferences.
 msgid "Reset All"
-msgstr "Repor Todas"
+msgstr "Redefina Todas"
 
-#: data/preferences.glade:766 data/preferences.glade:982
-#: data/preferences.glade:1308 data/preferences.glade:1440
+# Will appear on a button.
 msgid "Reset"
-msgstr "Repor"
+msgstr "Redefina"
 
-#: data/preferences.glade:780
+# Leave the <small> tags as they are.
 msgid ""
 "Reset these preferences:\n"
 "<small>General</small>"
 msgstr ""
-"Repor estas preferências:\n"
+"Redefina estas preferências:\n"
 "<small>Geral</small>"
 
-#: data/preferences.glade:794
+# Leave the <small> tags as they are.
 msgid ""
 "Reset all preferences:\n"
-"<small>General, Collections, Passwords and Shortcuts</small>"
+"<small>General, Collection, Passwords and Shortcuts</small>"
 msgstr ""
-"Repor todas as preferências:\n"
-"<small>Geral, Coleções, Senhas, Atalhos</small>"
+"Redefina todas as preferências:\n"
+"<small>Geral, Coleção, Senhas, Atalhos</small>"
 
-#: data/preferences.glade:809 data/preferences.glade:1470
+# Will appear at the top of a section of several reset operations.
+# Leave the <b> tags as they are.
 msgid "<b>Resets</b>"
-msgstr "<b>Reposições</b>"
+msgstr "<b>Redefinições</b>"
 
-#: data/preferences.glade:825
+# It's the application window that will be hidden. This text will already be inside a section that informs the user this operation will be performed on the application window so there is no need to explicitly refer to it.
+msgid "Automatically hide after choosing a password."
+msgstr "Esconde automaticamente depois de escolher uma senha."
+
+msgid "When closing window, just hide, don't quit."
+msgstr "Ao fechar a janela, esconde apenas, não sai."
+
+# Leave the <b> tags as they are.
+msgid "<b>Window</b>"
+msgstr "<b>Janela</b>"
+
+msgid "Run this application as soon as you login."
+msgstr "Inicie esta aplicação assim que fizer login."
+
+# Leave the <b> tags as they are.
+msgid "<b>Autostart</b>"
+msgstr "<b>Auto-iniciar</b>"
+
 msgid "General"
 msgstr "Geral"
 
-#: data/preferences.glade:854
-msgid "Set this collection as the system's default."
-msgstr "Defina esta coleção como padrão do sistema."
+# Don't remove the <b> tags, use them to highlight the negative part of the sentence.
+msgid "This collection is <b>not</b> the system's default."
+msgstr "Esta <b>não é</b> a coleção padrão do sistema."
 
-#: data/preferences.glade:872
+# Refers to a password collection that will be made the system's default collection.
+msgid "Make Default"
+msgstr "Faça Padrão"
+
+# Leave the <b> tags as they are.
 msgid "<b>Default</b>"
 msgstr "<b>Padrão</b>"
 
-#: data/preferences.glade:897
-msgid "Unlock this collection with your login password."
-msgstr "Desbloqueie esta coleção com a sua senha de login."
+# Leave the <small> tags as they are.
+msgid ""
+"Reset these preferences:\n"
+"<small>Collection</small>"
+msgstr ""
+"Redefina estas preferências:\n"
+"<small>Coleção</small>"
 
-#: data/preferences.glade:916
+# Will appear at the top of a section with a single reset operation.
+# Leave the <b> tags as they are.
+msgid "<b>Reset</b>"
+msgstr "<b>Redefinição</b>"
+
 msgid "Automatically lock the collection after each use."
 msgstr "Bloqueie automaticamente a coleção depois de cada uso."
 
-#: data/preferences.glade:934
-msgid ""
-"<small>This option requires <b>password timeout</b> to be enabled.</small>"
-msgstr "<small>Esta opção requer <b>temporizador de senha</b> ativo.</small>"
-
-#: data/preferences.glade:957
+# Leave the <b> tags as they are.
 msgid "<b>Locking</b>"
-msgstr "<b>Bloqueios</b>"
+msgstr "<b>Bloquear</b>"
 
-#: data/preferences.glade:996
-msgid ""
-"Reset these preferences:\n"
-"<small>Collections</small>"
-msgstr ""
-"Repor estas preferências:\n"
-"<small>Coleções</small>"
+msgid "Change the password for this collection:"
+msgstr "Mude a senha desta coleção:"
 
-#: data/preferences.glade:1012 data/preferences.glade:1338
-msgid "<b>Reset</b>"
-msgstr "<b>Repor</b>"
+msgid "Change Password"
+msgstr "Mude Senha"
 
-#: data/preferences.glade:1031
+# Leave the <b> tags as they are.
+msgid "<b>Password</b>"
+msgstr "<b>Senha</b>"
+
 msgid "Collection"
 msgstr "Coleção"
 
-#: data/preferences.glade:1063
 msgid "Password size:"
 msgstr "Tamanho da senha:"
 
-#: data/preferences.glade:1088
 msgid "characters"
-msgstr "caracteres"
+msgstr "carácter"
 
-#: data/preferences.glade:1101
+# Leave the <b> tags as they are.
 msgid "<b>Size</b>"
 msgstr "<b>Tamanho</b>"
 
-#: data/preferences.glade:1131
 msgid "Lowercase"
 msgstr "Minúsculas"
 
-#: data/preferences.glade:1144
 msgid "Uppercase"
 msgstr "Maiúsculas"
 
-#: data/preferences.glade:1157
 msgid "Digits"
 msgstr "Dígitos"
 
-#: data/preferences.glade:1170
 msgid "Punctuation"
 msgstr "Pontuação"
 
-#: data/preferences.glade:1197
+# Leave the <small> tags as they are.
 msgid ""
 "<small>Choose the type of characters to use on your randomly generated "
 "passwords.</small>"
@@ -220,66 +173,161 @@ msgstr ""
 "<small>Escolha o tipo de caracteres usados nas suas senhas geradas "
 "aleatoriamente.</small>"
 
-#: data/preferences.glade:1213
+# Leave the <b> tags as they are.
 msgid "<b>Alphabet</b>"
 msgstr "<b>Alfabeto</b>"
 
-#: data/preferences.glade:1238
 msgid "Set password timeout:"
-msgstr "Defina intervalo:"
+msgstr "Defina tempo limite da senha:"
 
-#: data/preferences.glade:1270
 msgid "seconds"
 msgstr "segundos"
 
-#: data/preferences.glade:1283
+# Leave the <b> tags as they are.
 msgid "<b>Timeout</b>"
-msgstr "<b>Temporizador</b>"
+msgstr "<b>Tempo limite</b>"
 
-#: data/preferences.glade:1322
+# Leave the <small> tags as they are.
 msgid ""
 "Reset these preferences:\n"
 "<small>Passwords</small>"
 msgstr ""
-"Repor estas preferências:\n"
+"Redefina estas preferências:\n"
 "<small>Senhas</small>"
 
-#: data/preferences.glade:1357
 msgid "Passwords"
 msgstr "Senhas"
 
-#: data/preferences.glade:1393
-msgid "Action"
-msgstr "Ação"
-
-#: data/preferences.glade:1399
-msgid "Shortcut key"
-msgstr "Tecla de atalho"
-
-#: data/preferences.glade:1415
+# Leave the <b> tags as they are.
 msgid "<b>Shortcuts</b>"
 msgstr "<b>Atalhos</b>"
 
-#: data/preferences.glade:1454
+# Leave the <small> tags as they are.
 msgid ""
 "Reset these preferences:\n"
 "<small>Shortcuts</small>"
 msgstr ""
-"Repor estas preferências:\n"
+"Redefina estas preferências:\n"
 "<small>Atalhos</small>"
 
-#: data/preferences.glade:1489
 msgid "Shortcuts"
 msgstr "Atalhos"
 
-#: main_view.py:132
-msgid "Are you sure you want to delete account {}?"
-msgstr "Tem a certeza que deseja apagar a conta {}?"
+msgid ""
+"Start the application hidden. Useful when you start the application at login."
+msgstr ""
+"Iniciar a aplicação escondida. É útil quando inicia a aplicação durante o "
+"login."
 
-#: main_view.py:136
+msgid "Autostart the application on login."
+msgstr "Auto-iniciar a aplicação durante o login."
+
+msgid "Easy to use password manager."
+msgstr "Gestor de senhas fácil de usar."
+
+# The application name will be placed between the curly braces.
+# {} = PassMan
+msgid "Copyright © 2015 - {} authors"
+msgstr "Copyright © 2015 - Autores da aplicação {}"
+
+msgid "Website"
+msgstr "Website"
+
+msgid "New Account"
+msgstr "Conta Nova"
+
+# Leave the '_' character in the most appropriate place. The letter after the '_' character will be turned into a quick access key.
+msgid "_OK"
+msgstr "_OK"
+
+# Leave the '_' character in the most appropriate place. The letter after the '_' character will be turned into a quick access key.
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+# Leave the <b> tags as they are.
+msgid "<b>Service</b>"
+msgstr "<b>Serviço</b>"
+
+# Leave the <b> tags as they are.
+msgid "<b>Username</b>"
+msgstr "<b>Utilizador</b>"
+
+# Leave the <b> tags as they are.
+msgid "<b>Notes</b>"
+msgstr "<b>Notas</b>"
+
+msgid "Edit Account"
+msgstr "Alterar Conta"
+
+msgid "This collection is the system's default."
+msgstr "Esta  coleção padrão do sistema."
+
+msgid "Account"
+msgstr "Conta"
+
+# Refers to an account.
+msgid "New"
+msgstr "Nova"
+
+msgid "View"
+msgstr "Vista"
+
+msgid "Tile/List"
+msgstr "Mosaico/Lista"
+
+msgid "Size"
+msgstr "Tamanho"
+
+msgid "Application"
+msgstr "Aplicação"
+
+msgid "Show"
+msgstr "Mostrar"
+
+msgid "Action"
+msgstr "Ação"
+
+msgid "Shortcut key"
+msgstr "Tecla de atalho"
+
+# The curly braces will be replaced with a shortcut like 'Ctrl+A'. Leave them in the appropriate place.
+msgid "The shortcut {} is already assigned to another action."
+msgstr "O atalho {} já se encontra designado para outra ação."
+
+msgid "OK"
+msgstr "OK"
+
+# The curly braces will be replaced with two field names from a form, like 'Service' and 'Username'. Leave them in the appropriate places.
+msgid "The {} and {} fields must be filled."
+msgstr "Os campos {} e {} têm que ser preenchidos."
+
+msgid "Select an image"
+msgstr "Selecione uma imagem"
+
+msgid "Open"
+msgstr "Abrir"
+
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: main_view.py:142
+msgid "Images"
+msgstr "Imagens"
+
+msgid "All Files"
+msgstr "Todos os Ficheiros"
+
+# The curly braces will be replaced with an account name like 'GitHub'. Leave them in
+# the appropriate place.
+msgid "Are you sure you want to delete account {}?"
+msgstr "Tem a certeza que deseja apagar a conta {}?"
+
 msgid "This operation will be permanent and irreversible."
 msgstr "Esta operação será permanente e irreversível."
+
+# Leave the <small> tags as they are.
+msgid ""
+"Reset all preferences:\n"
+"<small>General, Passwords and Shortcuts</small>"
+msgstr ""
+"Redefina todas as preferências:\n"
+"<small>Geral, Senhas, Atalhos</small>"
