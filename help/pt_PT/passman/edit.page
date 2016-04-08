@@ -4,42 +4,44 @@
   
   <info>
     <link type="guide" xref="index#accounts" group="second"/>
-    <desc>Learn how to edit an existing account.</desc>
+    <desc>Aprenda como alterar uma conta existente.</desc>
   </info>
   
-  <title>Edit Account</title>
+  <title>Alterar Conta</title>
   
   <section>
-    <title>Open the <gui>Edit Account</gui> dialog</title>
+    <title>Abra a janela de diálogo para <gui>Alterar Conta</gui></title>
     <p>
-      To open the <gui>Edit Account</gui> dialog you need to right click on an
-      account button, this will bring up a small popup, you then click on the
-      <gui>Edit</gui> option.
+      Para abrir a janela de diálogo para <gui>Alterar Conta</gui> precisa
+      pressionar o botão direito do rato em cima de um botão de uma conta,
+      isto mostrará um pequeno menu contextual, onde de seguida deverá
+      escolher a opção <gui>Alterar</gui>.
     </p>
     <figure>
       <desc>
-        The <gui>Edit</gui> option on the popup menu.
+        A opção <gui>Alterar</gui> no menu contextual.
       </desc>
       <media src="media/edit_open.png"/>
     </figure>
     <p>
-      You can also use the arrow keys on your keyboard to choose the account
-      you want to edit and press the <gui>Menu</gui> key to bring up the popup
-      seen above.
+      Poderá também usar a teclas direcionais no seu teclado para escolher
+      a conta que deseja alterar, e de seguida pressionar a tecla
+      <gui>Menu</gui> para abrir o menu contextual mostrado na figura em cima.
     </p>
   </section>
   
   <section>
-    <title>Edit your Account</title>
+    <title>Altere a sua Conta</title>
     <p>
-      After opening the <gui>Edit Account</gui> dialog you are presented with a
-      dialog similar to the one you see when you create a new account, however
-      this one is already filled. You can now change any field you wish and
-      just press <gui>OK</gui> when you are done.
+      Depois de abrir a janela de diálogo para <gui>Alterar Conta</gui> será
+      apresentada uma janela de diálogo similar ao que encontra quando cria
+      uma conta nova, no entanto esta já se encontra preenchida. Agora pode
+      alterar qualquer campo de desejar, e pressionar <gui>OK</gui> quando
+      tiver terminado.
     </p>
     <figure>
       <desc>
-        The <gui>Edit Account</gui> dialog.
+        A janela de diálogo para <gui>Alterar Conta</gui>.
       </desc>
       <media src="media/edit_filled.png"/>
     </figure>
