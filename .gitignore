@@ -69,7 +69,6 @@ build
 windows/pygi.exe
 ve0
 python-3.4.4
-windows/
 windows/pyHook*
 windows/python*
 help/*.html
