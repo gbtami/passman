@@ -5,94 +5,93 @@
   <info>
     <link type="guide" xref="index#preferences" group="first"/>
     <desc>
-      Learn about the general purpose preferences for this application.
+      Aprenda as preferências gerais para esta aplicação.
     </desc>
   </info>
   
-  <title>General Preferences</title>
+  <title>Preferências Gerais</title>
   
   <figure>
     <desc>
-      The <gui>General</gui> page on the <gui>Preferences</gui> dialog.
+      A página <gui>Geral</gui> na janela de diálogo das
+      <gui>Preferências</gui>.
     </desc>
     <media src="media/general_preferences.png"/>
   </figure>
   
   <section>
-    <title>Autostart</title>
+    <title>Auto-iniciar</title>
     <terms>
       <item>
-        <title>Run this application as soon as you login:</title>
+        <title>Inicie esta aplicação assim que fizer login:</title>
         <p>
-          Default: On
+          Valor Padrão: Ativo
         </p>
         <p>
-          This setting will make <app>PassMan</app> run hidden as soon as you
-          login. This is convenient since otherwise the user will have to start
-          <app>PassMan</app> manually each time the computer reboots.
-        </p>
-        <p>
-          It's necessary to note that even though this feature is on by
-          default, <app>PassMan</app> won't actually autostart until the user
-          manually runs the application at least once. We feel autostart is a
-          feature that should be set on a per-user basis and not system wide.
+          Esta definição fará com que a aplicação <app>PassMan</app> seja
+          executava de forma escondida assim que fizer login. Isto é
+          conveniente já que de outra forma o utilizador terá que iniciar a
+          aplicação <app>PassMan</app> manualmente sempre que iniciar o
+          computador.
         </p>
       </item>
     </terms>
   </section>
   
   <section>
-    <title>Window</title>
+    <title>Janela</title>
     <terms>
       <item>
-        <title>Automatically hide after choosing a password:</title>
+        <title>Esconde automaticamente depois de escolher uma senha:</title>
         <p>
-          Default: On
+          Valor padrão: Ativo
         </p>
         <p>
-          This setting will hide the window as soon as an account button is
-          pressed, choosing that password. This is convenient to have on
-          because generally after a password is selected a user has the need to
-          paste it on another window, so automatically hiding this one saves
-          the user a step.
+          Esta definição esconderá a janela assim que pressionar o botão de
+          qualquer conta. Isto é conveniente manter ativo porque geralmente
+          depois de selecionar uma senha o utilizador precisa de a colar numa
+          outra janela, por isso esconder esta automaticamente poupa ao
+          utilizador um passo. 
         </p>
       </item>
       <item>
-        <title>When closing window, just hide, don't quit:</title>
+        <title>Ao fechar a janela, esconde apenas, não sai:</title>
         <p>
-          Default: On
+          Valor padrão: Ativo
         </p>
         <p>
-          This setting stops the window from being destroyed when the user
-          tries closing it. Keeping the window hidden only, lets
-          <app>PassMan</app> show quicker when it's needed again. Also
-          <app>PassMan</app> sets up a keyboard shortcut to show the window,
-          which is very convenient and allows for very quick work-flow. This
-          keyboard shortcut however will not work if the application is closed.
+          Esta definição impede a janela de ser destruída quando o utilizador
+          a tenta fechar. Manter a janela escondida apenas deixa a aplicação
+          <app>PassMan</app> aparecer mais depressa quando for necessária de
+          novo. Adicionalmente a aplicação <app>PassMan</app> define teclas
+          de atalho para mostrar a janela, o que se torna muito conveniente
+          e permite uma fluidez de trabalho mais rápida. No entanto estas
+          teclas de atalho não funcionam se a aplicação estiver fechada.
         </p>
       </item>
     </terms>
   </section>
   
   <section>
-    <title>Resets</title>
+    <title>Redefinições</title>
     <terms>
       <item>
-        <title>Reset these preferences:</title>
+        <title>Redefina estas preferências:</title>
         <p>
-          General
+          Geral
         </p>
         <p>
-          This button will let you reset the preferences on this page only.
+          Este botão permite redefinir as preferências nesta página apenas.
         </p>
       </item>
       <item>
-        <title>Reset all preferences:</title>
+        <title>Redefina todas as preferências:</title>
         <p>
-          General, Collections, Passwords, Shortcuts
+          Geral, Colecção, Senhas, Atalhos
         </p>
         <p>
-          This button will reset all the preferences on all pages.
+          Este botão permite redefinir todas as preferências em todas as
+          páginas.
         </p>
       </item>
     </terms>

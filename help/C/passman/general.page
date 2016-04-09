@@ -31,12 +31,6 @@
           login. This is convenient since otherwise the user will have to start
           <app>PassMan</app> manually each time the computer reboots.
         </p>
-        <p>
-          It's necessary to note that even though this feature is on by
-          default, <app>PassMan</app> won't actually autostart until the user
-          manually runs the application at least once. We feel autostart is a
-          feature that should be set on a per-user basis and not system wide.
-        </p>
       </item>
     </terms>
   </section>
@@ -51,10 +45,9 @@
         </p>
         <p>
           This setting will hide the window as soon as an account button is
-          pressed, choosing that password. This is convenient to have on
-          because generally after a password is selected a user has the need to
-          paste it on another window, so automatically hiding this one saves
-          the user a step.
+          pressed. This is convenient to have on because generally after a
+          password is selected a user has the need to paste it on another
+          window, so automatically hiding this one saves the user a step.
         </p>
       </item>
       <item>
@@ -64,7 +57,7 @@
         </p>
         <p>
           This setting stops the window from being destroyed when the user
-          tries closing it. Keeping the window hidden only, lets
+          tries closing it. Keeping the window hidden only lets
           <app>PassMan</app> show quicker when it's needed again. Also
           <app>PassMan</app> sets up a keyboard shortcut to show the window,
           which is very convenient and allows for very quick work-flow. This
@@ -89,7 +82,7 @@
       <item>
         <title>Reset all preferences:</title>
         <p>
-          General, Collections, Passwords, Shortcuts
+          General, Collection, Passwords, Shortcuts
         </p>
         <p>
           This button will reset all the preferences on all pages.
