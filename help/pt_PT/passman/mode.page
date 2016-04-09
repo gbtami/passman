@@ -5,48 +5,50 @@
   <info>
     <link type="guide" xref="index#appearance" group="first"/>
     <desc>
-      Learn about the different ways your account buttons can be displayed.
+      Aprenda sobre as diferentes formas de que os botões das suas contas
+      podem ser visualizados.
     </desc>
   </info>
   
-  <title>Change View Mode</title>
+  <title>Altere Modo de Visualização</title>
   
   <section>
-    <title>Open the <gui>View</gui> menu</title>
+    <title>Abra o menu de <gui>Visualização</gui></title>
     <p>
-      To open the <gui>View</gui> menu you need to click on it in the titlebar.
+      Para abrir o menu de <gui>Visualização</gui> precisa pressioná-lo na
+      barra de título.
     </p>
     <figure>
       <desc>
-        The <gui>View</gui> menu on the titlebar.
+        O menu de <gui>Visualização</gui> na barra de título.
       </desc>
       <media src="media/view_menu.png"/>
     </figure>
   </section>
   
   <section>
-    <title>Change the view mode of your account buttons</title>
+    <title>Altere o modo de visualização dos botões das suas contas.</title>
     <p>
-      After opening the <gui>View</gui> menu you will find inside a switch that
-      will let you choose between grid view mode and list view mode. The grid
-      view mode is the one chosen by default, it organizes the buttons in
-      columns and rows. The list view mode organizes the buttons in rows only.
+      Depois de abrir o menu de <gui>Visualização</gui> encontrará dentro um
+      interruptor que lhe permite escolher entre modo grelha e modo lista.
+      O modo grelha é a escolha padrão, esta organiza os botões por colunas
+      e linhas. O modo lista organiza os botões em linhas apenas.
     </p>
     <figure>
       <desc>
-        The opened <gui>View</gui> menu highlighting the view mode switch.
-        Showing the grid mode currently selected, and the list mode under the
-        mouse pointer.
+        O menu <gui>Visualização</gui> aberto, acentuando o interruptor
+        para alterar o modo de visualização. Mostrando o modo grelha
+        selecionado, e o modo lista debaixo do cursor do rato.
       </desc>
       <media src="media/view_mode.png"/>
     </figure>
     <p>
-      This is what your account buttons will look like when you activate the
-      list view mode.
+      Este será o aspeto que os botões das suas contas terão quando ativar o
+      modo lista.
     </p>
     <figure>
       <desc>
-        Account buttons organized according to the list view mode.
+        Botões de contas organizados através do modo list.
       </desc>
       <media src="media/list_view.png"/>
     </figure>
