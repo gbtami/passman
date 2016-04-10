@@ -58,8 +58,6 @@ target/
 
 # Custom
 passman/test.py
-TODO
-version
 gui/#glade#
 gui/glade.ui~
 

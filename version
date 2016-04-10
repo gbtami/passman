@@ -1,0 +1,8 @@
+These are the files that specify the program version explicitly,
+I need to change them all when a new version is released. 
+
+0.1.0
+
+setup.py
+passman/application.py
+installer.cfg

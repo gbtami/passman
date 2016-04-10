@@ -1,0 +1,57 @@
+When using pt_PT
+    /usr/lib/python3.4/site-packages/passman/header_bar.py:45: Warning: g_variant_new_string: assertion 'g_utf8_validate (string, -1, NULL)' failed
+Check up on the gspawn-win64-helper-console crash on windows 10
+add pt translation
+add gifs to github
+add site to github
+create youtube video
+windows
+    bindtextdomain?
+    paths?
+    unicode shortcuts might not work
+add logos
+    check most popular games
+    version logos
+donate icon
+report bugs
+feedback
+make the new and edit dialog in glade
+run pylint
+rpm build
+    no software source included for updates.
+    rpmlint
+check journald log
+bundle python, available with python 3.5 only
+
+
+
+document better
+Doesn't check if the app.show global shortcut is repeated
+    It does however override any other shortcut
+remote sync
+    status icon
+get a certificate
+    change protocol to https on the about dialog website link
+internationalize
+testing
+import/export
+password recovery/reset?
+headerbar menu
+    reload?
+    change password?
+    search?
+    select all?
+
+
+
+auto update client?
+add subservice for services with multiple passwords, like banks
+item groups
+warnings to change passwords in some time frame
+async gui
+    gbulb?
+    threads?
+review app folders from developer.gnome
+look into Gnome notifications
+look into autotools
+
