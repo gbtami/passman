@@ -340,20 +340,40 @@ class LogoServer:
             self.logo_name_cache = set(pickle.loads(logo_name_cache_bytes))
     
     def get_cache(self, logo_name, callback):
+        '''
+        This method will get a remote logo image, if the name of the service
+        is included on a local cache. This cache is used when the user is
+        writing the name of the service, and the logo automatically changes
+        when it detects a service it knows. If there was no cache, each time
+        the user input a character, that new string would have to be sent to
+        the logo server to check if it was indeed the name of a known service,
+        and then give an answer back to the client. That would be inefficient.
+        '''
         if logo_name in self.logo_name_cache:
             self.get_remote(logo_name, callback)
             return True
         return False
     
     def get_custom(self, path):
+        '''
+        This method returns the pixbuf of a custom logo, specified by the path.
+        '''
         return GdkPixbuf.Pixbuf.new_from_file(path)
     
     def get_local(self, logo_name):
+        '''
+        This method tries getting a logo locally only, from the list of images
+        the application collected during it's use, or none at all.
+        '''
         if logo_name in os.listdir(str(self.app.img_dir)):
             path = str(self.app.img_dir / logo_name / 'logo.png')
             return GdkPixbuf.Pixbuf.new_from_file(path)
     
     def get_remote(self, logo_name, callback):
+        '''
+        This method gets a logo remotely. It will contact the logo server,
+        and ask if there is a logo for the service name provided.
+        '''
         target = self.get_remote_worker
         kwargs = {'logo_name': logo_name, 'callback': callback}
         thread = threading.Thread(target=target, kwargs=kwargs)
@@ -361,8 +381,12 @@ class LogoServer:
         thread.start()
     
     def get_remote_worker(self, logo_name, callback):
-        import time
-        time.sleep(1)
+        '''
+        This method will be run on a different thread, not to block the GUI.
+        It's the method that actually does the work of making the request to
+        the logo server, and waits for the response. With or without success,
+        at the end of the request a user specified callback is called.
+        '''
         try:
             r = requests.get(self.logo_server,
                              timeout=self.timeout,
