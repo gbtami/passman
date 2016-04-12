@@ -408,11 +408,20 @@ class LogoSpin:
     '''
     
     def __init__(self, grid, image):
+        '''
+        This class is just a little useful tool to get a spin animation
+        on a button where the image hasn't loaded yet. It takes the grid
+        where it will display the spin animation, and takes the image
+        object it will put back, when the image is loaded.
+        '''
         self.grid = grid
         self.image = image
         self.spinner = Gtk.Spinner()
     
     def start(self, size):
+        '''
+        This starts the spin animation on the grid.
+        '''
         # It's possible the widget is already waiting for an image to load.
         if self.image.get_parent():
             self.grid.remove(self.image)
@@ -425,6 +434,9 @@ class LogoSpin:
         self.spinner.show()
     
     def stop(self):
+        '''
+        This stops the spin animation on the grid.
+        '''
         # I need this condition because this might end up being
         # called after the dialog has already been closed.
         if self.spinner.get_parent():
