@@ -29,10 +29,13 @@ class MainView(Gtk.ScrolledWindow):
         self.app = app
         self.source = None
         self.secret = LibSecret(app)
-        self.load_settings()
-        self.load_widgets()
+        self._load_settings()
+        self._load_widgets()
     
-    def load_settings(self):
+    def _load_settings(self):
+        '''
+        This method will load the applications settings from gsettings.
+        '''
         general_settings = self.app.settings.get_child('general')
         self.autohide = general_settings['autohide']
         collection_settings = self.app.settings.get_child('collection')
@@ -41,10 +44,17 @@ class MainView(Gtk.ScrolledWindow):
         self.timeout = password_settings['timeout']
         self.interval = password_settings['interval']
     
-    def load_widgets(self):
+    def _load_widgets(self):
+        '''
+        This method is the initial way to load widgets.
+        It will load as many as it can without access to the accounts.
+        This is done to speed up the initial loading time.
+        The rest of the widgets, the account buttons, will be loaded later
+        when we have access to the accounts.
+        '''
         self.flowbox = Gtk.FlowBox()
         self.flowbox.set_valign(Gtk.Align.START)
-        self.flowbox.set_sort_func(self.sort_function)
+        self.flowbox.set_sort_func(self._sort_function)
         self.flowbox.set_border_width(self.app.spacing)
         self.flowbox.set_column_spacing(self.app.spacing)
         self.flowbox.set_row_spacing(self.app.spacing)
@@ -57,7 +67,11 @@ class MainView(Gtk.ScrolledWindow):
         self.add(self.flowbox)
         self.show_all()
     
-    def sort_function(self, child1, child2):
+    def _sort_function(self, child1, child2):
+        '''
+        This method will be used as a sort function for the
+        flowbox on the main view.
+        '''
         label1 = child1.get_child().logo.label
         label1 = label1.get_text().lower()
         label2 = child2.get_child().logo.label
@@ -70,12 +84,19 @@ class MainView(Gtk.ScrolledWindow):
             return 0
     
     def init_buttons(self):
+        '''
+        This method will create the remaining widgets now
+        that we have access to the accounts.
+        '''
         self.secret.load_collection()
         for item in self.secret.collection.get_items():
             button = self.create_button(item)
             self.insert_button(button)
     
     def create_button(self, item, logo=None):
+        '''
+        This method creates an account button based of an item object.
+        '''
         button = Gtk.Button()
         button.connect('button-press-event', self.on_button_press)
         button.connect('clicked', self.on_button_click)
@@ -95,6 +116,9 @@ class MainView(Gtk.ScrolledWindow):
         return button
     
     def insert_button(self, button):
+        '''
+        This method will add a button to the main view flowbox.
+        '''
         self.flowbox.add(button)
         # The next code is required because the flowbox children, that contain
         # the actual widgets, can get focus by default. So when the widgets
@@ -110,6 +134,11 @@ class MainView(Gtk.ScrolledWindow):
         button.show_all()
     
     def edit_button(self, button, logo):
+        '''
+        This method edits the account button based on the account logo
+        on the edit dialog. While the service may also need to be updated,
+        that information is already contained in the logo itself.
+        '''
         username = button.item.get_attributes()['username']
         button.remove(button.get_child())
         size = self.app.window.get_titlebar().view_size
@@ -120,10 +149,17 @@ class MainView(Gtk.ScrolledWindow):
         self.flowbox.invalidate_sort()
     
     def delete_button(self, button):
+        '''
+        This method will delete a button from the main view flowbox.
+        '''
         self.flowbox.remove(button.get_parent())
         button.destroy()
     
     def show_context_menu(self, widget):
+        '''
+        This method is a central way to display the context menu. It will be
+        called for mouse right click presses, and keyboard menu key presses.
+        '''
         action_methods = {'delete': self.on_delete,
                           'edit': self.on_edit}
         for action_name, method in action_methods.items():
@@ -137,10 +173,18 @@ class MainView(Gtk.ScrolledWindow):
         self.context_menu.show()
     
     def on_popup_menu(self, widget):
+        '''
+        This method will handle the popup-menu signal. The code is moved to
+        show_context_menu, since right mouse clicks also are supposed to call
+        a context menu, and it's better to keep the code all in one place.
+        '''
         self.show_context_menu(widget)
         return True
     
     def on_button_click(self, button):
+        '''
+        This method will handle the cliked signal on the account buttons.
+        '''
         password, notes = self.secret.get_secret(button.item)
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(password, len(password))
@@ -153,11 +197,20 @@ class MainView(Gtk.ScrolledWindow):
             self.source = GLib.timeout_add(*args)
     
     def window_hide(self):
+        '''
+        This method will hide the window. This method was created because there
+        was the need to perform the same task from application.py and so to
+        prevent code duplication this small method was created instead.
+        '''
         if self.autolock:
             self.secret.lock()
         self.app.window.hide()
     
     def on_timeout_over(self):
+        '''
+        This method is called when the timeout for
+        clipboard password storing is over.
+        '''
         self.source = None
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.clear()
@@ -167,6 +220,10 @@ class MainView(Gtk.ScrolledWindow):
         return False
     
     def on_button_press(self, widget, event):
+        '''
+        This method handles the button-press-event signal.
+        It's necessary to be able to handle right clicks on account buttons.
+        '''
         # Right mouse button click
         if event.button == Gdk.BUTTON_SECONDARY:
             self.show_context_menu(widget)
@@ -175,6 +232,10 @@ class MainView(Gtk.ScrolledWindow):
         return False
     
     def on_delete(self, obj, param, button):
+        '''
+        This method will delete an account button,
+        and all the information associated with it.
+        '''
         item = button.item.get_label()
         message = _('Are you sure you want to delete account {}?').format(item)
         dialog = Gtk.MessageDialog(transient_for=self.app.window,
@@ -195,6 +256,10 @@ class MainView(Gtk.ScrolledWindow):
         dialog.destroy()
     
     def on_edit(self, obj, param, button):
+        '''
+        This method will edit an account button,
+        and all the information associated with it.
+        '''
         dialog = EditDialog(self.app, button)
         response = dialog.run()
         while response == Gtk.ResponseType.OK:
