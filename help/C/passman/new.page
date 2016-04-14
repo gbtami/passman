@@ -25,7 +25,7 @@
       <media src="media/new_button.png"/>
     </figure>
     <p>
-      This will open the <gui>New Account</gui> dialog. Which will present you
+      This will open the <gui>New Account</gui> dialog, which will present you
       with a button with a logo right at the top, 2 empty input fields,
       <gui>Service</gui> and <gui>Username</gui>, and 2 more hidden fields,
       <gui>Password</gui> and <gui>Notes</gui>.
@@ -93,7 +93,7 @@
       <gui>Password</gui> label. This field is filled automatically but if you
       want to set your password manually you can just type it in. If you don't
       like the password that was generated automatically you can also press the
-      <gui style="button">Refresh</gui> button.
+      <gui style="button">Refresh</gui> button to get a new one.
     </p>
     <p>
       <em>
