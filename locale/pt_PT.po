@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-01 13:42+0100\n"
-"PO-Revision-Date: 2016-04-14 08:25+0100\n"
+"PO-Revision-Date: 2016-04-16 10:48+0100\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgid "Password size:"
 msgstr "Tamanho da senha:"
 
 msgid "characters"
-msgstr "carácter"
+msgstr "caracteres"
 
 # Leave the <b> tags as they are.
 msgid "<b>Size</b>"
