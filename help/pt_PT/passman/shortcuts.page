@@ -5,76 +5,78 @@
   <info>
     <link type="guide" xref="index#preferences" group="fourth"/>
     <desc>
-      Learn about the shortcuts for this application and how to change them.
+      Aprenda os atalhos desta aplicação e como mudá-los.
     </desc>
   </info>
   
-  <title>Shortcuts Preferences</title>
+  <title>Preferências dos Atalhos</title>
   
   <figure>
     <desc>
-      The <gui>Passwords</gui> page on the <gui>Preferences</gui> dialog.
+      A página dos <gui>Atalhos</gui> na janela de diálogo das
+      <gui>Preferências</gui>.
     </desc>
     <media src="media/shortcuts_preferences.png"/>
   </figure>
   
   <section>
-    <title>Shortcuts</title>
+    <title>Atalhos</title>
     <list>
       <item>
         <terms>
-          <title>Account</title>
+          <title>Conta</title>
           <item>
-            <title>New</title>
+            <title>Nova</title>
             <p>
-              Shortcut to create a new account.
+              Atalho para criar uma conta nova.
             </p>
           </item>
           <item>
-            <title>Edit</title>
+            <title>Alterar</title>
             <p>
-              Shortcut to edit an existing account.
+              Atalho para alterar uma conta existente.
             </p>
           </item>
           <item>
-            <title>Delete</title>
+            <title>Apagar</title>
             <p>
-              Shortcut to delete an existing account.
-            </p>
-          </item>
-        </terms>
-      </item>
-      <item>
-        <terms>
-          <title>View</title>
-          <item>
-            <title>Tile/List</title>
-            <p>
-              Shortcut to toggle between the tile and list views.
-            </p>
-          </item>
-          <item>
-            <title>Size</title>
-            <p>
-              Shortcut to cycle through all the possible account button sizes.
+              Atalho para apagar uma conta existente.
             </p>
           </item>
         </terms>
       </item>
       <item>
         <terms>
-          <title>Application</title>
+          <title>Vista</title>
           <item>
-            <title>Show</title>
+            <title>Mosaico/Lista</title>
             <p>
-              Shortcut to show the <app>PassMan</app> window.
-              This will only work if the application is already running.
+              Atalho para alternar entre a vista mosaico e a vista lista.
             </p>
           </item>
           <item>
-            <title>Quit</title>
+            <title>Tamanho</title>
             <p>
-              Shortcut to exit <app>PassMan</app>.
+              Atalho para alternar de forma cíclica entre os vários tamanhos
+              para os botões das contas.
+            </p>
+          </item>
+        </terms>
+      </item>
+      <item>
+        <terms>
+          <title>Aplicação</title>
+          <item>
+            <title>Mostrar</title>
+            <p>
+              Atalhoa para mostrar a janela da aplicação <app>PassMan</app>.
+              Isto apenas funcionará se a aplicação já se encontrar aberta.
+            </p>
+          </item>
+          <item>
+            <title>Sair</title>
+            <p>
+              Atalho para sair da aplicação <app>PassMan</app>.
             </p>
           </item>
         </terms>
@@ -83,15 +85,16 @@
   </section>
   
   <section>
-    <title>Reset</title>
+    <title>Redefinição</title>
     <terms>
       <item>
-        <title>Reset these preferences:</title>
+        <title>Redefina estas preferências:</title>
         <p>
-          Shortcuts
+          Atalhos
         </p>
         <p>
-          This button will let you reset the preferences on this page only.
+          Este botão permite-lhe repor os valores padrão em todas as
+          preferências nesta página apenas.
         </p>
       </item>
     </terms>
