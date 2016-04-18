@@ -5,36 +5,38 @@
   <info>
     <link type="guide" xref="index#appearance" group="second"/>
     <desc>
-      Learn how to change the size of the account buttons on your application.
+      Aprenda como mudar o tamanho dos botões das contas na sua aplicação.
     </desc>
   </info>
   
-  <title>Change Button Size</title>
+  <title>Mude o Tamanho dos Botões</title>
   
   <section>
-    <title>Open the <gui>View</gui> menu</title>
+    <title>Abra o menu <gui>Vista</gui></title>
     <p>
-      To open the <gui>View</gui> menu you need to click on it in the titlebar.
+      Para abrir o menu <gui>Vista</gui> precisa pressioná-lo na barra de
+      título.
     </p>
     <figure>
       <desc>
-        The <gui>View</gui> menu on the titlebar.
+        O menu <gui>Vista</gui> na barra de título.
       </desc>
       <media src="media/view_menu.png"/>
     </figure>
   </section>
   
   <section>
-    <title>Change the size of your account buttons</title>
+    <title>Mude o tamanho dos seus botões das contas</title>
     <p>
-      After opening the <gui>View</gui> menu you will find inside a scale, that
-      you can move from left to right at specific intervals. That scale will
-      adjust the size of the buttons on the main widnow.
+      Depois de abrir o menu <gui>Vista</gui> encontrará dentro uma escala,
+      que poderá mover para a esquerda e para a direita em intervalos
+      predeterminados. Essa escala irá ajustar o tamanho dos botões das contas
+      na janela principal.
     </p>
     <figure>
       <desc>
-        The opened <gui>View</gui> menu highlighting the scale to adjust the
-        button size.
+        O menu <gui>Vista</gui> aberto, focando a escala para mudar o tamanho
+        dos botões.
       </desc>
       <media src="media/view_scale.png"/>
     </figure>
