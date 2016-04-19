@@ -5,156 +5,158 @@
   <info>
     <link type="guide" xref="index"/>
     <desc>
-      A quick tutorial that will show you the basics of using this application.
+      Um rápido tutorial que lhe mostrará o essencial para usar esta aplicação.
     </desc>
   </info>
   
-  <title>Getting Started</title>
+  <title>Passos Iniciais</title>
   
   <section>
-    <title>First run</title>
+    <title>Correndo a aplicação pela primeira vez</title>
     <subtitle>
-      This is required on Linux only,
-      Windows systems don't require this first step.
+      Isto é necessário apenas quando usa Linux,
+      sistemas Windows não precisam este primeiro passo.
     </subtitle>
     <p>
-      <app>Passman</app> needs to create a collection to store all the accounts
-      you will create. So when it runs for the first time, it tries to create
-      that collection and asks you for a password to protect it.
-      <em style="strong">This password is very important, it's the one password
-      you must always remember and it must be strong. A strong password should
-      have at least 16 characters, should use lower and uppercase letters,
-      digits, and punctuation.</em> If you can't think of a good one, just use
-      a password you can remember, and you can change it later on the
-      <gui>Preferences</gui>. You can also generate a random password, by
-      creating a new account, and taking the password that was randomly
-      generated for it.
+      A aplicação <app>Passman</app> necessita criar uma coleção onde guardar
+      todas as contas que irá mais tarde criar. Assim sendo, quando corre pela
+      primeira vez, tenta criar essa coleção e pergunta-lhe uma senha para a
+      proteger. <em style="strong">Esta senha é muito importante, é a única
+      senha que precisará sempre de se lembrar e necessita ser forte. Uma senha
+      forte deve ter pelo menos 16 caracteres, deve ter letras maiúsculas e
+      minúsculas, dígitos, e pontuação.</em> Se não conseguir pensar numa senha
+      boa, use simplesmente uma senha que consiga recordar, e pode mais tarde
+      mudá-la nas <gui>Preferências</gui>. Pode também gerar uma senha
+      aleatória, criando uma conta nova, e ficando com a senha que foi gerada
+      aleatoriamente para esta.
     </p>
   </section>
   
   <section>
-    <title>Creating your first account</title>
+    <title>Criando a sua primeira conta</title>
     <p>
-      You can create an account in two different ways. You can press the
-      <gui style="button">New Account</gui> button on the title bar, or you
-      can use the <gui>New</gui> keyboard shortcut, which by default is
+      Pode criar uma conta de duas maneiras diferentes. Pode pressionar o
+      botão <gui style="button">Conta Nova</gui> na barra de título, ou pode
+      usar o atalho de teclado <gui>Nova</gui>, cujo valor padrão é
       <keyseq><key>Ctrl</key><key>N</key></keyseq>.
     </p>
     <figure>
       <desc>
-        The <gui style="button">New Account</gui> button on the title bar.
+        O botão <gui style="button">Conta Nova</gui> na barra de título.
       </desc>
       <media src="media/new_button.png"/>
     </figure>
     <p>
-      This will open the <gui>New Account</gui> dialog.
+      Isto irá abrir a janela de diálogo <gui>Conta Nova</gui>.
     </p>
     <figure>
       <desc>
-        The <gui>New Account</gui> dialog.
+        A janela de diálogo <gui>Conta Nova</gui>.
       </desc>
       <media src="media/new_account.png"/>
     </figure>
     <p>
-      Here you only need to fill the <gui>Service</gui> field. The
-      <gui>Password</gui> field also needs to be filled, but <app>PassMan</app>
-      does that automatically for you with a random password. The
-      <gui>Username</gui> field isn't required, but if you have several
-      accounts on the same service, you'll probably want to fill it so you
-      can tell the accounts apart.
+      Aqui precisa apenas de preencher o campo <gui>Serviço</gui>. O campo
+      <gui>Senha</gui> necessita também ser preenchido, mas a aplicação
+      <app>PassMan</app> faz isso automaticamente para si com uma senha
+      aleatória. O campo <gui>Utilizador</gui> não é necessário, mas se tiver
+      várias contas no mesmo serviço, irá provavelmente querer preenche-lo para
+      que consiga distinguir as diferentes contas.
     </p>
     <figure>
       <desc>
-        A filled <gui>New Account</gui> dialog.
+        Uma janela de diálogo <gui>Conta Nova</gui> já preenchida.
       </desc>
       <media src="media/sample_account.png"/>
     </figure>
     <p>
-      You can just press <gui style="button">OK</gui> and the account will
-      be created for you.
+      Pode simplesmente pressionar o botão <gui style="button">OK</gui> e a
+      conta será criada para si.
     </p>
     <figure>
       <desc>
-        A newly created account being displayed on the main window.
+        Uma conta recentemente criada sendo mostrada na janela principal.
       </desc>
       <media src="media/account_created.png"/>
     </figure>
   </section>
   
   <section>
-    <title>Showing and hiding</title>
+    <title>Mostrando e escondendo</title>
     <p>
-      You just created a new account, but you don't need it quite just yet, so
-      you want to close this window. You can do it by pressing the
-      <gui style="button">Close</gui> button on the title bar or by using
-      the system's keyboard shortcut to close a window, which by default is
+      Acabou de criar uma conta nova, mas não precisa dela ainda, por isso
+      podemos fechar esta janela. Pode fazê-lo pressionando o botão
+      <gui style="button">Fechar</gui> na barra de título ou usando o atalho
+      de teclado do sistema para fechar uma janela, cujo valor padrão é
       <keyseq><key>Alt</key><key>F4</key></keyseq>.
     </p>
     <figure>
       <desc>
-        The <gui style="button">Close</gui> button on the title bar.
+        O botão <gui style="button">Fechar</gui> na barra de título.
       </desc>
       <media src="media/close_button.png"/>
     </figure>
     <p>
-      <app>PassMan</app> however doesn't like being closed, it likes to stay
-      hidden so that when it's needed it can show up quicker. So whenever you
-      close this window, you are actually just hiding it. To show the window
-      again you can just run <app>PassMan</app> again, or, and this is the
-      <em style="strong">best way</em>, you can use the <gui>Show</gui>
-      keyboard shortcut, which by default is
+      A aplicação <app>PassMan</app> no entanto não gosta de estar fechada,
+      gosta de ficar escondida para quando for necessária esta poder abrir mais
+      rapidamente. Assim sendo sempre que fechar esta janela, estará na
+      realidade apenas a escondê-la. Para mostrar a janela novamente pode
+      simplesmente correr de novo a aplicação <app>PassMan</app>, ou, e esta
+      é a <em style="strong">melhor forma</em> de o fazer, pode usar o atalho
+      de teclado <gui>Mostrar</gui>, cujo valor padrão é
       <keyseq><key>Ctrl</key><key>Space</key></keyseq>.
     </p>
-    <p>  
-      If you ever want to actually close <app>PassMan</app>, you can also
-      do it either by choosing the <gui>Quit</gui> option from the
-      <gui>Application Menu</gui>, or using the <gui>Quit</gui> keyboard
-      shortcut, which by default is
+    <p>
+      Se alguma vez quiser mesmo sair da aplicação <app>PassMan</app>, pode
+      também fazê-lo escolhendo a opção <gui>Sair</gui> no
+      <gui>Menu da Aplicação</gui>, ou usando o atalho de teclado
+      <gui>Sair</gui>, cujo valor padrão é
       <keyseq><key>Ctrl</key><key>Q</key></keyseq>.
-      Keep in mind however that if <app>PassMan</app> isn't running, the
-      <gui>Show</gui> keyboard shortcut won't work.
+      Lembre-se no entanto que se a aplicação <app>PassMan</app> não se
+      encontrar aberta, o atalho de teclado <gui>Mostrar</gui> não irá
+      funcionar.
     </p>
     <figure>
       <desc>
-        The <gui>Application Menu</gui> with the <gui>Quit</gui> option
-        highlighted.
+        O <gui>Menu da Aplicação</gui> com a opção <gui>Sair</gui> focada.
       </desc>
       <media src="media/quit.png"/>
     </figure>
   </section>
   <section>
-    <title>Using your account</title>
+    <title>Usando a sua conta</title>
     <p>
-      The time as come that you need the password you stored previously. So
-      first you need to show <app>PassMan</app> using the steps mentioned in
-      the previous section. Then, you need to find the account that has the
-      password you are looking for. And when you find it, you can either just
-      click on it, or you can use the arrow keys on your keyboard to select it
-      and then press <key>Space</key> or <key>Enter</key>.
+      Chegou a hora em que precisa da senha que guardou anteriormente. Assim
+      sendo, primeiro precisa mostrar a aplicação <app>PassMan</app> usando os
+      passos mencionados na secção anterior. Depois precisa encontrar a conta
+      que contem a senha que está à procura. E quando a encontrar, pode
+      simplesmente pressioná-la, ou pode usar as teclas direcionais no seu
+      teclado para selecioná-la e depois pressionar a tecla <key>Espaço</key>
+      ou <key>Enter</key>.
     </p>
     <figure>
       <desc>
-        Just click the button to copy the password.
+        Simplesmente pressione o botão para copiar a senha.
       </desc>
       <media src="media/click.png"/>
     </figure>
     <p>
-      This action hides the window away, and takes the password from that
-      account and copies it. Now you can just <gui>Paste</gui> it on any field
-      you need using either the system's keyboard shortcut
-      <keyseq><key>Ctrl</key><key>V</key></keyseq>, which is the fastest way,
-      or by pressing the right mouse button, to access the
-      <gui>context menu</gui>, and select the <gui>Paste</gui> option.
+      Esta ação esconde a janela, e recolhe a senha daquela conta e copia-a.
+      Agora pode simplesmente <gui>Colar</gui> a senha em qualquer outro campo
+      que necessite usando ou o atalho de teclado do sistema
+      <keyseq><key>Ctrl</key><key>V</key></keyseq>, que é a maneira mais
+      rápida, ou pressionando o botão direito do rato, para aceder ao
+      <gui>menu de contexto</gui>, e selecionar a opção <gui>Colar</gui>.
     </p>
     <figure>
       <desc>
-        Clicking the right mouse button to show the <gui>context menu</gui>, highlighting
-        the <gui>Paste</gui> option.
+        Pressionando o botão direito do rato para mostrar o
+        <gui>menu de contexto</gui>, focando a opção <gui>Colar</gui>.
       </desc>
       <media src="media/login.png"/>
     </figure>
     <p>
-      And that is all, congratulations, you are now using a password manager.
+      E é tudo, parabéns, está agora a usar um gestor de senhas.
     </p>
   </section>
 

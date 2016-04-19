@@ -105,7 +105,7 @@
       keyboard shortcut, which by default is
       <keyseq><key>Ctrl</key><key>Space</key></keyseq>.
     </p>
-    <p>  
+    <p>
       If you ever want to actually close <app>PassMan</app>, you can also
       do it either by choosing the <gui>Quit</gui> option from the
       <gui>Application Menu</gui>, or using the <gui>Quit</gui> keyboard
@@ -127,7 +127,7 @@
     <p>
       The time as come that you need the password you stored previously. So
       first you need to show <app>PassMan</app> using the steps mentioned in
-      the previous section. Then, you need to find the account that has the
+      the previous section. Then you need to find the account that has the
       password you are looking for. And when you find it, you can either just
       click on it, or you can use the arrow keys on your keyboard to select it
       and then press <key>Space</key> or <key>Enter</key>.
@@ -148,8 +148,8 @@
     </p>
     <figure>
       <desc>
-        Clicking the right mouse button to show the <gui>context menu</gui>, highlighting
-        the <gui>Paste</gui> option.
+        Clicking the right mouse button to show the <gui>context menu</gui>,
+        highlighting the <gui>Paste</gui> option.
       </desc>
       <media src="media/login.png"/>
     </figure>
