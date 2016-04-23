@@ -315,6 +315,7 @@ class LogoServer:
     '''
     
     logo_server = 'http://idlecore.com/logo_server'
+    #logo_server = 'http://localhost:8080/logo_server'
     timeout = 2
     
     def __init__(self, app):
