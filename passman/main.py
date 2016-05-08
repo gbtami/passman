@@ -16,7 +16,7 @@ if platform.system() == 'Windows':
     locale_dir = pathlib.Path('locale').absolute()
     gettext.install('passman', locale_dir)
 else:
-    # https://docs.python.org/dev/library/locale.html#access-to-message-catalogs
+    # http://docs.python.org/dev/library/locale.html#access-to-message-catalogs
     # Python applications should normally find no need to invoke these
     # functions, and should use gettext instead. A known exception to this
     # rule are applications that link with additional C libraries which
@@ -24,6 +24,10 @@ else:
     # it may be necessary to bind the text domain, so that the libraries
     # can properly locate their message catalogs.
     locale.bindtextdomain('passman', None)
+    # This next line is required because otherwise I get the warning:
+    # Warning: g_variant_new_string:
+    # assertion 'g_utf8_validate (string, -1, NULL)' failed
+    locale.bind_textdomain_codeset('passman', 'UTF-8')
     gettext.install('passman')
 
 import sys
