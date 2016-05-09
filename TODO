@@ -1,6 +1,7 @@
 When using pt_PT
     /usr/lib/python3.4/site-packages/passman/header_bar.py:45: Warning: g_variant_new_string: assertion 'g_utf8_validate (string, -1, NULL)' failed
 Check up on the gspawn-win64-helper-console crash on windows 10
+    When opening the help menu
 add pt translation
 add gifs to github
 add site to github
@@ -36,6 +37,7 @@ internationalize
 testing
 import/export
 password recovery/reset?
+    Add time warning for reset
 headerbar menu
     reload?
     change password?
