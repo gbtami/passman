@@ -26,6 +26,7 @@ bundle python, available with python 3.5 only
 
 
 
+Add wikipedia page
 document better
 Doesn't check if the app.show global shortcut is repeated
     It does however override any other shortcut
