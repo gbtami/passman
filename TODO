@@ -3,8 +3,10 @@ When using pt_PT
 Check up on the gspawn-win64-helper-console crash on windows 10
     When opening the help menu
 add pt translation
+    test on windows
 add gifs to github
 add site to github
+    add download blobs
 create youtube video
 windows
     bindtextdomain?
