@@ -167,7 +167,7 @@ class MainView(Gtk.ScrolledWindow):
             self.app.remove_action(action_name)
             self.app.add_action(action)
             action.connect('activate', method, widget)
-        builder = Gtk.Builder.new_from_file(self.app.gui_custom)
+        builder = self.app.make_builder(self.app.gui_custom)
         self.context_menu = builder.get_object('context_menu')
         self.context_menu.set_relative_to(widget)
         self.context_menu.show()

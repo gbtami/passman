@@ -103,11 +103,29 @@ class Application(Gtk.Application):
         self.window.add(self.main_view)
         
         self.add_actions()
-        builder = Gtk.Builder.new_from_file(self.gui_custom)
+        builder = self.make_builder(self.gui_custom)
         app_menu = builder.get_object('app_menu')
         self.set_app_menu(app_menu)
         
         self.add_global_shortcut()
+    
+    def make_builder(self, gui_file):
+        '''
+        This method is required to make localization work on Windows.
+        '''
+        if platform.system() == 'Windows':
+            import xml.etree.ElementTree as ET
+            tree = ET.parse(gui_file)
+            for node in tree.iter():
+                if 'translatable' in node.attrib:
+                    node.text = _(node.text)
+            from io import BytesIO
+            temp_file = BytesIO()
+            tree.write(temp_file, encoding='utf-8', xml_declaration=True)
+            xml_text = temp_file.getvalue().decode()
+            return Gtk.Builder.new_from_string(xml_text, len(xml_text))
+        else:
+            return Gtk.Builder.new_from_file(gui_file)
     
     def add_global_shortcut(self):
         '''

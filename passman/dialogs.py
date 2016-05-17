@@ -190,7 +190,7 @@ class PreferencesDialog(Gtk.Dialog):
         # this way the window width is recalculated to show the entire title.
         self.get_header_bar().set_custom_title(Gtk.Label(label=self.title))
         
-        self.builder = Gtk.Builder.new_from_file(app.gui_glade)
+        self.builder = app.make_builder(app.gui_glade)
         self.builder.connect_signals(self)
         notebook = self.builder.get_object('notebook')
         
