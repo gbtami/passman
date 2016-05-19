@@ -378,7 +378,7 @@ class Application(Gtk.Application):
         '''
         if platform.system() == 'Windows':
             import locale
-            language, encoding = locale.getlocale()
+            language, encoding = locale.getdefaultlocale()
             help_path = pathlib.Path() / 'help' / language
             if not help_path.exists():
                 help_path = pathlib.Path() / 'help' / 'C'
