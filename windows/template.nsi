@@ -1,5 +1,10 @@
 [% extends "pyapp_installpy.nsi" %]
 
+[% block modernui %]
+[[ super() ]]
+!insertmacro MUI_LANGUAGE "Portuguese"
+[% endblock %]
+
 [% block install_shortcuts %]
     ; This is a complete overwrite of the install_shortcuts block,
     ; so there is no need to call super().
