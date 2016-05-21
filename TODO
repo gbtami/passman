@@ -1,17 +1,15 @@
-localize the installer
-When using pt_PT
-    /usr/lib/python3.4/site-packages/passman/header_bar.py:45: Warning: g_variant_new_string: assertion 'g_utf8_validate (string, -1, NULL)' failed
+windows installer
+    change icon
+    sign
+put up the logo server
 Check up on the gspawn-win64-helper-console crash on windows 10
     When opening the help menu
-add pt translation
-    test on windows
+        This only seems to be caused when running from the command line
 add gifs to github
 add site to github
     add download blobs
 create youtube video
 windows
-    bindtextdomain?
-    paths?
     unicode shortcuts might not work
 add logos
     check most popular games
@@ -26,6 +24,7 @@ rpm build
     rpmlint
 check journald log
 bundle python, available with python 3.5 only
+    pygobject must support python 3.5
 
 
 
