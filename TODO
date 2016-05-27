@@ -6,8 +6,6 @@ Check up on the gspawn-win64-helper-console crash on windows 10
     When opening the help menu
         This only seems to be caused when running from the command line
 add gifs to github
-add site to github
-    add download blobs
 create youtube video
 windows
     unicode shortcuts might not work
@@ -52,7 +50,6 @@ headerbar menu
 auto update client?
 add subservice for services with multiple passwords, like banks
 item groups
-warnings to change passwords in some time frame
 async gui
     gbulb?
     threads?
